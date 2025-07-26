@@ -10,4 +10,5 @@ export const getTheme = (mode) =>
     typography: {
       fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
     },
+    shadows: mode === 'light' ? Array(25).fill('none') : Array(25).fill('none').map((_, index) => `0px ${index}px 10px rgba(0, 0, 0, 0.1)`),
   })

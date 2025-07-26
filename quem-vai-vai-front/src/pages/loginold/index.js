@@ -13,20 +13,30 @@ import {
 import { useState } from 'react';
 import { Visibility, VisibilityOff, DarkMode, LightMode } from '@mui/icons-material';
 import { useThemeMode } from '../../contexts/ThemeContext';
+import { loginUser } from '../../services/user.service';
 
-export default function Login() {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const { toggleTheme, mode } = useThemeMode();
+const Login = () => {
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+  const { toggleTheme, mode } = useThemeMode()
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Chamada à API
-  };
+    
+    await loginUser(email, password)
+      .then((data) => {
+        console.log('Login successful:', data)
+        // Handle successful login (e.g., redirect to dashboard)
+      })
+      .catch((error) => {
+        console.error('Login failed:', error)
+        // Handle login error (e.g., show error message)
+      })
+  }
 
   return (
     <Container maxWidth="sm" sx={{ mt: isMobile ? 4 : 12 }}>
@@ -85,5 +95,7 @@ export default function Login() {
         </form>
       </Paper>
     </Container>
-  );
+  )
 }
+
+export default Login
