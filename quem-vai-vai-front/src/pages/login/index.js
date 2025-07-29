@@ -45,6 +45,7 @@ const Login = () => {
                     toggleForm={toggleForm}
                     toggleTheme={toggleTheme}
                     muiTheme={muiTheme}
+                    mode={mode}
                     showPassword={showPassword}
                     setShowPassword={value => setShowPassword(value)}
                 />
@@ -55,6 +56,7 @@ const Login = () => {
                     toggleForm={toggleForm}
                     toggleTheme={toggleTheme}
                     muiTheme={muiTheme}
+                    mode={mode}
                     showPassword={showPassword}
                     setShowPassword={value => setShowPassword(value)}
                 />

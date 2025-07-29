@@ -4,7 +4,7 @@ import { Box, Typography, IconButton } from "@mui/material";
 import { DarkMode, LightMode } from "@mui/icons-material";
 
 const SlidingPanel = ({ isLogin, mode, toggleTheme }) => {
-    const controls = useAnimation()
+    //const controls = useAnimation()
     const theme = useTheme()
 
     // useEffect(() => {
@@ -47,7 +47,6 @@ const SlidingPanel = ({ isLogin, mode, toggleTheme }) => {
     //     }
     //     animate()
     // }, [isLogin])
-
     return (
         <Box
             //component={motion.div}

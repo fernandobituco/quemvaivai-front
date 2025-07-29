@@ -9,6 +9,8 @@ const SlidingPanel = ({ isLogin, handleChangeForm, mode, toggleTheme }) => {
     const [leftSide, setLeftSide] = useState(false)
     const theme = useTheme()
 
+    console.log('mode')
+    console.log(mode)
     useEffect(() => {
         const animate = async () => {
             console.log("Animating sliding panel:", isLogin, leftSide)
