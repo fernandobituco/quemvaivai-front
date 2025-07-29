@@ -89,10 +89,10 @@ const SlidingPanel = ({ isLogin, handleChangeForm, mode, toggleTheme }) => {
                 </IconButton>
             </Box>
             <Typography variant="h4" fontWeight="bold">
-                {isLogin ? "Welcome Back!" : "Hello, Welcome!"}
+                {isLogin ? "Hello, Welcome!" : "Welcome Back!"}
             </Typography>
             <Typography mt={1}>
-                {isLogin ? "Already have an account?" : "Don't have an account?"}
+                {isLogin ? "Don't have an account?" : "Already have an account?"}
             </Typography>
             <Button
                 variant="outlined"
@@ -102,7 +102,7 @@ const SlidingPanel = ({ isLogin, handleChangeForm, mode, toggleTheme }) => {
                 }}
                 onClick={handleChangeForm}
             >
-                {isLogin ? "Login" : "Register"}
+                {isLogin ? "Register" : "Login"}
             </Button>
         </Box>
     )

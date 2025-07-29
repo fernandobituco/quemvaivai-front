@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react"
 import { motion, useAnimation } from "framer-motion";
 import { useTheme } from "@emotion/react";
-import { Box, Typography, Button, IconButton } from "@mui/material";
+import { Box, Typography, IconButton } from "@mui/material";
 import { DarkMode, LightMode } from "@mui/icons-material";
 
-const SlidingPanelMobile = ({ isLogin, mode, toggleTheme }) => {
+const SlidingPanel = ({ isLogin, mode, toggleTheme }) => {
     const controls = useAnimation()
     const theme = useTheme()
 
@@ -87,4 +86,4 @@ const SlidingPanelMobile = ({ isLogin, mode, toggleTheme }) => {
     )
 }
 
-export default SlidingPanelMobile
+export default SlidingPanel

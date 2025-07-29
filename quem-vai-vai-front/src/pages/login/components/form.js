@@ -2,7 +2,7 @@ import { Box, Button, Typography, useTheme } from "@mui/material"
 import { motion } from "framer-motion"
 import { useEffect, useState } from "react"
 
-const FormMobile = ({ title, fields, handleSubmit, buttonName, show }) => {
+const LoginForm = ({ title, fields, handleSubmit, buttonName, show }) => {
     const theme = useTheme()
     const [shouldRender, setShouldRender] = useState(show)
     const [isAnimatingIn, setIsAnimatingIn] = useState(show)
@@ -71,4 +71,4 @@ const FormMobile = ({ title, fields, handleSubmit, buttonName, show }) => {
     );
 }
 
-export default FormMobile
+export default LoginForm

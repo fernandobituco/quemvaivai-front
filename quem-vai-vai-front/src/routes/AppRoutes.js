@@ -1,12 +1,10 @@
 import { Routes, Route } from 'react-router-dom';
-import Login from '../pages/loginold'
-import AuthPage from '../pages/loginnew';
+import Login from '../pages/login';
 
 export default function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<AuthPage />} />
-      <Route path="/old" element={<Login />} />
+      <Route path="/" element={<Login />} />
       {/* Adicione outras rotas aqui futuramente */}
     </Routes>
   );
