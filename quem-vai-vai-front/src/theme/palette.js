@@ -10,6 +10,18 @@ export const lightPalette = {
     default: '#f4f4f4',
     paper: '#ffffff',
   },
+  success: {
+    main: '#2e7d32',
+  },
+  error: {
+    main: '#d32f2f',
+  },
+  warning: {
+    main: '#ed6c02',
+  },
+  info: {
+    main: '#0288d1',
+  },
 }
 
 export const darkPalette = {
@@ -23,5 +35,17 @@ export const darkPalette = {
   background: {
     default: '#121212',
     paper: '#1e1e1e',
+  },
+  success: {
+    main: '#2e7d32',
+  },
+  error: {
+    main: '#d32f2f',
+  },
+  warning: {
+    main: '#ed6c02',
+  },
+  info: {
+    main: '#0288d1',
   },
 }

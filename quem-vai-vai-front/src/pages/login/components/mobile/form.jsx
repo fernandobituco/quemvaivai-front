@@ -2,7 +2,8 @@ import { Box, Button, Typography, useTheme } from "@mui/material"
 import { motion } from "framer-motion"
 import { useEffect, useState } from "react"
 
-const LoginForm = ({ title, fields, handleSubmit, buttonName, show }) => {
+const LoginForm = (props) => {
+    const { title, fields, buttonName, show, handleSubmit } = props
     const theme = useTheme()
     const [shouldRender, setShouldRender] = useState(show)
     const [isAnimatingIn, setIsAnimatingIn] = useState(show)
@@ -16,17 +17,12 @@ const LoginForm = ({ title, fields, handleSubmit, buttonName, show }) => {
             setTimeout(() => setShouldRender(false), 1000)
         }
     }, [show])
-
-    const handleSubmitForm = (e) => {
-        e.preventDefault()
-        handleSubmit(e)
-    }
     
     if (!shouldRender) return null;
 
     return (
         <motion.form
-            onSubmit={handleSubmitForm}
+            onSubmit={handleSubmit}
             initial={{ opacity : 0 }}
             animate={{ opacity: isAnimatingIn ? 1 : 0 }}
             transition={{ duration: 1 }}

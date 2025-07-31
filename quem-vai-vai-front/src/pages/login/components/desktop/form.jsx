@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 
 const LoginForm = (props) => {
 
-    const { title, fields, buttonName, show, leftSide } = props
+    const { title, fields, buttonName, show, leftSide, handleSubmit } = props
 
     const theme = useTheme()
     const [animationKey, setAnimationKey] = useState(0)
@@ -12,11 +12,6 @@ const LoginForm = (props) => {
     useEffect(() => {
         setAnimationKey(prev => prev + 1)
     }, [show])
-
-    const handleSubmitForm = (e) => {
-        e.preventDefault()
-        console.log("HandleSubmitLogin")
-    }
 
     return (
         <Box
@@ -36,7 +31,7 @@ const LoginForm = (props) => {
             <AnimatePresence>
                 {show && (
                     <form
-                        onSubmit={handleSubmitForm}
+                        onSubmit={handleSubmit}
                         style={{
                             height: "100%",
                         }}>

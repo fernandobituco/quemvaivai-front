@@ -7,6 +7,9 @@ import {
 import { useThemeMode } from "../../contexts/ThemeContext";
 import DesktopLayout from "./components/desktop/desktop-layout";
 import MobileLayout from "./components/mobile/mobile-layout";
+import * as Service from "../../services/user.service"
+import { useNotification } from "../../contexts/NotificationContext";
+import { useLoading } from "../../contexts/LoadingContext";
 
 const Login = () => {
     const [isLogin, setIsLogin] = useState(true)
@@ -28,6 +31,73 @@ const Login = () => {
 
     console.log(isMobile ? muiTheme.palette.background.default : muiTheme.palette.background.paper)
 
+    const [passwordMatch, setPasswordMatch] = useState(true)
+
+    const [createUserForm, setCreateUserForm] = useState({
+        name: "",
+        email: "",
+        password: "",
+        passwordconfirmation: "",
+    })
+
+    const { showNotification } = useNotification()
+    const { showLoading, hideLoading } = useLoading()
+
+    const handleUpdateCreateUserForm = (e) => {
+        const name = e.target.name
+        const value = e.target.value
+        setCreateUserForm(prev => ({
+            ...prev,
+            [name]: value
+        }))
+        if (name == "passwordconfirmation") {
+            if (value == createUserForm.password) {
+                setPasswordMatch(true)
+            } else {
+                setPasswordMatch(false)
+            }
+        }
+    }
+
+    const handleSubmitCreateUserForm = async (e) => {
+        showLoading()
+        e.preventDefault()
+        if (passwordMatch) {
+            console.log("handleSubmitCreateUserForm")
+            try {
+                const response = await Service.createUser(createUserForm)
+                if (response != null) {
+                    console.log('response')
+                    console.log(response)
+                    showNotification("Você irá receber um email de confirmação em instantes", "success")
+                }
+            } catch (err) {
+            }
+        }
+        hideLoading()
+    }
+
+    const [loginForm, setLoginForm] = useState({
+        emai: "",
+        password: "",
+    })
+
+    const handleUpdateLoginForm = (e) => {
+        const name = e.target.name
+        const value = e.target.value
+        setLoginForm(prev => ({
+            ...prev,
+            [name]: value
+        }))
+    }
+
+    const handleSubmitLoginForm = (e) => {
+        showLoading()
+        e.preventDefault()
+        console.log("handleSubmitLoginForm")
+        hideLoading()
+    }
+
     return (
         <Container sx={{
             minHeight: "100vh",
@@ -42,23 +112,37 @@ const Login = () => {
                 <MobileLayout
                     isLogin={isLogin}
                     handleSubmit={handleSubmit}
+                    createUserForm={createUserForm}
+                    handleUpdateCreateUserForm={handleUpdateCreateUserForm}
+                    loginForm={loginForm}
+                    handleUpdateLoginForm={handleUpdateLoginForm}
                     toggleForm={toggleForm}
                     toggleTheme={toggleTheme}
                     muiTheme={muiTheme}
                     mode={mode}
                     showPassword={showPassword}
                     setShowPassword={value => setShowPassword(value)}
+                    handleSubmitCreateUserForm={handleSubmitCreateUserForm}
+                    handleSubmitLoginForm={handleSubmitLoginForm}
+                    passwordMatch={passwordMatch}
                 />
             ) : (
                 <DesktopLayout
                     isLogin={isLogin}
                     handleSubmit={handleSubmit}
+                    createUserForm={createUserForm}
+                    handleUpdateCreateUserForm={handleUpdateCreateUserForm}
+                    loginForm={loginForm}
+                    handleUpdateLoginForm={handleUpdateLoginForm}
                     toggleForm={toggleForm}
                     toggleTheme={toggleTheme}
                     muiTheme={muiTheme}
                     mode={mode}
                     showPassword={showPassword}
                     setShowPassword={value => setShowPassword(value)}
+                    handleSubmitCreateUserForm={handleSubmitCreateUserForm}
+                    handleSubmitLoginForm={handleSubmitLoginForm}
+                    passwordMatch={passwordMatch}
                 />
             )}
         </Container>

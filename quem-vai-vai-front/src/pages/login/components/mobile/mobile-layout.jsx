@@ -5,13 +5,27 @@ import LoginForm from "./form";
 
 const MobileLayout = (props) => {
 
-    const { showPassword, setShowPassword, toggleForm, toggleTheme, mode, isLogin, muiTheme } = props
+    const {
+        showPassword,
+        setShowPassword,
+        toggleForm,
+        toggleTheme,
+        mode,
+        isLogin,
+        muiTheme,
+        handleUpdateCreateUserForm,
+        handleUpdateLoginForm,
+        loginForm,
+        createUserForm,
+        handleSubmitCreateUserForm,
+        handleSubmitLoginForm,
+        passwordMatch
+    } = props
 
     return (
         <Box
             sx={{
                 width: "100%",
-                //maxWidth: 960,
                 height: 600,
                 borderRadius: `${muiTheme.shape.borderRadius}px`,
                 overflow: "hidden",
@@ -26,7 +40,10 @@ const MobileLayout = (props) => {
         >
             <SlidingPanel
                 isLogin={isLogin}
-                handleChangeForm={toggleForm}
+                handleChangeForm={_ => {
+                    setShowPassword(false)
+                    toggleForm()
+                }}
                 toggleTheme={toggleTheme}
                 mode={mode} />
             <Box sx={{ position: "absolute", top: 180, left: 0, width: "100%", height: "calc(100% - 200px)" }}>
@@ -34,11 +51,7 @@ const MobileLayout = (props) => {
                     title="Login"
                     isMobile
                     show={isLogin}
-                    handleSubmit={e => {
-                        e.preventDefault();
-                        console.log("Register")
-                        // Handle form submission logic here
-                    }}
+                    handleSubmit={handleSubmitLoginForm}
                     buttonName="Login"
                     fields={
                         <Box
@@ -48,16 +61,24 @@ const MobileLayout = (props) => {
                         >
                             <TextField
                                 fullWidth
+                                required
                                 label="Email"
                                 margin="normal"
                                 variant="outlined"
+                                name="email"
+                                value={loginForm.email}
+                                onChange={handleUpdateLoginForm}
                             />
                             <TextField
                                 fullWidth
+                                required
                                 label="Password"
                                 margin="normal"
                                 variant="outlined"
                                 type={showPassword ? "text" : "password"}
+                                name="password"
+                                value={loginForm.password}
+                                onChange={handleUpdateLoginForm}
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">
@@ -92,11 +113,7 @@ const MobileLayout = (props) => {
                     title="Registration"
                     isMobile
                     show={!isLogin}
-                    handleSubmit={e => {
-                        e.preventDefault();
-                        console.log("Register")
-                        // Handle form submission logic here
-                    }}
+                    handleSubmit={handleSubmitCreateUserForm}
                     buttonName="Register"
                     fields={
                         <Box
@@ -106,22 +123,36 @@ const MobileLayout = (props) => {
                         >
                             <TextField
                                 fullWidth
-                                label="Username"
+                                required
+                                label="Name"
                                 margin="normal"
                                 variant="outlined"
+                                name="name"
+                                value={createUserForm.name}
+                                onChange={handleUpdateCreateUserForm}
                             />
                             <TextField
                                 fullWidth
+                                required
                                 label="Email"
                                 margin="normal"
                                 variant="outlined"
+                                name="email"
+                                value={createUserForm.email}
+                                onChange={handleUpdateCreateUserForm}
                             />
                             <TextField
                                 fullWidth
+                                required
                                 label="Password"
                                 margin="normal"
                                 variant="outlined"
                                 type={showPassword ? "text" : "password"}
+                                name="password"
+                                value={createUserForm.password}
+                                onChange={handleUpdateCreateUserForm}
+                                error={!passwordMatch}
+                                helperText={!passwordMatch ? "As senhas precisam ser iguais" : null}
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">
@@ -131,6 +162,17 @@ const MobileLayout = (props) => {
                                         </InputAdornment>
                                     ),
                                 }}
+                            />
+                            <TextField
+                                fullWidth
+                                required
+                                label="Password Confirmation"
+                                margin="normal"
+                                variant="outlined"
+                                type="password"
+                                name="passwordconfirmation"
+                                value={createUserForm.passwordconfirmation}
+                                onChange={handleUpdateCreateUserForm}
                             />
                             <Typography mt={1}>
                                 Already have an account?

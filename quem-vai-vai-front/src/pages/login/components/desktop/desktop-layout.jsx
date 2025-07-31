@@ -5,7 +5,22 @@ import { Visibility, VisibilityOff } from "@mui/icons-material"
 
 const DesktopLayout = (props) => {
 
-    const { showPassword, setShowPassword, toggleForm, toggleTheme, mode, isLogin, muiTheme } = props
+    const {
+        showPassword,
+        setShowPassword,
+        toggleForm,
+        toggleTheme,
+        mode,
+        isLogin,
+        muiTheme,
+        handleUpdateCreateUserForm,
+        handleUpdateLoginForm,
+        loginForm,
+        createUserForm,
+        handleSubmitCreateUserForm,
+        handleSubmitLoginForm,
+        passwordMatch
+    } = props
 
     return (
         <Box
@@ -28,7 +43,11 @@ const DesktopLayout = (props) => {
         >
             <SlidingPanel
                 isLogin={isLogin}
-                handleChangeForm={toggleForm}
+                handleChangeForm={_ => {
+                    setShowPassword(false)
+                    toggleForm()
+                }
+                }
                 toggleTheme={toggleTheme}
                 mode={mode}
             />
@@ -37,28 +56,43 @@ const DesktopLayout = (props) => {
                 leftSide
                 title="Registration"
                 buttonName={"Register"}
+                handleSubmit={handleSubmitCreateUserForm}
                 fields={
                     <Box
                         sx={{ width: "100%", maxWidth: "360", mt: 2 }}
                     >
                         <TextField
                             fullWidth
-                            label="Username"
+                            required
+                            label="Name"
                             margin="normal"
                             variant="outlined"
+                            name="name"
+                            value={createUserForm.name}
+                            onChange={handleUpdateCreateUserForm}
                         />
                         <TextField
                             fullWidth
+                            required
                             label="Email"
                             margin="normal"
+                            type="email"
                             variant="outlined"
+                            name="email"
+                            value={createUserForm.email}
+                            onChange={handleUpdateCreateUserForm}
                         />
                         <TextField
                             fullWidth
+                            required
                             label="Password"
                             margin="normal"
                             variant="outlined"
                             type={showPassword ? "text" : "password"}
+                            name="password"
+                            value={createUserForm.password}
+                            onChange={handleUpdateCreateUserForm}
+                            slotProps={{ htmlInput: { minLength: 8 }}}
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
@@ -69,6 +103,20 @@ const DesktopLayout = (props) => {
                                 ),
                             }}
                         />
+                        <TextField
+                            fullWidth
+                            required
+                            label="Password Confirmation"
+                            margin="normal"
+                            variant="outlined"
+                            type="password"
+                            name="passwordconfirmation"
+                            error={!passwordMatch}
+                            helperText={!passwordMatch ? "As senhas precisam ser iguais" : null}
+                            slotProps={{ htmlInput: { minLength: 8 }}}
+                            value={createUserForm.passwordconfirmation}
+                            onChange={handleUpdateCreateUserForm}
+                        />
                     </Box>
                 }
             />
@@ -77,22 +125,31 @@ const DesktopLayout = (props) => {
                 show={isLogin}
                 leftSide={false}
                 buttonName={"Login"}
+                handleSubmit={handleSubmitLoginForm}
                 fields={
                     <Box
                         sx={{ width: "100%", maxWidth: 360, mt: 2 }}
                     >
                         <TextField
                             fullWidth
+                            required
                             label="Email"
                             margin="normal"
                             variant="outlined"
+                            name="email"
+                            value={loginForm.email}
+                            onChange={handleUpdateLoginForm}
                         />
                         <TextField
                             fullWidth
+                            required
                             label="Password"
                             margin="normal"
                             variant="outlined"
                             type={showPassword ? "text" : "password"}
+                            name="password"
+                            value={loginForm.password}
+                            onChange={handleUpdateLoginForm}
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
