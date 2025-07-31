@@ -1,14 +1,26 @@
 import axios from 'axios';
 
-console.log('API URL:', process.env.REACT_APP_API_URL);
 const Api = axios.create({
-    baseURL: process.env.REACT_APP_API_URL,
+    baseURL: import.meta.env.VITE_API_URL,
     timeout: 10000,
     headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
     },
 })
+
+// Interceptador de resposta para tratar erros
+export const attachErrorInterceptor = (showNotification) => {
+    Api.interceptors.response.use(
+        response => response,
+        error => {
+            const message =
+                error.response?.data?.Error ||
+                "Erro de comunicação com o servidor. Tente novamente.";
+
+            showNotification(message);
+            return Promise.reject(error)
+        }
+    )
+}
 
 export default Api

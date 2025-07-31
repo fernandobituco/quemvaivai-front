@@ -6,7 +6,7 @@ import {
 } from "@mui/material";
 import { useThemeMode } from "../../contexts/ThemeContext";
 import DesktopLayout from "./components/desktop/desktop-layout";
-import MobileLayout from "./components/mobile-layout";
+import MobileLayout from "./components/mobile/mobile-layout";
 
 const Login = () => {
     const [isLogin, setIsLogin] = useState(true)
