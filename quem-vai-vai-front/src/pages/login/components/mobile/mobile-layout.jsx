@@ -2,6 +2,7 @@ import { Box, Button, IconButton, InputAdornment, TextField, Typography } from "
 import SlidingPanel from "./sliding-panel";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import LoginForm from "./form";
+import { useTranslation } from "react-i18next";
 
 const MobileLayout = (props) => {
 
@@ -21,6 +22,8 @@ const MobileLayout = (props) => {
         handleSubmitLoginForm,
         passwordMatch
     } = props
+
+    const { t } = useTranslation()
 
     return (
         <Box
@@ -72,7 +75,7 @@ const MobileLayout = (props) => {
                             <TextField
                                 fullWidth
                                 required
-                                label="Password"
+                                label={t('password')}
                                 margin="normal"
                                 variant="outlined"
                                 type={showPassword ? "text" : "password"}
@@ -90,11 +93,11 @@ const MobileLayout = (props) => {
                                 }}
                             />
                             <Typography variant="caption" sx={{ display: "block", mt: 1 }}>
-                                Forgot password?
+                                {t('forgot.password')}
                             </Typography>
 
                             <Typography mt={1}>
-                                Don't have an account?
+                                {t('not.registered')}
                             </Typography>
                             <Button
                                 variant="outlined"
@@ -104,7 +107,7 @@ const MobileLayout = (props) => {
                                 }}
                                 onClick={toggleForm}
                             >
-                                Register
+                                {t('register')}
                             </Button>
                         </Box>
                     }
@@ -114,7 +117,7 @@ const MobileLayout = (props) => {
                     isMobile
                     show={!isLogin}
                     handleSubmit={handleSubmitCreateUserForm}
-                    buttonName="Register"
+                    buttonName={t('to.register')}
                     fields={
                         <Box
                             sx={{ width: "100%", maxWidth: "360", mt: 2 }}
@@ -124,7 +127,7 @@ const MobileLayout = (props) => {
                             <TextField
                                 fullWidth
                                 required
-                                label="Name"
+                                label={t('name')}
                                 margin="normal"
                                 variant="outlined"
                                 name="name"
@@ -144,7 +147,7 @@ const MobileLayout = (props) => {
                             <TextField
                                 fullWidth
                                 required
-                                label="Password"
+                                label={t('password')}
                                 margin="normal"
                                 variant="outlined"
                                 type={showPassword ? "text" : "password"}
@@ -166,16 +169,18 @@ const MobileLayout = (props) => {
                             <TextField
                                 fullWidth
                                 required
-                                label="Password Confirmation"
+                                label={t('password.confirm')}
                                 margin="normal"
                                 variant="outlined"
                                 type="password"
                                 name="passwordconfirmation"
                                 value={createUserForm.passwordconfirmation}
+                                error={!passwordMatch}
+                                helperText={!passwordMatch ? t('password.confirm.error') : null}
                                 onChange={handleUpdateCreateUserForm}
                             />
                             <Typography mt={1}>
-                                Already have an account?
+                                {t('already.registered')}
                             </Typography>
                             <Button
                                 variant="outlined"

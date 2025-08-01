@@ -2,6 +2,7 @@ import { Box, IconButton, InputAdornment, TextField, Typography } from "@mui/mat
 import SlidingPanel from "./sliding-panel"
 import LoginForm from "./form"
 import { Visibility, VisibilityOff } from "@mui/icons-material"
+import { useTranslation } from "react-i18next"
 
 const DesktopLayout = (props) => {
 
@@ -21,6 +22,8 @@ const DesktopLayout = (props) => {
         handleSubmitLoginForm,
         passwordMatch
     } = props
+
+    const { t } = useTranslation()
 
     return (
         <Box
@@ -55,7 +58,7 @@ const DesktopLayout = (props) => {
                 show={!isLogin}
                 leftSide
                 title="Registration"
-                buttonName={"Register"}
+                buttonName={t('to.register')}
                 handleSubmit={handleSubmitCreateUserForm}
                 fields={
                     <Box
@@ -64,7 +67,7 @@ const DesktopLayout = (props) => {
                         <TextField
                             fullWidth
                             required
-                            label="Name"
+                            label={t('name')}
                             margin="normal"
                             variant="outlined"
                             name="name"
@@ -85,7 +88,7 @@ const DesktopLayout = (props) => {
                         <TextField
                             fullWidth
                             required
-                            label="Password"
+                            label={t('password')}
                             margin="normal"
                             variant="outlined"
                             type={showPassword ? "text" : "password"}
@@ -106,13 +109,13 @@ const DesktopLayout = (props) => {
                         <TextField
                             fullWidth
                             required
-                            label="Password Confirmation"
+                            label={t('password.confirm')}
                             margin="normal"
                             variant="outlined"
                             type="password"
                             name="passwordconfirmation"
                             error={!passwordMatch}
-                            helperText={!passwordMatch ? "As senhas precisam ser iguais" : null}
+                            helperText={!passwordMatch ? t('password.confirm.error') : null}
                             slotProps={{ htmlInput: { minLength: 8 }}}
                             value={createUserForm.passwordconfirmation}
                             onChange={handleUpdateCreateUserForm}
@@ -143,7 +146,7 @@ const DesktopLayout = (props) => {
                         <TextField
                             fullWidth
                             required
-                            label="Password"
+                            label={t('password')}
                             margin="normal"
                             variant="outlined"
                             type={showPassword ? "text" : "password"}
@@ -161,7 +164,7 @@ const DesktopLayout = (props) => {
                             }}
                         />
                         <Typography variant="caption" sx={{ display: "block", mt: 1 }} align="center">
-                            Forgot password?
+                            {t('forgot.password')}
                         </Typography>
                     </Box>
                 }

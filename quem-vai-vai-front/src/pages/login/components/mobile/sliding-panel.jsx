@@ -2,10 +2,12 @@ import { motion, useAnimation } from "framer-motion";
 import { useTheme } from "@emotion/react";
 import { Box, Typography, IconButton } from "@mui/material";
 import { DarkMode, LightMode } from "@mui/icons-material";
+import { useTranslation } from "react-i18next";
 
 const SlidingPanel = ({ isLogin, mode, toggleTheme }) => {
     //const controls = useAnimation()
     const theme = useTheme()
+    const { t } = useTranslation()
 
     // useEffect(() => {
     //     const animate = async () => {
@@ -79,7 +81,7 @@ const SlidingPanel = ({ isLogin, mode, toggleTheme }) => {
                 </IconButton>
             </Box>
             <Typography variant="h4" fontWeight="bold">
-                {isLogin ? "Welcome Back!" : "Hello, Welcome!"}
+                {isLogin ? t('welcome') : t('welcom.back')}
             </Typography>
         </Box>
     )
