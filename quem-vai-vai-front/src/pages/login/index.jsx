@@ -106,7 +106,7 @@ const Login = () => {
             padding: muiTheme.spacing(2),
         }}>
             <div style={{ position: 'absolute', top: 16, right: 16 }}>
-                <LanguageSwitcher />
+                <LanguageSwitcher isMobile={isMobile}/>
             </div>
 
             {isMobile ? (
