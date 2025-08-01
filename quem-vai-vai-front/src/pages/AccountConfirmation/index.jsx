@@ -13,6 +13,7 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import Api from "../../services/api";
 import { useLoading } from "../../contexts/LoadingContext";
 import * as Service from "../../services/emailconfirmationtoken.service"
+import { useTranslation } from "react-i18next";
 
 export default function AccountConfirmation() {
     const [status, setStatus] = useState("loading") // "loading" | "success" | "error"
@@ -20,6 +21,7 @@ export default function AccountConfirmation() {
     const navigate = useNavigate()
     const theme = useTheme()
     const { showLoading, hideLoading } = useLoading()
+    const { t } = useTranslation()
 
     useEffect(() => {
         showLoading()
@@ -66,10 +68,10 @@ export default function AccountConfirmation() {
                     <>
                         <CheckCircleOutlineIcon fontSize="large" color="success" />
                         <Typography variant="h5" mt={2}>
-                            Conta confirmada com sucesso!
+                            {t('account.confirmation.success')}
                         </Typography>
                         <Typography variant="body1" mt={1}>
-                            Agora você já pode fazer login normalmente.
+                            {t('login.allowed')}
                         </Typography>
                         <Button
                             variant="contained"
@@ -77,7 +79,7 @@ export default function AccountConfirmation() {
                             sx={{ mt: 3 }}
                             onClick={() => navigate("/")}
                         >
-                            Ir para login
+                            {t('go.to.login')}
                         </Button>
                     </>
                 )}
@@ -86,10 +88,10 @@ export default function AccountConfirmation() {
                     <>
                         <ErrorOutlineIcon fontSize="large" color="error" />
                         <Typography variant="h5" mt={2}>
-                            Link inválido ou expirado
+                            {t('invalid.link')}
                         </Typography>
                         <Typography variant="body2" mt={1}>
-                            Verifique se o link está correto ou peça um novo e-mail de confirmação.
+                            {t('verify.link')}
                         </Typography>
                         <Button
                             variant="outlined"
@@ -97,7 +99,7 @@ export default function AccountConfirmation() {
                             sx={{ mt: 3 }}
                             onClick={() => navigate("/reenviar-confirmacao")}
                         >
-                            Reenviar e-mail
+                            {t('resend.email')}
                         </Button>
                     </>
                 )}

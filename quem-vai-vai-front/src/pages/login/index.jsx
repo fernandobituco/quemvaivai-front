@@ -10,6 +10,7 @@ import MobileLayout from "./components/mobile/mobile-layout";
 import * as Service from "../../services/user.service"
 import { useNotification } from "../../contexts/NotificationContext";
 import { useLoading } from "../../contexts/LoadingContext";
+import LanguageSwitcher from "../../components/LanguageSwitcher";
 
 const Login = () => {
     const [isLogin, setIsLogin] = useState(true)
@@ -28,8 +29,6 @@ const Login = () => {
         //console.log(isLogin ? "Logging in..." : "Registering...");
         // Handle form submission logic here
     }
-
-    console.log(isMobile ? muiTheme.palette.background.default : muiTheme.palette.background.paper)
 
     const [passwordMatch, setPasswordMatch] = useState(true)
 
@@ -63,13 +62,12 @@ const Login = () => {
         showLoading()
         e.preventDefault()
         if (passwordMatch) {
-            console.log("handleSubmitCreateUserForm")
             try {
                 const response = await Service.createUser(createUserForm)
                 if (response != null) {
                     console.log('response')
                     console.log(response)
-                    showNotification("Você irá receber um email de confirmação em instantes", "success")
+                    showNotification(t('will.receive.confimation.email'), "success")
                 }
             } catch (err) {
             }
@@ -107,6 +105,9 @@ const Login = () => {
             background: isMobile ? muiTheme.palette.background.paper : muiTheme.palette.background.default,
             padding: muiTheme.spacing(2),
         }}>
+            <div style={{ position: 'absolute', top: 16, right: 16 }}>
+                <LanguageSwitcher />
+            </div>
 
             {isMobile ? (
                 <MobileLayout

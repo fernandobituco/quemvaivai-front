@@ -3,50 +3,37 @@ import { motion, useAnimation } from "framer-motion";
 import { useTheme } from "@emotion/react";
 import { Box, Typography, Button, IconButton } from "@mui/material";
 import { DarkMode, LightMode } from "@mui/icons-material";
+import { useTranslation } from "react-i18next";
 
 const SlidingPanel = ({ isLogin, handleChangeForm, mode, toggleTheme }) => {
     const controls = useAnimation()
     const [leftSide, setLeftSide] = useState(false)
     const theme = useTheme()
+    const { t } = useTranslation()
 
     useEffect(() => {
         const animate = async () => {
             if (!isLogin) {
-                // Passo 1: expandir até cobrir tudo
                 await controls.start({
                     width: "100%",
-                    //maxWidth: "52%",
-                    //left: "calc(24%)",
                     transition: { duration: 1, ease: "easeInOut" },
                 })
-
-                // Passo 2: mover para o lado direito com largura original
                 setLeftSide(false);
                 await controls.start({
-                    //left: "calc(51%)",
                     width: "52%",
-                    //maxWidth: "25%",
                     transition: { duration: 1, ease: "easeInOut" },
                 })
-
-                //onAnimationComplete?.() // Exibe o form de cadastro
             } else {
                 // Reverter para login
                 await controls.start({
                     width: "100%",
-                    //maxWidth: "52%",
-                    //left: "calc(24%)",
                     transition: { duration: 1, ease: "easeInOut" },
                 })
-
                 setLeftSide(true);
                 await controls.start({
                     width: "52%",
-                    //maxWidth: "25%",
-                    //left: "calc(24%)",
                     transition: { duration: 1, ease: "easeInOut" },
                 })
-                //onAnimationComplete?.(); // Exibe o form de login
             }
         }
         animate()
@@ -61,7 +48,7 @@ const SlidingPanel = ({ isLogin, handleChangeForm, mode, toggleTheme }) => {
                 width: "100%",
                 maxWidth: "100%",
                 height: "inherit",
-                zIndex: 10, // garante que fique acima
+                zIndex: 10,
                 p: 4,
                 color: "#fff",
                 backgroundColor: theme.palette.primary.main,
@@ -88,10 +75,10 @@ const SlidingPanel = ({ isLogin, handleChangeForm, mode, toggleTheme }) => {
                 </IconButton>
             </Box>
             <Typography variant="h4" fontWeight="bold">
-                {isLogin ? "Hello, Welcome!" : "Welcome Back!"}
+                {isLogin ? t('welcome') : t('welcom.back')}
             </Typography>
             <Typography mt={1}>
-                {isLogin ? "Don't have an account?" : "Already have an account?"}
+                {isLogin ? t('not.registered') : t('already.registered')}
             </Typography>
             <Button
                 variant="outlined"
@@ -101,7 +88,7 @@ const SlidingPanel = ({ isLogin, handleChangeForm, mode, toggleTheme }) => {
                 }}
                 onClick={handleChangeForm}
             >
-                {isLogin ? "Register" : "Login"}
+                {isLogin ? t('register') : "Login"}
             </Button>
         </Box>
     )

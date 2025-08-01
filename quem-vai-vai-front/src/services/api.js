@@ -9,13 +9,13 @@ const Api = axios.create({
 })
 
 // Interceptador de resposta para tratar erros
-export const attachErrorInterceptor = (showNotification) => {
+export const attachErrorInterceptor = (showNotification, t) => {
     Api.interceptors.response.use(
         response => response,
         error => {
             const message =
                 error.response?.data?.Error ||
-                "Erro de comunicação com o servidor. Tente novamente.";
+                t('server.comunication.error');
 
             showNotification(message);
             return Promise.reject(error)
