@@ -19,7 +19,7 @@ const LanguageSwitcher = (props) => {
 
     return (
         <>
-            <Tooltip title="Change Language" sx={{ zIndex: 20 }}>
+            <Tooltip title="Change Language" sx={{ zIndex: 2 }}>
                 <IconButton
                     onClick={handleClick}
                     color={'primary'}

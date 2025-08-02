@@ -9,7 +9,7 @@ const DarkModeSwitcher = (props) => {
         <Tooltip title="Change Mode" >
             <IconButton
                 onClick={toggleTheme}
-                sx={{ zIndex: 20 }}
+                sx={{ zIndex: 2 }}
                 size="large"
                 color={'primary'}
             >

@@ -47,7 +47,7 @@ const MobileLayout = (props) => {
                     toggleForm()
                 }}
                 mode={mode} />
-            <Box sx={{ position: "absolute", bottom: 0, left: 0, width: "100%", height: "70vh", overflow: 'auto' }}>
+            <Box sx={{ position: "absolute", bottom: 0, left: 0, width: "100%", height: "65vh", overflow: 'auto' }}>
                 <LoginForm
                     title="Login"
                     isMobile
