@@ -10,8 +10,8 @@ const LoginForm = (props) => {
 
     useEffect(() => {
         if (show) {
-            setShouldRender(true);
-            setTimeout(() => setIsAnimatingIn(true), 1000)
+            setIsAnimatingIn(true);
+            setTimeout(() => setShouldRender(true), 1000)
         } else {
             setIsAnimatingIn(false);
             setTimeout(() => setShouldRender(false), 1000)
@@ -27,12 +27,8 @@ const LoginForm = (props) => {
             animate={{ opacity: isAnimatingIn ? 1 : 0 }}
             transition={{ duration: 1 }}
             style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
                 width: "100%",
                 height: "100%",
-                paddingTop: 104,
                 zIndex: 1,
                 backgroundColor: theme.palette.background.paper,
                 color: theme.palette.text.primary,
@@ -41,6 +37,7 @@ const LoginForm = (props) => {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
+                justifyContent: "space-between"
             }}
         >
             <Box
@@ -59,7 +56,7 @@ const LoginForm = (props) => {
                 variant="contained"
                 color="primary"
                 type="submit"
-                sx={{ mt: "auto", mb: 3, borderRadius: 3 }}
+                sx={{ mt: "auto", mb: 3, borderRadius: 3, alignSelf: 'flex-end' }}
             >
                 {buttonName}
             </Button>

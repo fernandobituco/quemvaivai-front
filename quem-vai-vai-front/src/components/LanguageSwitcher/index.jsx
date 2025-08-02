@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IconButton, Menu, MenuItem, Tooltip, useTheme } from '@mui/material';
+import { IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
 import LanguageIcon from '@mui/icons-material/Language';
 
 const LanguageSwitcher = (props) => {
-    const { isMobile } = props
     const { i18n } = useTranslation();
     const [anchorEl, setAnchorEl] = useState(null)
     const open = Boolean(anchorEl)
-    const theme = useTheme()
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget)
@@ -24,7 +22,7 @@ const LanguageSwitcher = (props) => {
             <Tooltip title="Change Language" sx={{ zIndex: 20 }}>
                 <IconButton
                     onClick={handleClick}
-                    color={isMobile ? 'default' : 'primary'}
+                    color={'primary'}
                     size="large"
                     aria-label="change language"
                 >

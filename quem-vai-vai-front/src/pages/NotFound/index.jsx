@@ -1,3 +1,4 @@
+import GlobalSwitches from "@/components/GlobalSwitches";
 import { Box, Typography, Button, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +20,8 @@ export default function NotFound() {
         p: 2,
       }}
     >
+
+      <GlobalSwitches top={16} />
       <Typography variant="h2" color={theme.palette.primary.main}>
         404
       </Typography>

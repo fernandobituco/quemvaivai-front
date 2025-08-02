@@ -10,7 +10,6 @@ const DesktopLayout = (props) => {
         showPassword,
         setShowPassword,
         toggleForm,
-        toggleTheme,
         mode,
         isLogin,
         muiTheme,
@@ -49,9 +48,7 @@ const DesktopLayout = (props) => {
                 handleChangeForm={_ => {
                     setShowPassword(false)
                     toggleForm()
-                }
-                }
-                toggleTheme={toggleTheme}
+                }}
                 mode={mode}
             />
             <LoginForm

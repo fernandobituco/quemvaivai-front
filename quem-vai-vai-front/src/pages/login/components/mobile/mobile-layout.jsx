@@ -10,7 +10,6 @@ const MobileLayout = (props) => {
         showPassword,
         setShowPassword,
         toggleForm,
-        toggleTheme,
         mode,
         isLogin,
         muiTheme,
@@ -47,9 +46,8 @@ const MobileLayout = (props) => {
                     setShowPassword(false)
                     toggleForm()
                 }}
-                toggleTheme={toggleTheme}
                 mode={mode} />
-            <Box sx={{ position: "absolute", top: 180, left: 0, width: "100%", height: "calc(100% - 200px)" }}>
+            <Box sx={{ position: "absolute", bottom: 0, left: 0, width: "100%", height: "70vh", overflow: 'auto' }}>
                 <LoginForm
                     title="Login"
                     isMobile
@@ -96,19 +94,23 @@ const MobileLayout = (props) => {
                                 {t('forgot.password')}
                             </Typography>
 
-                            <Typography mt={1}>
-                                {t('not.registered')}
-                            </Typography>
-                            <Button
-                                variant="outlined"
-                                sx={{
-                                    mt: 2, color: muiTheme.palette.primary.main,
-                                    borderColor: muiTheme.palette.primary.main
-                                }}
-                                onClick={toggleForm}
+                            <Box
+                                sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
                             >
-                                {t('register')}
-                            </Button>
+                                <Typography mt={1}>
+                                    {t('not.registered')}
+                                </Typography>
+                                <Button
+                                    variant="outlined"
+                                    sx={{
+                                        mt: 2, color: muiTheme.palette.primary.main,
+                                        borderColor: muiTheme.palette.primary.main
+                                    }}
+                                    onClick={toggleForm}
+                                >
+                                    {t('register')}
+                                </Button>
+                            </Box>
                         </Box>
                     }
                 />
@@ -179,19 +181,23 @@ const MobileLayout = (props) => {
                                 helperText={!passwordMatch ? t('password.confirm.error') : null}
                                 onChange={handleUpdateCreateUserForm}
                             />
-                            <Typography mt={1}>
-                                {t('already.registered')}
-                            </Typography>
-                            <Button
-                                variant="outlined"
-                                sx={{
-                                    mt: 2, color: muiTheme.palette.primary.main,
-                                    borderColor: muiTheme.palette.primary.main
-                                }}
-                                onClick={toggleForm}
+                            <Box
+                                sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
                             >
-                                Login
-                            </Button>
+                                <Typography mt={1}>
+                                    {t('already.registered')}
+                                </Typography>
+                                <Button
+                                    variant="outlined"
+                                    sx={{
+                                        mt: 2, color: muiTheme.palette.primary.main,
+                                        borderColor: muiTheme.palette.primary.main
+                                    }}
+                                    onClick={toggleForm}
+                                >
+                                    Login
+                                </Button>
+                            </Box>
                         </Box>
                     }
                 />

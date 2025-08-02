@@ -5,7 +5,7 @@ import { Box, Typography, Button, IconButton } from "@mui/material";
 import { DarkMode, LightMode } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
 
-const SlidingPanel = ({ isLogin, handleChangeForm, mode, toggleTheme }) => {
+const SlidingPanel = ({ isLogin, handleChangeForm }) => {
     const controls = useAnimation()
     const [leftSide, setLeftSide] = useState(false)
     const theme = useTheme()
@@ -70,9 +70,6 @@ const SlidingPanel = ({ isLogin, handleChangeForm, mode, toggleTheme }) => {
                 <Typography variant="h3" fontWeight="bold" pr={2}>
                     Quem Vai Vai
                 </Typography>
-                <IconButton onClick={toggleTheme}>
-                    {mode === 'light' ? <DarkMode /> : <LightMode />}
-                </IconButton>
             </Box>
             <Typography variant="h4" fontWeight="bold">
                 {isLogin ? t('welcome') : t('welcom.back')}

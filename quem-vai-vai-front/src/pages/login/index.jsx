@@ -4,19 +4,17 @@ import {
     useMediaQuery,
     Container,
 } from "@mui/material";
-import { useThemeMode } from "../../contexts/ThemeContext";
 import DesktopLayout from "./components/desktop/desktop-layout";
 import MobileLayout from "./components/mobile/mobile-layout";
 import * as Service from "../../services/user.service"
 import { useNotification } from "../../contexts/NotificationContext";
 import { useLoading } from "../../contexts/LoadingContext";
-import LanguageSwitcher from "../../components/LanguageSwitcher";
+import GlobalSwitches from "../../components/GlobalSwitches";
 
 const Login = () => {
     const [isLogin, setIsLogin] = useState(true)
     const [showPassword, setShowPassword] = useState(false)
     const muiTheme = useTheme()
-    const { toggleTheme, mode } = useThemeMode()
     const isMobile = useMediaQuery(muiTheme.breakpoints.down("sm"))
 
     const toggleForm = () => {
@@ -105,9 +103,7 @@ const Login = () => {
             background: isMobile ? muiTheme.palette.background.paper : muiTheme.palette.background.default,
             padding: muiTheme.spacing(2),
         }}>
-            <div style={{ position: 'absolute', top: 16, right: 16 }}>
-                <LanguageSwitcher isMobile={isMobile}/>
-            </div>
+            <GlobalSwitches top={isMobile ? "25vh" : 16}/>
 
             {isMobile ? (
                 <MobileLayout
@@ -118,9 +114,7 @@ const Login = () => {
                     loginForm={loginForm}
                     handleUpdateLoginForm={handleUpdateLoginForm}
                     toggleForm={toggleForm}
-                    toggleTheme={toggleTheme}
                     muiTheme={muiTheme}
-                    mode={mode}
                     showPassword={showPassword}
                     setShowPassword={value => setShowPassword(value)}
                     handleSubmitCreateUserForm={handleSubmitCreateUserForm}
@@ -136,9 +130,7 @@ const Login = () => {
                     loginForm={loginForm}
                     handleUpdateLoginForm={handleUpdateLoginForm}
                     toggleForm={toggleForm}
-                    toggleTheme={toggleTheme}
                     muiTheme={muiTheme}
-                    mode={mode}
                     showPassword={showPassword}
                     setShowPassword={value => setShowPassword(value)}
                     handleSubmitCreateUserForm={handleSubmitCreateUserForm}
