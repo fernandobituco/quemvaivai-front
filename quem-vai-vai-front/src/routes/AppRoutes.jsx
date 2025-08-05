@@ -11,5 +11,5 @@ export default function AppRoutes() {
       {/* Rota coringa: 404 */}
       <Route path="*" element={<NotFound />} />
     </Routes>
-  );
+  )
 }

@@ -17,6 +17,7 @@ export const loginUser = async (email, password) => {
     throw error;
   }
 }
+
 export const createUser = async (user) => {
   const response = await Api.post('users', user)
   return response.data

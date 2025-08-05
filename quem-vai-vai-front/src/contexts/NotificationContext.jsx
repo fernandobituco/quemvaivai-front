@@ -20,9 +20,10 @@ export const NotificationProvider = ({ children }) => {
         message={notification?.message}
         severity={notification?.severity}
         onClose={clearNotification}
+        duration={10000}
       />
     </NotificationContext.Provider>
   )
 }
 
-export const useNotification = () => useContext(NotificationContext);
+export const useNotification = () => useContext(NotificationContext)

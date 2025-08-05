@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const Api = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
-    timeout: 10000,
+    timeout: 60000,
     headers: {
         'Content-Type': 'application/json',
     },
@@ -14,8 +14,8 @@ export const attachErrorInterceptor = (showNotification, t) => {
         response => response,
         error => {
             const message =
-                error.response?.data?.Error ||
-                t('server.comunication.error');
+                error.response?.data?.Error[0] ||
+                t('server.comunication.error')
 
             showNotification(message);
             return Promise.reject(error)

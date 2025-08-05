@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import {
     Box,
@@ -10,22 +10,27 @@ import {
 } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-import Api from "../../services/api";
-import { useLoading } from "../../contexts/LoadingContext";
 import * as Service from "../../services/emailconfirmationtoken.service"
 import { useTranslation } from "react-i18next";
+import { useLoading } from "@/contexts/LoadingContext";
 
 export default function AccountConfirmation() {
     const [status, setStatus] = useState("loading") // "loading" | "success" | "error"
     const [searchParams] = useSearchParams()
     const navigate = useNavigate()
     const theme = useTheme()
+
     const { showLoading, hideLoading } = useLoading()
     const { t } = useTranslation()
 
+    const executedRef = useRef(false)
+
     useEffect(() => {
+        if (executedRef.current) return
+        executedRef.current = true
+
         showLoading()
-        const token = searchParams.get("token");
+        const token = searchParams.get("token")
         if (!token) {
             setStatus("error")
             return
@@ -33,15 +38,25 @@ export default function AccountConfirmation() {
 
         const confirmAccount = async () => {
             try {
-                await confirmAccount(token)
-                setStatus("success")
+                console.log("Confirming account with token:", token)
+                const success = await Service.ConfirmAccount(token)
+                if (success) {
+                    console.log("Account confirmed successfully")
+                    setStatus("success")
+                }
+                else {
+                    console.log("Account confirmation failed")
+                    setStatus("error")
+                    return
+                }
             } catch (error) {
                 setStatus("error")
+                console.error("Error confirming account:", error)
+            } finally {
+                hideLoading()
             }
         }
-                setStatus("success")
-        //confirmAccount()
-        hideLoading()
+        confirmAccount()
     }, [searchParams])
 
     return (
@@ -99,7 +114,7 @@ export default function AccountConfirmation() {
                             sx={{ mt: 3 }}
                             onClick={() => navigate("/reenviar-confirmacao")}
                         >
-                            {t('resend.email')}
+                            {t('email.resend')}
                         </Button>
                     </>
                 )}

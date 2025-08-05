@@ -6,10 +6,11 @@ import {
 } from "@mui/material";
 import DesktopLayout from "./components/desktop/desktop-layout";
 import MobileLayout from "./components/mobile/mobile-layout";
-import * as Service from "../../services/user.service"
-import { useNotification } from "../../contexts/NotificationContext";
-import { useLoading } from "../../contexts/LoadingContext";
-import GlobalSwitches from "../../components/GlobalSwitches";
+import * as Service from "@services/user.service";
+import { useNotification } from "@contexts/NotificationContext";
+import { useLoading } from "@/contexts/LoadingContext";
+import GlobalSwitches from "@components/GlobalSwitches";
+import { useTranslation } from "react-i18next";
 
 const Login = () => {
     const [isLogin, setIsLogin] = useState(true)
@@ -38,6 +39,9 @@ const Login = () => {
     })
 
     const { showNotification } = useNotification()
+
+    const { t } = useTranslation()
+
     const { showLoading, hideLoading } = useLoading()
 
     const handleUpdateCreateUserForm = (e) => {
@@ -142,4 +146,4 @@ const Login = () => {
     )
 }
 
-export default Login;
+export default Login
