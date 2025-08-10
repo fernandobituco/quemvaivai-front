@@ -3,7 +3,6 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import {
     Box,
     Typography,
-    CircularProgress,
     Button,
     Paper,
     useTheme,

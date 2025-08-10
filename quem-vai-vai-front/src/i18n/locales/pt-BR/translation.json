@@ -8,6 +8,8 @@
   "email.required": "O e-mail é obrigatório",
   "not.found": "Página não encontrada",
   "not.found.address": "O endereço que você tentou acessar não existe.",
+  "in.development": "Página sendo desenvolvida",
+  "in.development.address": "O endereço que você tentou acessar não está pronto ainda.",
   "go.back": "Voltar",
   "password": "Senha",
   "forgot.password": "Esqueci minha senha",

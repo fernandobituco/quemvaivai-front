@@ -4,7 +4,7 @@ import { IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
 import LanguageIcon from '@mui/icons-material/Language';
 
 const LanguageSwitcher = (props) => {
-    const { i18n } = useTranslation();
+    const { i18n } = useTranslation()
     const [anchorEl, setAnchorEl] = useState(null)
     const open = Boolean(anchorEl)
 
@@ -19,7 +19,7 @@ const LanguageSwitcher = (props) => {
 
     return (
         <>
-            <Tooltip title="Change Language" sx={{ zIndex: 2 }}>
+            <Tooltip title="Change Language" sx={props.sx ?? { zIndex: 2 }}>
                 <IconButton
                     onClick={handleClick}
                     color={'primary'}

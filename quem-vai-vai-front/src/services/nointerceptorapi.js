@@ -1,13 +1,13 @@
-import axios from 'axios';
+import axios from "axios"
 
-const Api = axios.create({
+const NoInterceptorApi = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
     withCredentials: true,
     timeout: 60000,
     headers: {
         'Content-Type': 'application/json',
     },
-    skipAuthInterceptor: false
+    skipAuthInterceptor: true
 })
 
-export default Api
+export default NoInterceptorApi

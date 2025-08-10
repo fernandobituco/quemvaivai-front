@@ -7,16 +7,22 @@ import {
 import DesktopLayout from "./components/desktop/desktop-layout";
 import MobileLayout from "./components/mobile/mobile-layout";
 import * as Service from "@services/user.service";
+import * as AuthService from "@services/auth.service";
 import { useNotification } from "@contexts/NotificationContext";
 import { useLoading } from "@/contexts/LoadingContext";
 import GlobalSwitches from "@components/GlobalSwitches";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
     const [isLogin, setIsLogin] = useState(true)
     const [showPassword, setShowPassword] = useState(false)
     const muiTheme = useTheme()
     const isMobile = useMediaQuery(muiTheme.breakpoints.down("sm"))
+    const { login } = useAuth()
+    const navigate = useNavigate()
+
 
     const toggleForm = () => {
         setIsLogin((prev) => !prev)
@@ -78,7 +84,7 @@ const Login = () => {
     }
 
     const [loginForm, setLoginForm] = useState({
-        emai: "",
+        email: "",
         password: "",
     })
 
@@ -91,11 +97,20 @@ const Login = () => {
         }))
     }
 
-    const handleSubmitLoginForm = (e) => {
-        showLoading()
+    const handleSubmitLoginForm = async (e) => {
         e.preventDefault()
-        console.log("handleSubmitLoginForm")
-        hideLoading()
+        showLoading()
+        try {
+            const loginresponse = await login(loginForm.email, loginForm.password)
+            if (loginresponse.success) {
+                showNotification(t('welcome.back'), "success")
+                navigate('/groups')
+            } else {
+                showNotification(loginresponse.error, "error")
+            }
+        } finally {
+            hideLoading()
+        }
     }
 
     return (
@@ -107,7 +122,7 @@ const Login = () => {
             background: isMobile ? muiTheme.palette.background.paper : muiTheme.palette.background.default,
             padding: muiTheme.spacing(2),
         }}>
-            <GlobalSwitches top={isMobile ? "25vh" : 16}/>
+            <GlobalSwitches top={isMobile ? "25vh" : 16} />
 
             {isMobile ? (
                 <MobileLayout

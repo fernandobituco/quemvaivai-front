@@ -67,6 +67,7 @@ const MobileLayout = (props) => {
                                 margin="normal"
                                 variant="outlined"
                                 name="email"
+                                type="email"
                                 value={loginForm.email}
                                 onChange={handleUpdateLoginForm}
                             />

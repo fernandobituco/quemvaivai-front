@@ -1,5 +1,4 @@
 import { Backdrop, CircularProgress, useTheme } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
 
 export default function LoadingOverlay({ open }) {
     const theme = useTheme()
@@ -8,7 +7,7 @@ export default function LoadingOverlay({ open }) {
         <Backdrop
             open={open}
             sx={{
-                zIndex: theme.zIndex.modal + 1,
+                zIndex: theme.zIndex.modal + 100,
                 color: "#fff",
                 backgroundColor: "rgba(0,0,0,0.5)",
             }}
