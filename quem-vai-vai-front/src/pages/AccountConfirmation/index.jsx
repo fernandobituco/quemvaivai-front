@@ -37,14 +37,11 @@ export default function AccountConfirmation() {
 
         const confirmAccount = async () => {
             try {
-                console.log("Confirming account with token:", token)
                 const success = await Service.ConfirmAccount(token)
                 if (success) {
-                    console.log("Account confirmed successfully")
                     setStatus("success")
                 }
                 else {
-                    console.log("Account confirmation failed")
                     setStatus("error")
                     return
                 }

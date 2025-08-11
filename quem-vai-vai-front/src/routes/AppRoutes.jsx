@@ -3,7 +3,6 @@ import Login from '../pages/login';
 import AccountConfirmation from '../pages/AccountConfirmation';
 import NotFound from '../pages/NotFound';
 import ProtectedRoute from './ProtectedRoute';
-import MainPage from '@/pages/MainPage';
 import ProtectedLayout from './ProtectedLayout';
 import InDevelopment from '@/pages/InDevelopment';
 
@@ -12,7 +11,7 @@ export default function AppRoutes() {
     <Routes>
       {/* Rotas públicas */}
       <Route path="/" element={<Login />} />
-      <Route path="/account-confirmation" element={<MainPage />} />
+      <Route path="/account-confirmation" element={<AccountConfirmation />} />
       {/* <Route path="/main" element={<MainPage />} /> */}
       {/* Rota coringa: 404 */}
       <Route path="*" element={<NotFound />} />

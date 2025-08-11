@@ -13,6 +13,8 @@ export function AuthProvider({ children }) {
 
     useEffect(() => {
         const initializeAuth = async () => {
+
+            showLoading()
             try {
                 // Tentar restaurar sessão
                 const hasValidSession = await authService.initialize()
@@ -20,7 +22,6 @@ export function AuthProvider({ children }) {
                 if (hasValidSession) {
                     // Buscar dados do usuário para confirmar tudo está OK
                     try {
-                        console.log("Sessão válida, buscando dados do usuário...")
                         // const response = await Api.get('/user/profile');
                         // if (response.status === 200) {
                         //     setUser(response.data);
@@ -33,16 +34,15 @@ export function AuthProvider({ children }) {
                         })
                         setIsAuthenticated(true)
                     } catch (error) {
-                        console.error('Failed to fetch user profile:', error)
                         setIsAuthenticated(false)
                     }
                 } else {
                     setIsAuthenticated(false)
                 }
             } catch (error) {
-                console.error('Auth initialization failed:', error)
                 setIsAuthenticated(false)
             } finally {
+                hideLoading()
                 setIsLoading(false) // Muito importante: marcar como carregado
             }
         }
@@ -57,7 +57,6 @@ export function AuthProvider({ children }) {
         showLoading()
         try {
             if (authService.isAuthenticated()) {
-                console.log("Usuário já autenticado, carregando dados...")
                 const response = await Api.get('/user/profile')
                 if (response.status === 200) {
                     setUser(response.data)
@@ -65,7 +64,6 @@ export function AuthProvider({ children }) {
                 }
             }
         } catch (error) {
-            console.error('Auth check failed:', error)
             setIsAuthenticated(false)
         } finally {
             hideLoading()
@@ -73,15 +71,11 @@ export function AuthProvider({ children }) {
     }
 
     const login = async (email, password) => {
-        console.log("Tentando login com:", email)
         try {
-            console.log('Chamando endpoint de login...')
             const response = await Api.post('/auth/login', { email, password })
 
             if (response.status === 200) {
                 authService.setTokens(response.data)
-                console.log('Login bem-sucedido, tokens definidos.')
-                console.log('Dados do usuário:', response.data)
                 setIsAuthenticated(true)
 
                 // Buscar dados do usuário
@@ -100,7 +94,6 @@ export function AuthProvider({ children }) {
         try {
             await Api.post('/auth/logout')
         } catch (error) {
-            console.error('Logout error:', error)
         }
 
         authService.clearTokens()

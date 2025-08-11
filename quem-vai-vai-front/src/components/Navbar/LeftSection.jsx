@@ -1,8 +1,10 @@
 import { Box, Typography } from "@mui/material"
 import { motion } from "framer-motion"
+import { useTranslation } from "react-i18next"
 
 const LeftSection = (props) => {
-    const { isMobile } = props
+    
+    const { t } = useTranslation() 
     return (
         <motion.div
             initial={{ opacity: 0, x: -60 }}
@@ -34,32 +36,30 @@ const LeftSection = (props) => {
                     </Typography>
                 </Box>
 
-                {!isMobile && (
-                    <Box>
-                        <Typography
-                            variant="h6"
-                            sx={{
-                                color: 'white',
-                                fontWeight: 700,
-                                fontSize: '1.3rem',
-                                letterSpacing: '-0.5px'
-                            }}
-                        >
-                            Quem Vai Vai
-                        </Typography>
-                        <Typography
-                            variant="caption"
-                            sx={{
-                                color: 'rgba(255,255,255,0.8)',
-                                fontSize: '0.75rem',
-                                display: 'block',
-                                lineHeight: 1
-                            }}
-                        >
-                            Organize seus eventos
-                        </Typography>
-                    </Box>
-                )}
+                <Box>
+                    <Typography
+                        variant="h6"
+                        sx={{
+                            color: 'white',
+                            fontWeight: 700,
+                            fontSize: '1.3rem',
+                            letterSpacing: '-0.5px'
+                        }}
+                    >
+                        Quem Vai Vai
+                    </Typography>
+                    <Typography
+                        variant="caption"
+                        sx={{
+                            color: 'rgba(255,255,255,0.8)',
+                            fontSize: '0.75rem',
+                            display: 'block',
+                            lineHeight: 1
+                        }}
+                    >
+                        {t('logo')}
+                    </Typography>
+                </Box>
             </Box>
         </motion.div>
     )

@@ -73,8 +73,6 @@ const Login = () => {
             try {
                 const response = await Service.createUser(createUserForm)
                 if (response != null) {
-                    console.log('response')
-                    console.log(response)
                     showNotification(t('will.receive.confimation.email'), "success")
                 }
             } catch (err) {

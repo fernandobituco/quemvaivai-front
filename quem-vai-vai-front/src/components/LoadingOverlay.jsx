@@ -12,7 +12,7 @@ export default function LoadingOverlay({ open }) {
                 backgroundColor: "rgba(0,0,0,0.5)",
             }}
         >
-            <CircularProgress color="inherit" />
+            <CircularProgress color={theme.palette.primary.main} />
         </Backdrop>
     )
 }

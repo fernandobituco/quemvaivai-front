@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 
 const CenterSection = (props) => {
 
-    const { tabValue, setTabValue, isMobile } = props
+    const { tabs, tabValue, setTabValue } = props
 
     return (
         <motion.div
@@ -23,6 +23,7 @@ const CenterSection = (props) => {
                             fontWeight: 600,
                             color: 'rgba(255,255,255,0.8)',
                             minHeight: 48,
+                            minWidth: 45,
                         },
                         '& .Mui-selected': {
                             color: 'white !important',
@@ -34,24 +35,17 @@ const CenterSection = (props) => {
                         }
                     }}
                 >
-                    <Tab
-                        icon={<Groups />}
-                        label={isMobile ? "" : "Grupos"}
-                        sx={{ paddingInline: isMobile ? 0 : 3 }}
-                        iconPosition="start"
-                    />
-                    <Tab
-                        icon={<Event />}
-                        label={isMobile ? "" : "Eventos"}
-                        sx={{ paddingInline: isMobile ? 0 : 3 }}
-                        iconPosition="start"
-                    />
-                    <Tab
-                        icon={<Task />}
-                        label={isMobile ? "" : "Tarefas"}
-                        sx={{ paddingInline: isMobile ? 0 : 3 }}
-                        iconPosition="start"
-                    />
+                    {
+                        tabs && tabs.map((tab, index) => (
+                            <Tab
+                                key={index}
+                                icon={tab.icon}
+                                label={tab.label}
+                                sx={{ paddingInline: 3 }}
+                                iconPosition="start"
+                            />
+                        ))
+                    }
                 </Tabs>
             </Box>
         </motion.div>

@@ -17,7 +17,6 @@ class AuthService {
     }
 
     async initialize() {
-        console.log("Inicializando AuthService...")
         if (this.initializationPromise) {
             return this.initializationPromise
         }
@@ -27,11 +26,9 @@ class AuthService {
     }
 
     async performInitialization() {
-        console.log("Performing initialization...")
         try {
             // Tentar fazer refresh para verificar se usuário está logado
             const response = await NoInterceptorApi.post('/auth/refresh', {})
-            console.log("Resposta do refresh:", response)
             if (response.status === 200) {
                 this.setTokens(response.data)
                 return true; // Usuário está autenticado
@@ -59,7 +56,6 @@ class AuthService {
     }
 
     setTokens(tokenData) {
-        console.log("Definindo tokens...", tokenData)
         if (!tokenData || !tokenData.IsSuccess) {
             this.clearTokens()
             return
@@ -69,7 +65,6 @@ class AuthService {
     }
 
     isAuthenticated() {
-        console.log("Verificando autenticação...", this.accessToken)
         return this.accessToken && !this.isTokenExpired()
     }
 
@@ -140,7 +135,6 @@ class AuthService {
     }
 
     logout() {
-        console.log("Usuário deslogado, limpando tokens...")
         this.clearTokens()
         // Redirecionar para login ou emitir evento
         window.location.href = '/'
