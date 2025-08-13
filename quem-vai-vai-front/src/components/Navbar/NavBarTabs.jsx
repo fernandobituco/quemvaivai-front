@@ -1,18 +1,18 @@
-import { Event, Groups, Task } from "@mui/icons-material"
-import { Box, Tab, Tabs } from "@mui/material"
+import { Menu } from "@mui/icons-material"
+import { Box, IconButton, Tab, Tabs } from "@mui/material"
 import { motion } from "framer-motion"
 
-const CenterSection = (props) => {
+const NavBarTabs = (props) => {
 
-    const { tabs, tabValue, setTabValue } = props
+    const { tabs, tabValue, setTabValue, setDrawerOpen, isMobile } = props
 
     return (
         <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={isMobile ? {opacity: 0, x: -60} : { opacity: 0, y: -20 }}
+            animate={isMobile ? {opacity: 1, x: 0} : { opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
         >
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
                 <Tabs
                     value={tabValue}
                     onChange={(e, newValue) => setTabValue(newValue)}
@@ -48,8 +48,11 @@ const CenterSection = (props) => {
                     }
                 </Tabs>
             </Box>
+            <IconButton sx={{ display: { xs: 'flex', md: 'none' } }} edge="start" onClick={_ => setDrawerOpen(true)}>
+                <Menu sx={{ color: "white" }} />
+            </IconButton>
         </motion.div>
     )
 }
 
-export default CenterSection
+export default NavBarTabs

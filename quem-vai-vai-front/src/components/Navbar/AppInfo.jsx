@@ -2,14 +2,15 @@ import { Box, Typography } from "@mui/material"
 import { motion } from "framer-motion"
 import { useTranslation } from "react-i18next"
 
-const LeftSection = (props) => {
+const AppInfo = (props) => {
     
+    const { isMobile } = props
     const { t } = useTranslation() 
     return (
         <motion.div
-            initial={{ opacity: 0, x: -60 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1 }}
+            initial={isMobile ? {opacity: 0, y: -20} : { opacity: 0, x: -60 }}
+            animate={isMobile ? {opacity: 1, y: 0} : { opacity: 1, x: 0 }}
+            transition={{ duration: 1, delay: 0.1 }}
         >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                 <Box
@@ -65,4 +66,4 @@ const LeftSection = (props) => {
     )
 }
 
-export default LeftSection
+export default AppInfo

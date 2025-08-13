@@ -77,5 +77,6 @@
   "verifying.authentication": "Verifying authentication...",
   "authentication.success": "Authentication successful!",
   "authentication.error": "User not authenticated, redirecting to login...",
-  "logout": "Logout"
+  "logout": "Logout",
+  "profile": "Profile"
 }

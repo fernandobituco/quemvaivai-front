@@ -11,15 +11,16 @@ import {
     Box,
     Divider,
     Button,
+    IconButton,
 } from '@mui/material'
 import { useAuth } from '@/contexts/AuthContext'
 import { useThemeMode } from '@/contexts/ThemeContext'
-import LeftSection from './LeftSection'
-import CenterSection from './CenterSection'
-import RightSection from './RightSection'
 import { useState } from 'react'
-import { DarkMode, Event, LightMode, People, Task } from '@mui/icons-material'
+import { DarkMode, Event, LightMode, Menu, People, Task } from '@mui/icons-material'
 import { useTranslation } from 'react-i18next'
+import AppInfo from './AppInfo'
+import NavBarTabs from './NavBarTabs'
+import UserOptions from './UserOptions'
 
 
 const NavigationBar = (props) => {
@@ -58,21 +59,22 @@ const NavigationBar = (props) => {
                 sx={{
                     justifyContent: 'space-between',
                     py: 1,
-                    minHeight: { xs: 64, sm: 70 }
+                    minHeight: { xs: 64, sm: 70 },
                 }}
             >
-                <LeftSection />
+                {isMobile &&
+                    <NavBarTabs tabValue={tabValue} setTabValue={setTabValue} tabs={navItems} setDrawerOpen={setDrawerOpen} isMobile={isMobile} />
+                }
 
-                {!isMobile && <CenterSection tabValue={tabValue} setTabValue={setTabValue} tabs={navItems} />}
+                <AppInfo isMobile={isMobile} />
 
-                <RightSection
+                {!isMobile && <NavBarTabs tabValue={tabValue} setTabValue={setTabValue} tabs={navItems} setDrawerOpen={setDrawerOpen} isMobile={isMobile} />}
+
+                <UserOptions
                     user={user}
-                    userAvatar={userAvatar}
-                    onProfileClick={onProfileClick}
                     notificationCount={notificationCount}
                     onNotificationClick={onNotificationClick}
                     isMobile={isMobile}
-                    toggleDrawer={setDrawerOpen}
                 />
 
             </Toolbar>
@@ -80,21 +82,15 @@ const NavigationBar = (props) => {
                 <Box sx={{ width: 250 }} role="presentation" >
                     <List>
                         {navItems.map((item) => (
-                            <ListItem button key={item.label} onClick={_ => setDrawerOpen(false)}>
-                                <ListItemIcon>{item.icon}</ListItemIcon>
-                                <ListItemText primary={item.label} />
+                            <ListItem sx={{ color: theme.palette.primary.main }} key={item.label} >
+                                <Button onClick={_ => setDrawerOpen(false)} fullWidth>
+                                    <ListItemIcon sx={{ color: theme.palette.primary.main }}>{item.icon}</ListItemIcon>
+                                    <ListItemText primary={item.label} />
+                                </Button>
                             </ListItem>
                         ))}
                     </List>
                     <Divider />
-                    <ListItem >
-                        <Button onClick={toggleTheme}>
-                            {mode === 'light' ? <DarkMode /> : <LightMode />}
-                            <span style={{ marginLeft: 20, textTransform: 'none' }}>{t('dark.mode')}</span>
-                        </Button>
-                    </ListItem>
-                    <List>
-                    </List>
                 </Box>
             </Drawer>
         </AppBar>

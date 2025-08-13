@@ -77,5 +77,6 @@
   "verifying.authentication": "Verificando autenticação...",
   "authentication.success": "Autenticação bem-sucedida!",
   "authentication.error": "Usuário não autenticado, redirecionando para login...",
-  "logout": "Sair"
+  "logout": "Sair",
+  "profile": "Perfil"
 }

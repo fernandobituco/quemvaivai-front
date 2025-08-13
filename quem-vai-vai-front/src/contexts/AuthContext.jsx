@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import { useLoading } from './LoadingContext';
 import authService from '@/services/auth.service';
 import Api from '@/services/api';
+import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext()
 
@@ -10,6 +11,7 @@ export function AuthProvider({ children }) {
     const [isLoading, setIsLoading] = useState(true)
     const { showLoading, hideLoading } = useLoading()
     const [user, setUser] = useState(null)
+    const navigate = useNavigate()
 
     useEffect(() => {
         const initializeAuth = async () => {
@@ -22,21 +24,23 @@ export function AuthProvider({ children }) {
                 if (hasValidSession) {
                     // Buscar dados do usuário para confirmar tudo está OK
                     try {
-                        // const response = await Api.get('/user/profile');
-                        // if (response.status === 200) {
-                        //     setUser(response.data);
-                        //     setIsAuthenticated(true);
-                        // }
-                        setUser({
-                            id: 1,
-                            name: 'Test User',
-                            email: 'test@email.com'
-                        })
-                        setIsAuthenticated(true)
+                        const response = await Api.get('/users/profile');
+                        if (response.status === 200 && response.data && response.data.Data) {
+                            setUser({
+                                id: response.data.Data.Id,
+                                name: response.data.Data.Name,
+                                email: response.data.Data.Email
+                            })
+                            console.log('User data loaded:', response.data.Data)
+                            setIsAuthenticated(true);
+                        } else {
+                            setIsAuthenticated(false);
+                        }
                     } catch (error) {
                         setIsAuthenticated(false)
                     }
                 } else {
+                    console.warn('No valid session found')
                     setIsAuthenticated(false)
                 }
             } catch (error) {
@@ -48,18 +52,21 @@ export function AuthProvider({ children }) {
         }
 
         initializeAuth()
-        //checkAuthStatus()
+        checkAuthStatus()
     }, []);
-
-
 
     const checkAuthStatus = async () => {
         showLoading()
         try {
             if (authService.isAuthenticated()) {
-                const response = await Api.get('/user/profile')
-                if (response.status === 200) {
-                    setUser(response.data)
+                const response = await Api.get('/users/profile')
+                if (response.status === 200 && response.data && response.data.Data) {
+                    setUser({
+                        id: response.data.Data.Id,
+                        name: response.data.Data.Name,
+                        email: response.data.Data.Email
+                    })
+                    console.log('User data loaded:', response.data.Data)
                     setIsAuthenticated(true)
                 }
             }
@@ -79,7 +86,7 @@ export function AuthProvider({ children }) {
                 setIsAuthenticated(true)
 
                 // Buscar dados do usuário
-                // await checkAuthStatus()
+                await checkAuthStatus()
                 return { success: true }
             }
         } catch (error) {
@@ -99,6 +106,7 @@ export function AuthProvider({ children }) {
         authService.clearTokens()
         setIsAuthenticated(false)
         setUser(null)
+        navigate('/')
     }
 
     return (

@@ -28,15 +28,19 @@ class AuthService {
     async performInitialization() {
         try {
             // Tentar fazer refresh para verificar se usuário está logado
+            console.log('performInitialization')
             const response = await NoInterceptorApi.post('/auth/refresh', {})
+            console.log('response')
+            console.log(response)
             if (response.status === 200) {
                 this.setTokens(response.data)
                 return true; // Usuário está autenticado
             } else {
+                console.error('else Failed to initialize auth:', error)
                 return false; // Não há sessão válida
             }
         } catch (error) {
-            console.error('Failed to initialize auth:', error)
+            console.error('catch Failed to initialize auth:', error)
             return false
         }
     }
@@ -113,6 +117,7 @@ class AuthService {
 
     async performRefresh() {
         try {
+            console.log('performRefresh')
             const response = await NoInterceptorApi.post('/auth/refresh', {})
 
             if (response.status === 200) {
