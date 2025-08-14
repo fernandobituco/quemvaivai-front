@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useLoading } from './LoadingContext';
 import authService from '@/services/auth.service';
+import * as userService from '@/services/user.service';
 import Api from '@/services/api';
 import { useNavigate } from 'react-router-dom';
 
@@ -24,14 +25,13 @@ export function AuthProvider({ children }) {
                 if (hasValidSession) {
                     // Buscar dados do usuário para confirmar tudo está OK
                     try {
-                        const response = await Api.get('/users/profile');
+                        const response = await userService.getProfile()
                         if (response.status === 200 && response.data && response.data.Data) {
                             setUser({
                                 id: response.data.Data.Id,
                                 name: response.data.Data.Name,
                                 email: response.data.Data.Email
                             })
-                            console.log('User data loaded:', response.data.Data)
                             setIsAuthenticated(true);
                         } else {
                             setIsAuthenticated(false);
@@ -40,7 +40,6 @@ export function AuthProvider({ children }) {
                         setIsAuthenticated(false)
                     }
                 } else {
-                    console.warn('No valid session found')
                     setIsAuthenticated(false)
                 }
             } catch (error) {
@@ -59,14 +58,14 @@ export function AuthProvider({ children }) {
         showLoading()
         try {
             if (authService.isAuthenticated()) {
-                const response = await Api.get('/users/profile')
+                const response = await userService.getProfile()
                 if (response.status === 200 && response.data && response.data.Data) {
                     setUser({
                         id: response.data.Data.Id,
                         name: response.data.Data.Name,
                         email: response.data.Data.Email
                     })
-                    console.log('User data loaded:', response.data.Data)
+                    console.log("Usuário autenticado:", response.data.Data)
                     setIsAuthenticated(true)
                 }
             }
@@ -79,10 +78,10 @@ export function AuthProvider({ children }) {
 
     const login = async (email, password) => {
         try {
-            const response = await Api.post('/auth/login', { email, password })
+            const response = await authService.Login(email, password)
 
-            if (response.status === 200) {
-                authService.setTokens(response.data)
+            if (response.StatusCode === 200) {
+                authService.setTokens(response)
                 setIsAuthenticated(true)
 
                 // Buscar dados do usuário
@@ -109,6 +108,87 @@ export function AuthProvider({ children }) {
         navigate('/')
     }
 
+    const refreshUserData = async () => {
+        console.log("Atualizando dados do usuário...")
+        try {
+            showLoading()
+
+            // 1. Fazer refresh FORÇADO do token para garantir dados atualizados
+            const refreshSuccess = await authService.forceRefreshToken()
+
+            if (!refreshSuccess) {
+                // Se não conseguiu fazer refresh, fazer logout
+                await logout()
+                return { success: false, error: 'Sessão expirada' }
+            }
+
+            // 2. Buscar dados atualizados do usuário
+            const response = await userService.getProfile()
+
+            if (response.StatusCode === 200 && response.Data) {
+                setUser({
+                    id: response.Data.Id,
+                    name: response.Data.Name,
+                    email: response.Data.Email
+                })
+                return { success: true }
+            } else {
+                return { success: false, error: 'Erro ao buscar dados do usuário' }
+            }
+        } catch (error) {
+            console.error('Erro ao atualizar dados do usuário:', error)
+            return { success: false, error: 'Erro ao atualizar dados' }
+        } finally {
+            hideLoading()
+        }
+    }
+
+    const updateUserProfile = async (userData) => {
+        try {
+            showLoading()
+
+            // 1. Chamar API para atualizar dados
+            const response = await userService.updateUser(userData)
+            console.log("Resposta da atualização:", response)
+            if (response.StatusCode === 200) {
+                // 2. Atualizar dados locais após sucesso
+                console.log("Dados do usuário atualizados:", response.Data)
+                const refreshResult = await refreshUserData()
+                return refreshResult
+            } else {
+                return { success: false, error: 'Erro ao atualizar perfil' }
+            }
+        } catch (error) {
+            const message = error.response?.data?.Error || 'Erro ao atualizar perfil'
+            return { success: false, error: message }
+        } finally {
+            hideLoading()
+        }
+    }
+
+    const deleteUser = async (id) => {
+        try {
+            showLoading()
+            const response = await userService.deleteUser(id)
+
+            if (response.StatusCode === 200) {
+                authService.clearTokens()
+                setIsAuthenticated(false)
+                setUser(null)
+                navigate('/')
+                return { success: true }
+            } else {
+                return { success: false, error: 'Erro ao excluir usuário' }
+            }
+        }
+        catch (error) {
+            const message = error.response?.data?.Error || 'Erro ao excluir usuário'
+            return { success: false, error: message }
+        } finally {
+            hideLoading()
+        }
+    }
+
     return (
         <AuthContext.Provider value={{
             isLoading,
@@ -116,7 +196,9 @@ export function AuthProvider({ children }) {
             user,
             login,
             logout,
-            authService
+            authService,
+            updateUserProfile,
+            deleteUser
         }}>
             {children}
         </AuthContext.Provider>

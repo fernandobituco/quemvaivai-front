@@ -2,6 +2,7 @@ import { useAuth } from "@/contexts/AuthContext"
 import { Avatar, Box, Chip, Menu, MenuItem, Typography } from "@mui/material"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
+import { useNavigate } from "react-router-dom"
 
 const Profile = (props) => {
 
@@ -11,6 +12,7 @@ const Profile = (props) => {
 
     const { t } = useTranslation()
     const { logout } = useAuth()
+    const navigate = useNavigate()
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget)
@@ -27,7 +29,7 @@ const Profile = (props) => {
 
     const goToProfile = () => {
         handleCloseUserMenu()
-        console.log('Go to Profile')
+        navigate('/profile')
     }
 
     return (

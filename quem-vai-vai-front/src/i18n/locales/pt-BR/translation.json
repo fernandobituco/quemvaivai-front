@@ -78,5 +78,10 @@
   "authentication.success": "Autenticação bem-sucedida!",
   "authentication.error": "Usuário não autenticado, redirecionando para login...",
   "logout": "Sair",
-  "profile": "Perfil"
+  "profile": "Perfil",
+  "delete": "Excluir",
+  "save.edit": "Salvar alterações",
+  "save": "Salvar",
+  "delete.confirm": "Tem certeza que deseja deletar esse(a) ",
+  "delete.irreversible": "Essa ação é permanente e não poderá ser desfeita"
 }

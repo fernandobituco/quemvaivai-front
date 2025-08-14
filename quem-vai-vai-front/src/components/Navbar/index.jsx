@@ -15,34 +15,54 @@ import {
 } from '@mui/material'
 import { useAuth } from '@/contexts/AuthContext'
 import { useThemeMode } from '@/contexts/ThemeContext'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { DarkMode, Event, LightMode, Menu, People, Task } from '@mui/icons-material'
 import { useTranslation } from 'react-i18next'
 import AppInfo from './AppInfo'
 import NavBarTabs from './NavBarTabs'
 import UserOptions from './UserOptions'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 
 const NavigationBar = (props) => {
     const {
-        userAvatar,
         notificationCount = 3,
-        onProfileClick,
         onNotificationClick,
     } = props
-    const theme = useTheme()
-    const { user } = useAuth()
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
-    const [tabValue, setTabValue] = useState(0)
-    const [drawerOpen, setDrawerOpen] = useState(false)
-    const { toggleTheme, mode } = useThemeMode()
+
     const { t } = useTranslation()
 
     const navItems = [
-        { label: t('groups'), icon: <People /> },
-        { label: t('events'), icon: <Event /> },
-        { label: t('tasks'), icon: <Task /> },
+        { label: t('groups'), value: 'groups', icon: <People /> },
+        { label: t('events'), value: 'events', icon: <Event /> },
+        { label: t('tasks'), value: 'tasks', icon: <Task /> },
+        { label: t('profile'), value: 'profile', icon: <Task /> },
     ]
+
+    const theme = useTheme()
+    const { user } = useAuth()
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+    const location = useLocation()
+    const [tabValue, setTabValue] = useState(navItems.findIndex(item => item.value === location.pathname.split('/')[1]) || '')
+    const [drawerOpen, setDrawerOpen] = useState(false)
+    const navigate = useNavigate()
+
+    const handleChangeTab = (newValue) => {
+        setTabValue(newValue)
+        setDrawerOpen(false)
+        navigate(navItems[newValue].value)
+    }
+
+    useEffect(() => {
+        const currentPath = location.pathname.split('/')[1]
+        const index = navItems.findIndex(item => item.value === currentPath)
+        if (index !== -1) {
+            setTabValue(index)
+        } else {
+            setTabValue(false)
+        }
+    }
+    , [location.pathname])
 
     return (
         <AppBar
@@ -68,7 +88,7 @@ const NavigationBar = (props) => {
 
                 <AppInfo isMobile={isMobile} />
 
-                {!isMobile && <NavBarTabs tabValue={tabValue} setTabValue={setTabValue} tabs={navItems} setDrawerOpen={setDrawerOpen} isMobile={isMobile} />}
+                {!isMobile && <NavBarTabs tabValue={tabValue} handleChangeTab={handleChangeTab} tabs={navItems} setDrawerOpen={setDrawerOpen} isMobile={isMobile} />}
 
                 <UserOptions
                     user={user}

@@ -5,6 +5,7 @@ import NotFound from '../pages/NotFound';
 import ProtectedRoute from './ProtectedRoute';
 import ProtectedLayout from './ProtectedLayout';
 import InDevelopment from '@/pages/InDevelopment';
+import Profile from '@/pages/Profile';
 
 export default function AppRoutes() {
   return (
@@ -24,6 +25,7 @@ export default function AppRoutes() {
         <Route path="/groups" element={<InDevelopment />} />
         <Route path="/events" element={<InDevelopment />} />
         <Route path="/tasks" element={<InDevelopment />} />
+        <Route path="/profile" element={<Profile />} />
       </Route>
     </Routes>
   )

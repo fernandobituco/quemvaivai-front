@@ -1,11 +1,5 @@
-import axios from "axios"
 import Api from "./api"
 import NoInterceptorApi from "./nointerceptorapi"
-
-export const Login = async (email, password) => {
-    const response = await Api.post('auth/login', { email, password })
-    return response.data
-}
 
 class AuthService {
     constructor() {
@@ -28,10 +22,7 @@ class AuthService {
     async performInitialization() {
         try {
             // Tentar fazer refresh para verificar se usuário está logado
-            console.log('performInitialization')
             const response = await NoInterceptorApi.post('/auth/refresh', {})
-            console.log('response')
-            console.log(response)
             if (response.status === 200) {
                 this.setTokens(response.data)
                 return true; // Usuário está autenticado
@@ -53,7 +44,8 @@ class AuthService {
             '/auth/confirm-account',
             '/auth/forgot-password',
             '/auth/reset-password',
-            '/auth/refresh' // Importante: refresh não deve ter Authorization header
+            '/auth/refresh', // Importante: refresh não deve ter Authorization header
+            '/auth/force-refresh'
         ];
 
         return publicEndpoints.some(endpoint => url.includes(endpoint))
@@ -115,9 +107,30 @@ class AuthService {
         }
     }
 
+    async forceRefreshToken() {
+        try {
+            console.log('Forçando refresh do token após atualização de dados...')
+
+            const response = await NoInterceptorApi.post('/auth/force-refresh', {})
+
+            if (response.status === 200) {
+                this.setTokens(response.data)
+                console.log('Token atualizado com sucesso')
+                return true
+            } else {
+                console.error('Erro ao fazer force refresh:', response)
+                this.clearTokens()
+                return false
+            }
+        } catch (error) {
+            console.error('Force refresh failed:', error)
+            this.clearTokens()
+            return false
+        }
+    }
+
     async performRefresh() {
         try {
-            console.log('performRefresh')
             const response = await NoInterceptorApi.post('/auth/refresh', {})
 
             if (response.status === 200) {
@@ -143,6 +156,11 @@ class AuthService {
         this.clearTokens()
         // Redirecionar para login ou emitir evento
         window.location.href = '/'
+    }
+
+     async Login(email, password) {
+        const response = await Api.post('auth/login', { email, password })
+        return response.data
     }
 }
 
