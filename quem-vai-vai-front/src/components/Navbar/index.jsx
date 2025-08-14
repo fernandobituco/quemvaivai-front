@@ -11,12 +11,10 @@ import {
     Box,
     Divider,
     Button,
-    IconButton,
 } from '@mui/material'
 import { useAuth } from '@/contexts/AuthContext'
-import { useThemeMode } from '@/contexts/ThemeContext'
 import { useEffect, useState } from 'react'
-import { DarkMode, Event, LightMode, Menu, People, Task } from '@mui/icons-material'
+import { Event, People, Task } from '@mui/icons-material'
 import { useTranslation } from 'react-i18next'
 import AppInfo from './AppInfo'
 import NavBarTabs from './NavBarTabs'
@@ -61,8 +59,7 @@ const NavigationBar = (props) => {
         } else {
             setTabValue(false)
         }
-    }
-    , [location.pathname])
+    }, [location.pathname])
 
     return (
         <AppBar

@@ -26,11 +26,11 @@ export function AuthProvider({ children }) {
                     // Buscar dados do usuário para confirmar tudo está OK
                     try {
                         const response = await userService.getProfile()
-                        if (response.status === 200 && response.data && response.data.Data) {
+                        if (response.StatusCode === 200 && response.Data) {
                             setUser({
-                                id: response.data.Data.Id,
-                                name: response.data.Data.Name,
-                                email: response.data.Data.Email
+                                id: response.Data.Id,
+                                name: response.Data.Name,
+                                email: response.Data.Email
                             })
                             setIsAuthenticated(true);
                         } else {
@@ -46,7 +46,7 @@ export function AuthProvider({ children }) {
                 setIsAuthenticated(false)
             } finally {
                 hideLoading()
-                setIsLoading(false) // Muito importante: marcar como carregado
+                setIsLoading(false)
             }
         }
 
@@ -59,13 +59,12 @@ export function AuthProvider({ children }) {
         try {
             if (authService.isAuthenticated()) {
                 const response = await userService.getProfile()
-                if (response.status === 200 && response.data && response.data.Data) {
+                if (response.StatusCode === 200 && response.Data) {
                     setUser({
-                        id: response.data.Data.Id,
-                        name: response.data.Data.Name,
-                        email: response.data.Data.Email
+                        id: response.Data.Id,
+                        name: response.Data.Name,
+                        email: response.Data.Email
                     })
-                    console.log("Usuário autenticado:", response.data.Data)
                     setIsAuthenticated(true)
                 }
             }
@@ -149,10 +148,8 @@ export function AuthProvider({ children }) {
 
             // 1. Chamar API para atualizar dados
             const response = await userService.updateUser(userData)
-            console.log("Resposta da atualização:", response)
             if (response.StatusCode === 200) {
                 // 2. Atualizar dados locais após sucesso
-                console.log("Dados do usuário atualizados:", response.Data)
                 const refreshResult = await refreshUserData()
                 return refreshResult
             } else {

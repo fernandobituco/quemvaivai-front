@@ -7,7 +7,6 @@ import {
 import DesktopLayout from "./components/desktop/desktop-layout";
 import MobileLayout from "./components/mobile/mobile-layout";
 import * as Service from "@services/user.service";
-import * as AuthService from "@services/auth.service";
 import { useNotification } from "@contexts/NotificationContext";
 import { useLoading } from "@/contexts/LoadingContext";
 import GlobalSwitches from "@components/GlobalSwitches";
@@ -72,7 +71,13 @@ const Login = () => {
         if (passwordMatch) {
             try {
                 const response = await Service.createUser(createUserForm)
-                if (response != null) {
+                if (response.StatusCode == 200) {
+                    setCreateUserForm({
+                        name: "",
+                        email: "",
+                        password: "",
+                        passwordconfirmation: "",
+                    })
                     showNotification(t('will.receive.confimation.email'), "success")
                 }
             } catch (err) {
@@ -102,7 +107,7 @@ const Login = () => {
             const loginresponse = await login(loginForm.email, loginForm.password)
             if (loginresponse.success) {
                 showNotification(t('welcome.back'), "success")
-                navigate('/groups')
+                navigate('groups')
             } else {
                 showNotification(loginresponse.error, "error")
             }
