@@ -106,7 +106,6 @@ const Login = () => {
         try {
             const loginresponse = await login(loginForm.email, loginForm.password)
             if (loginresponse.success) {
-                showNotification(t('welcome.back'), "success")
                 navigate('groups')
             } else {
                 showNotification(loginresponse.error, "error")

@@ -25,5 +25,13 @@ export const getTheme = (mode) =>
           },
         },
       },
+      MuiCssBaseline: {
+        styleOverrides: {
+          ':root': {
+            '--scrollbar-color': mode === 'light' ? lightPalette.primary.main : darkPalette.primary.main,
+            '--scrollbar-bg': '#f5f5f5'
+          }
+        }
+      },
     },
   })

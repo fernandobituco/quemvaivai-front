@@ -83,5 +83,6 @@
   "save.edit": "Salvar alterações",
   "save": "Salvar",
   "delete.confirm": "Tem certeza que deseja deletar esse(a) ",
-  "delete.irreversible": "Essa ação é permanente e não poderá ser desfeita"
+  "delete.irreversible": "Essa ação é permanente e não poderá ser desfeita",
+  "add.new": "Criar Novo(a)"
 }
