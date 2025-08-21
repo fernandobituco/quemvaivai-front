@@ -8,6 +8,8 @@ import { LoadingProvider } from './contexts/LoadingContext';
 import { useTranslation } from 'react-i18next';
 import Api from './services/api';
 import { AuthProvider } from './contexts/AuthContext';
+import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 function AppInitializer() {
   const { showNotification } = useNotification()
@@ -28,6 +30,8 @@ function App() {
           <NotificationProvider>
             <AuthProvider>
               <AppInitializer />
+              <Analytics />
+              <SpeedInsights />
             </AuthProvider>
           </NotificationProvider>
         </LoadingProvider>
