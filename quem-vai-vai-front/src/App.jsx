@@ -8,8 +8,8 @@ import { LoadingProvider } from './contexts/LoadingContext';
 import { useTranslation } from 'react-i18next';
 import Api from './services/api';
 import { AuthProvider } from './contexts/AuthContext';
-import { Analytics } from "@vercel/analytics/next"
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/react"
 
 function AppInitializer() {
   const { showNotification } = useNotification()
