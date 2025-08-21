@@ -6,6 +6,7 @@ const NavBarTabs = (props) => {
 
     const { tabs, tabValue, handleChangeTab, setDrawerOpen, isMobile } = props
 
+    
     return (
         <motion.div
             initial={isMobile ? { opacity: 0, x: -60 } : { opacity: 0, y: -20 }}

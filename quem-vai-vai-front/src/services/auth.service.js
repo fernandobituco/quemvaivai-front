@@ -109,21 +109,17 @@ class AuthService {
 
     async forceRefreshToken() {
         try {
-            console.log('Forçando refresh do token após atualização de dados...')
 
             const response = await NoInterceptorApi.post('/auth/force-refresh', {})
 
             if (response.status === 200) {
                 this.setTokens(response.data)
-                console.log('Token atualizado com sucesso')
                 return true
             } else {
-                console.error('Erro ao fazer force refresh:', response)
                 this.clearTokens()
                 return false
             }
         } catch (error) {
-            console.error('Force refresh failed:', error)
             this.clearTokens()
             return false
         }

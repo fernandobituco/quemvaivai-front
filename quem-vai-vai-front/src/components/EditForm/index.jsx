@@ -46,6 +46,7 @@ const EditForm = (props) => {
     }
 
     const handleDelete = () => {
+        setDeleteDialogOpen(false)
         onDelete()
     }
 

@@ -12,11 +12,11 @@ import {
 
 const RenderField = (props) => {
     const { field, value, onChange } = props
-    console.log('field', field)
+
     switch (field.type) {
         case "select":
             return (
-                <FormControl fullWidth>
+                <FormControl fullWidth required={field.required}>
                     {field.label && <InputLabel>{field.label}</InputLabel>}
                     <Select
                         value={value}
@@ -33,7 +33,7 @@ const RenderField = (props) => {
 
         case "radio":
             return (
-                <FormControl component="fieldset" fullWidth>
+                <FormControl component="fieldset" fullWidth required={field.required}>
                     {field.label && <Typography variant="body2" gutterBottom>{field.label}</Typography>}
                     <RadioGroup
                         row
@@ -62,6 +62,7 @@ const RenderField = (props) => {
                         />
                     }
                     label={field.label}
+                    required={field.required}
                 />
             )
 
@@ -74,12 +75,14 @@ const RenderField = (props) => {
                     onChange={(e) => onChange(field.name, e.target.value)}
                     InputLabelProps={{ shrink: true }}
                     fullWidth
+                    required={field.required}
                 />
             )
 
         default: // text, email, number etc.
             return (
                 <TextField
+                    required={field.required}
                     label={field.label}
                     type={field.type || "text"}
                     value={value}

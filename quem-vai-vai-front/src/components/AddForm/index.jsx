@@ -16,7 +16,6 @@ import RenderField from "../RenderField";
 const AddForm = (props) => {
     const {
         open,
-        description,
         fields = [],
         initialValues = {},
         onSubmit,
@@ -26,7 +25,6 @@ const AddForm = (props) => {
 
     const theme = useTheme()
     const { t } = useTranslation()
-    const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
     const [formValues, setFormValues] = useState(() => {
         const initial = {}
@@ -51,47 +49,49 @@ const AddForm = (props) => {
             onClose={onClose}
             aria-labelledby="confirm-delete-title"
             fullWidth
-            maxWidth="xs"
+            maxWidth="md"
         >
-            <DialogTitle id="confirm-delete-title">{t('add.new')} {entity || ""}</DialogTitle>
+            <form onSubmit={handleSubmit}>
+                <DialogTitle id="confirm-delete-title">{t('add.new')} {entity || ""}</DialogTitle>
 
-            <DialogContent>
-                <DialogContentText sx={{ pt: 1 }}>
-                    <Box
-                        display="flex"
-                        width="100%"
-                        flexDirection="column"
-                        gap={2}
-                        alignItems="center"
+                <DialogContent>
+                    <DialogContentText sx={{ pt: 1 }}>
+                        <Box
+                            display="flex"
+                            width="100%"
+                            flexDirection="column"
+                            gap={2}
+                            alignItems="center"
+                        >
+                            {fields.map((field) => (
+                                <Box key={field.name} width="100%">
+                                    <RenderField field={field} formValues={formValues[field.name]} onChange={handleChange} />
+                                </Box>
+                            ))}
+                        </Box>
+                    </DialogContentText>
+                </DialogContent>
+
+                <DialogActions sx={{ p: 2.5, pt: 1.5, justifyContent: 'space-between' }}>
+                    <Button onClick={onClose} color="error" variant="outlined">
+                        {t('cancel')}
+                    </Button>
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        size="large"
+                        sx={{
+                            mt: 1,
+                            textTransform: "none",
+                            fontWeight: "bold",
+                            py: 1.2,
+                            maxWidth: "40%",
+                        }}
                     >
-                        {fields.map((field) => (
-                            <Box key={field.name} width="100%">
-                                <RenderField field={field} formValues={formValues[field.name]} handleChange={handleChange}/>
-                            </Box>
-                        ))}
-                    </Box>
-                </DialogContentText>
-            </DialogContent>
-
-            <DialogActions sx={{ p: 2.5, pt: 1.5, justifyContent: 'space-between' }}>
-                <Button onClick={onClose} color="error" variant="outlined">
-                    {t('cancel')}
-                </Button>
-                <Button
-                    type="submit"
-                    variant="contained"
-                    size="large"
-                    sx={{
-                        mt: 1,
-                        textTransform: "none",
-                        fontWeight: "bold",
-                        py: 1.2,
-                        maxWidth: "40%",
-                    }}
-                >
-                    {t('save')}
-                </Button>
-            </DialogActions>
+                        {t('save')}
+                    </Button>
+                </DialogActions>
+            </form>
         </Dialog>
     )
 }

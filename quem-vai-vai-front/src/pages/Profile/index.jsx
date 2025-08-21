@@ -1,11 +1,12 @@
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
 import EditForm from "@/components/EditForm";
+import { useLoading } from "@/contexts/LoadingContext";
 
 const Profile = () => {
 
     const { t } = useTranslation()
-
+    const { showLoading, hideLoading } = useLoading()
     const { user, updateUserProfile, deleteUser } = useAuth()
 
     const fields = [
@@ -20,13 +21,21 @@ const Profile = () => {
 
     const handleSubmit = async (values) => {
         values.id = user.id // Adiciona o ID do usuário aos valores
-        const newuser = await updateUserProfile(values)
-        console.log("Usuário atualizado:", newuser)
-        // Aqui vai sua chamada de API
+        showLoading()
+        try {
+            const newuser = await updateUserProfile(values)
+        } finally {
+            hideLoading()
+        }
     }
-    
+
     const handleDelete = async () => {
-        await deleteUser(user.id)
+        showLoading()
+        try {
+            await deleteUser(user.id)
+        } finally {
+            hideLoading()
+        }
     }
 
     return (

@@ -1,17 +1,13 @@
 import { useState } from "react";
 import {
-    Box,
     Button,
     Container,
     Grid,
-    Paper,
-    TextField,
     Typography,
     useMediaQuery,
     useTheme,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import ConfirmDeleteDialog from "../ConfimrDeleteDialog";
 import { Add } from "@mui/icons-material";
 import AddForm from "../AddForm";
 
@@ -22,7 +18,6 @@ const CardsList = (props) => {
         addFields,
         cards = [],
         onSubmit,
-        onDelete,
         entity
     } = props
 
@@ -32,17 +27,8 @@ const CardsList = (props) => {
 
     const [addDialogOpen, setAddDialogOpen] = useState(false)
 
-    const handleChange = (name, value) => {
-        setFormValues((prev) => ({ ...prev, [name]: value }))
-    }
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
+    const handleSubmit = (formValues) => {
         onSubmit(formValues)
-    }
-
-    const handleDelete = () => {
-        onDelete()
     }
 
     return (
@@ -50,7 +36,7 @@ const CardsList = (props) => {
             maxWidth={isMobile ? false : false}
             sx={{
                 display: "flex",
-                justifyContent: isMobile ? "flex-start" : "center",
+                justifyContent: "center",
                 flexDirection: "column",
                 alignItems: "center",
                 minHeight: "calc(100vh - 64px)",
@@ -75,10 +61,11 @@ const CardsList = (props) => {
                 borderRadius={{ sm: 2, md: 12 }}
                 flex={1}
                 direction="row"
-                spacing={2}
+                //spacing={2}
                 width="100%"
                 paddingInline={{ sm: 0, md: 20 }}
                 alignItems="center"
+                justifyContent="center"
                 sx={{
                     overFlowX: "hidden",
                     overflowY: 'auto',
@@ -86,26 +73,27 @@ const CardsList = (props) => {
                 }}
             >
                 {cards}
-                <Grid item sx={{ alignSelf: 'flex-end', position: 'sticky', marginLeft: 'auto', bottom: 12 }} >
-                    <Button
-                        variant="contained"
-                        onClick={_ => setAddDialogOpen(true)}
-                        size="large"
-                        sx={{
-                            borderRadius: 2,
-                            textTransform: "none",
-                            fontWeight: "bold",
-                            maxWidth: "40%",
-                            minWidth: "0",
-                        }}
-                    >
-                        <Add />
-                    </Button>
-                </Grid>
+
+            </Grid>
+            <Grid item sx={{ alignSelf: 'flex-end', position: 'sticky', marginLeft: 'auto', bottom: 12 }} >
+                <Button
+                    variant="contained"
+                    onClick={_ => setAddDialogOpen(true)}
+                    size="large"
+                    sx={{
+                        borderRadius: 2,
+                        textTransform: "none",
+                        fontWeight: "bold",
+                        maxWidth: "40%",
+                        minWidth: "0",
+                    }}
+                >
+                    <Add />
+                </Button>
             </Grid>
             <AddForm
                 fields={addFields}
-                onSubmit={_ => console.log('add')}
+                onSubmit={handleSubmit}
                 open={addDialogOpen}
                 onClose={_ => setAddDialogOpen(false)}
                 entity={entity}

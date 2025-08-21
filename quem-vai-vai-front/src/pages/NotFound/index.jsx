@@ -34,7 +34,7 @@ export default function NotFound() {
       <Button
         variant="contained"
         sx={{ mt: 3 }}
-        onClick={() => navigate("/")}
+        onClick={() => navigate(-1)}
       >
         {t('go.back')}
       </Button>

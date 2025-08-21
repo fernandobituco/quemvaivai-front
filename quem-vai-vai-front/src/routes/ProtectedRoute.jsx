@@ -20,7 +20,6 @@ function ProtectedRoute({ children }) {
     }
 
     if (!isAuthenticated) {
-        console.log("não autenticado")
         return <Navigate to="/" replace />
     }
 
