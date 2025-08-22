@@ -13,13 +13,33 @@ import {
     Fade,
 } from "@mui/material"
 import { useTranslation } from "react-i18next"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { QRCodeSVG } from "qrcode.react"
+import * as UserService from "@/services/user.service"
+import { useLoading } from "@/contexts/LoadingContext"
 
-const MembersDialog = ({ group, open, onClose }) => {
+const MembersDialog = (props) => {
+
+    const { group, open, onClose } = props
+
     const { t } = useTranslation()
+    const { showLoading, hideLoading } = useLoading()
+
     const [showInvite, setShowInvite] = useState(false)
     const [inviteLink, setInviteLink] = useState(null)
+    const [members, setMembers] = useState([])
+
+    useEffect(() => {
+        const getMembers = async () => {
+            try {
+                showLoading()
+                const response = await UserService.getAllByGroupId(group.Id)
+                setMembers(response.Data)
+            } finally {
+                hideLoading()
+            }
+        }
+    }, [])
 
     const membersMock = [
         { Name: "Fernando Angelim", Role: 1 },
@@ -68,7 +88,7 @@ const MembersDialog = ({ group, open, onClose }) => {
             >
                 <Box sx={{ display: !showInvite ? 'auto' : 'none' }}>
                     <List>
-                        {membersMock.map((member, index) => (
+                        {members.map((member, index) => (
                             <ListItem
                                 key={index}
                                 secondaryAction={
