@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
-import EditForm from "@/components/EditForm";
+import EditForm from "@/components/Forms/EditForm";
 import { useLoading } from "@/contexts/LoadingContext";
 
 const Profile = () => {

@@ -1,4 +1,3 @@
-import GlobalSwitches from "@/components/GlobalSwitches";
 import { Engineering } from "@mui/icons-material";
 import { Box, Typography, Button, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";

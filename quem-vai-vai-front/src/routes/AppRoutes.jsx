@@ -25,6 +25,7 @@ export default function AppRoutes() {
                 </ProtectedRoute>
             } >
                 <Route path="/groups" element={<Groups />} />
+                <Route path="/groups/invite/:invitecode" element={<Groups />} />
                 <Route path="/groups-edit/:id" element={<GroupEdit />} />
                 <Route path="/events" element={<InDevelopment />} />
                 <Route path="/tasks" element={<InDevelopment />} />

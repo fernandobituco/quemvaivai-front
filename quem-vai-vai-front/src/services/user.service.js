@@ -19,3 +19,8 @@ export const deleteUser = async (userid) => {
   const response = await Api.delete(`users/${userid}`)
   return response.data
 }
+
+export const getAllByGroupId = async (groupid) => {
+  const response = await Api.get(`users/group/${groupid}`)
+  return response.data
+}
