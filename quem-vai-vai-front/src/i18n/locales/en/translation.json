@@ -23,7 +23,7 @@
   "invalid.link": "Invalid or expired link",
   "verify.link": "Verify if this link is correct or request for a new confirmation email.",
   "email.resend": "Resend e-mail",
-  "will.receive.confimation.email": "I will receive a confirmation email in a moment",
+  "will.receive.confimation.email": "You will receive a confirmation email in a moment",
   "groups": "Groups",
   "group": "Group",
   "group.name": "Group name",
@@ -87,5 +87,7 @@
   "add.new": "Add New",
   "member": "Member",
   "members": "Members",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "share.this.link": "Share this link to invite new members:",
+  "back.to.list": "Go back to the list"
 }
