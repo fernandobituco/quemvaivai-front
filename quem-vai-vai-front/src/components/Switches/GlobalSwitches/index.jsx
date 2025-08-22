@@ -1,6 +1,5 @@
-import { useMediaQuery, useTheme } from "@mui/material"
-import DarkModeSwitcher from "../DarkModeSwitcher"
-import LanguageSwitcher from "../LanguageSwitcher"
+import DarkModeSwitcher from "@/components/Switches/DarkModeSwitcher"
+import LanguageSwitcher from "@/components/Switches/LanguageSwitcher"
 
 const GlobalSwitches = (props) => {
 

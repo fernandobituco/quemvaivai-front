@@ -9,7 +9,7 @@ import MobileLayout from "./components/mobile/mobile-layout";
 import * as Service from "@services/user.service";
 import { useNotification } from "@contexts/NotificationContext";
 import { useLoading } from "@/contexts/LoadingContext";
-import GlobalSwitches from "@components/GlobalSwitches";
+import GlobalSwitches from "@/components/Switches/GlobalSwitches";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";

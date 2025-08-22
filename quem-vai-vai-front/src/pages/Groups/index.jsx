@@ -1,26 +1,52 @@
 import GroupsCards from "@/components/Cards/GroupsCards"
-import CardsList from "@/components/CardsList"
+import CardsList from "@/components/Cards/CardsList"
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import * as GroupService from "@/services/groups.service"
+import * as GroupUserService from "@/services/groupuser.service"
 import { useNotification } from "@/contexts/NotificationContext"
-import EditForm from "@/components/EditForm"
+import { useNavigate, useParams } from "react-router-dom"
+import { useLoading } from "@/contexts/LoadingContext"
 
 const Groups = () => {
 
     const { t } = useTranslation()
     const { showNotification } = useNotification()
+    const { invitecode } = useParams()
+    const { showLoading, hideLoading } = useLoading()
+    const navigate = useNavigate()
 
     const [groups, setGroups] = useState([])
 
     useEffect(() => {
         const getGroups = async () => {
-            const response = await GroupService.getGroupsByUser()
-            if (response.StatusCode == 200) {
-                setGroups(response.Data)
+            try {
+                showLoading()
+                const response = await GroupService.getGroupsByUser()
+                if (response.StatusCode == 200) {
+                    setGroups(response.Data)
+                }
+            } finally {
+                hideLoading()
             }
         }
-        getGroups()
+        const joinGroup = async () => {
+            try {
+                showLoading()
+                const response = await GroupUserService.joinGroup(invitecode)
+                if (response.StatusCode == 200) {
+                    showNotification(t('join.group.success'), 'success')
+                    hideLoading()
+                }
+            } finally {
+                navigate('/groups')
+            }
+        }
+        if (invitecode) {
+            joinGroup()
+        } else {
+            getGroups()
+        }
     }, [])
 
     const addFields = [
@@ -42,7 +68,7 @@ const Groups = () => {
             group={group}
         />
     )
-    
+
     return (
         <CardsList
             title="Grupos"

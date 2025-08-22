@@ -1,4 +1,4 @@
-import { useThemeMode } from "../../contexts/ThemeContext"
+import { useThemeMode } from "@/contexts/ThemeContext"
 import { DarkMode, LightMode } from "@mui/icons-material"
 import { IconButton, Tooltip } from "@mui/material"
 

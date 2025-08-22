@@ -10,7 +10,7 @@ import {
     useTheme,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import ConfirmDeleteDialog from "../ConfimrDeleteDialog";
+import ConfirmDeleteDialog from "../../Dialogs/ConfirmDeleteDialog";
 
 const EditForm = (props) => {
     const {

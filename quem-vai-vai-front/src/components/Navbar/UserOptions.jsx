@@ -1,10 +1,8 @@
-import { Box, IconButton, useTheme } from "@mui/material"
-import DarkModeSwitcher from "../DarkModeSwitcher"
-import LanguageSwitcher from "../LanguageSwitcher"
-import NotificationBadge from "./NotificationBadge"
+import { Box, useTheme } from "@mui/material"
+import DarkModeSwitcher from "@/components/Switches/DarkModeSwitcher"
+import LanguageSwitcher from "@/components/Switches/LanguageSwitcher"
 import Profile from "./Profile"
 import { motion } from "framer-motion"
-import { Menu } from "@mui/icons-material"
 
 const UserOptions = (props) => {
 

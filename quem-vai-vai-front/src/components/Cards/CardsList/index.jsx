@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { Add } from "@mui/icons-material";
-import AddForm from "../AddForm";
+import AddForm from "@/components/Dialogs/AddDialog";
 
 const CardsList = (props) => {
 

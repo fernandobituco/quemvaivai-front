@@ -1,4 +1,4 @@
-import GlobalSwitches from "@/components/GlobalSwitches";
+import GlobalSwitches from "@/components/Switches/GlobalSwitches";
 import { Box, Typography, Button, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";

@@ -1,0 +1,21 @@
+import Api from "./api"
+
+export const joinGroup = async (inviteCode) => {
+    const response = await Api.post('groupusers/invite', {invitecode: inviteCode})
+    return response.data
+}
+
+export const changeRole = async (groupId, userId) => {
+    const response = await Api.put('groupusers', {groupid: groupId, userid: userId})
+    return response.data
+}
+
+export const removeFromGroup = async (groupId, userId) => {
+    const response = await Api.post('groupusers', {groupid: groupId, userid: userId})
+    return response.data
+}
+
+export const leaveGroup = async (groupId) => {
+    const response = await Api.post('groupusers', {groupid: groupId})
+    return response.data
+}

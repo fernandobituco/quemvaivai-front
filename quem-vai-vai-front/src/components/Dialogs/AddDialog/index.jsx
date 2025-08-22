@@ -11,7 +11,7 @@ import {
     useTheme,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import RenderField from "../RenderField";
+import RenderField from "../../RenderField";
 
 const AddForm = (props) => {
     const {

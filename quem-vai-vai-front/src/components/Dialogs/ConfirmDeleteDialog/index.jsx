@@ -41,8 +41,8 @@ const ConfirmDeleteDialog = (props) => {
             </DialogContent>
 
             <DialogActions sx={{ p: 2.5, pt: 1.5 }}>
-                <Button onClick={onClose} >
-                    Cancelar
+                <Button onClick={onClose} variant="outlined" >
+                    {t('cancel')}
                 </Button>
                 <Button
                     variant="contained"

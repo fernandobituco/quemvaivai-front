@@ -1,19 +1,43 @@
 import { AccessTime, Event, People, Settings } from "@mui/icons-material"
 import { Box, Button, Card, CardContent, CardHeader, Chip, Grid, Stack, Typography, useTheme } from "@mui/material"
+import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-
+import * as UserService from "@/services/user.service"
+import { useLoading } from "@/contexts/LoadingContext"
+import { useTranslation } from "react-i18next"
+import MembersDialog from "@/components/Dialogs/MembersDialog"
 
 const GroupsCards = (props) => {
     const theme = useTheme()
     const navigate = useNavigate()
-    
+    const { showLoading, hideLoading } = useLoading()
+    const { t } = useTranslation()
+
     const { group } = props
     const { Id, Name, Description, NextEventDate, MemberCount, EventCount, CanEdit } = group
+
+    const [membersDialog, setMembersDialog] = useState(false)
+    const [members, setMembers] = useState([])
 
     const eventDate = new Date(NextEventDate)
     const today = new Date()
     const diffMs = eventDate.getTime() - today.getTime()
     const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24))
+
+    const getMembers = async () => {
+        showLoading()
+        try {
+            const users = await UserService.getAllByGroupId(group.Id)
+            setMembers(users.Data)
+        } finally {
+            hideLoading()
+        }
+    }
+
+    const handleMembersClick = async () => {
+        await getMembers()
+        setMembersDialog(true)
+    }
 
     return (
         <Grid item size={{ sm: 12, md: 6, lg: 4 }} sx={{ margin: "auto" }}>
@@ -42,13 +66,13 @@ const GroupsCards = (props) => {
                     {/* Informações */}
                     <Stack direction="row" spacing={1} alignItems="center" sx={{ mt: 2 }} justifyContent="space-between">
                         <Box display="flex" alignItems="center">
-                            <Button onClick={_ => console.log('memberrs')} sx={{ textTransform: 'none' }}>
+                            <Button onClick={handleMembersClick} sx={{ textTransform: 'none' }}>
                                 <People fontSize="small" sx={{ mr: 0.5 }} />
                                 <Typography variant="body2" fontWeight="medium">
                                     {MemberCount}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary" sx={{ ml: 0.5 }}>
-                                    membros
+                                    {t('members')}
                                 </Typography>
                             </Button>
                         </Box>
@@ -60,7 +84,7 @@ const GroupsCards = (props) => {
                                     {EventCount}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary" sx={{ ml: 0.5 }}>
-                                    eventos
+                                    {t('events')}
                                 </Typography>
                             </Button>
                         </Box>
@@ -80,6 +104,7 @@ const GroupsCards = (props) => {
                     {/* Status */}
                 </CardContent>
             </Card>
+            <MembersDialog group={group} open={membersDialog} onClose={_ => setMembersDialog(false)} members={members}/>
         </Grid>
     )
 }

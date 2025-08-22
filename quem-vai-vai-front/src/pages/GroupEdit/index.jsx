@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
 import * as GroupService from "@/services/groups.service"
-import EditForm from "@/components/EditForm"
+import EditForm from "@/components/Forms/EditForm"
 
 const GroupEdit = () => {
 

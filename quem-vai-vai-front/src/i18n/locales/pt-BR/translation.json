@@ -84,5 +84,10 @@
   "save": "Salvar",
   "delete.confirm": "Tem certeza que deseja deletar esse(a) ",
   "delete.irreversible": "Essa ação é permanente e não poderá ser desfeita",
-  "add.new": "Criar Novo(a)"
+  "add.new": "Adicionar Novo(a)",
+  "member": "Membro",
+  "members": "Membros",
+  "cancel": "Cancelar",
+  "share.this.link": "Compartilhe este link para convidar novos membros:",
+  "back.to.list": "Voltar à lista"
 }
