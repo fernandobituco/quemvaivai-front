@@ -57,7 +57,7 @@ const Groups = () => {
     const handleSubmit = async (group) => {
         const response = await GroupService.createGroup(group)
         if (response.StatusCode = 200) {
-            setGroups([...groups, response.Data])
+            setGroups([...groups, {...response.Data, CanEdit: true}])
         } else {
             showNotification(response.Error)
         }
