@@ -50,7 +50,7 @@ export function AuthProvider({ children }) {
                     // 2. Buscar dados do usuário apenas se sessão é válida
                     try {
                         const response = await userService.getProfile()
-                        
+
                         if (!isMounted) return
 
                         if (response.StatusCode === 200 && response.Data) {
@@ -76,7 +76,7 @@ export function AuthProvider({ children }) {
                         }
                     } catch (error) {
                         if (!isMounted) return
-                        
+
                         // Erro ao buscar perfil - limpar sessão
                         authService.clearTokens()
                         setAuthState({
@@ -89,7 +89,7 @@ export function AuthProvider({ children }) {
                 } else {
                     // Sem sessão válida
                     if (!isMounted) return
-                    
+
                     setAuthState({
                         isInitialized: true,
                         isAuthenticated: false,
@@ -99,7 +99,7 @@ export function AuthProvider({ children }) {
                 }
             } catch (error) {
                 if (!isMounted) return
-                
+
                 setAuthState({
                     isInitialized: true,
                     isAuthenticated: false,
@@ -124,16 +124,16 @@ export function AuthProvider({ children }) {
     const login = useCallback(async (email, password) => {
         try {
             updateAuthLoading('login', true)
-            
+
             const response = await authService.Login(email, password)
 
             if (response.StatusCode === 200) {
                 // 1. Configurar tokens
                 authService.setTokens(response)
-                
+
                 // 2. Buscar dados do usuário
                 const profileResponse = await userService.getProfile()
-                
+
                 if (profileResponse.StatusCode === 200 && profileResponse.Data) {
                     setAuthState({
                         isInitialized: true,
@@ -152,7 +152,7 @@ export function AuthProvider({ children }) {
                     return { success: false, error: 'Erro ao buscar dados do usuário' }
                 }
             }
-            
+
             return { success: false, error: 'Credenciais inválidas' }
         } catch (error) {
             const message = error.response?.data?.Error || 'Login falhou'
@@ -166,7 +166,7 @@ export function AuthProvider({ children }) {
     const logout = useCallback(async (navigateToHome = true) => {
         try {
             updateAuthLoading('logout', true)
-            
+
             // Tentar fazer logout no servidor (não bloqueia se falhar)
             try {
                 await Api.post('/auth/logout')
@@ -202,7 +202,7 @@ export function AuthProvider({ children }) {
             // 1. Verificar se precisa de refresh de token
             if (authService.isTokenExpiringSoon()) {
                 const refreshSuccess = await authService.refreshTokenSilently()
-                
+
                 if (!refreshSuccess) {
                     // Token não pode ser renovado - fazer logout
                     await logout(false) // Não navegar automaticamente
@@ -231,9 +231,7 @@ export function AuthProvider({ children }) {
             console.error('Erro ao atualizar dados do usuário:', error)
             return { success: false, error: 'Erro ao atualizar dados' }
         } finally {
-            if (showGlobalLoading) {
-                hideLoading()
-            }
+            hideLoading()
         }
     }, [showLoading, hideLoading, logout])
 
@@ -243,7 +241,7 @@ export function AuthProvider({ children }) {
             updateAuthLoading('updating', true)
 
             const response = await userService.updateUser(userData)
-            
+
             if (response.StatusCode === 200) {
                 // Se a API retorna os dados atualizados, usar eles
                 if (response.Data) {
@@ -276,7 +274,7 @@ export function AuthProvider({ children }) {
     const deleteUser = useCallback(async (id) => {
         try {
             updateAuthLoading('deleting', true)
-            
+
             const response = await userService.deleteUser(id)
 
             if (response.StatusCode === 200) {
@@ -309,17 +307,17 @@ export function AuthProvider({ children }) {
         isInitialized: authState.isInitialized,
         user: authState.user,
         error: authState.error,
-        
+
         // Loading específicos
         loadingStates: authLoading,
-        
+
         // Ações
         login,
         logout,
         refreshUserData,
         updateUserProfile,
         deleteUser,
-        
+
         // Utilitários
         clearError: () => setAuthState(prev => ({ ...prev, error: null })),
         authService, // Expor para casos específicos
