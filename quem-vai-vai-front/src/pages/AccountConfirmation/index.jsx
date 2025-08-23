@@ -32,6 +32,7 @@ export default function AccountConfirmation() {
         const token = searchParams.get("token")
         if (!token) {
             setStatus("error")
+            hideLoading()
             return
         }
 

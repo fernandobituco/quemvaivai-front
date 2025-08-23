@@ -1,4 +1,5 @@
 import Api from "./api";
+import NoInterceptorApi from "./nointerceptorapi";
 
 export const getProfile = async (user) => {
   const response = await Api.get('users/profile')
@@ -6,7 +7,7 @@ export const getProfile = async (user) => {
 }
 
 export const createUser = async (user) => {
-  const response = await Api.post('users', user)
+  const response = await NoInterceptorApi.post('users', user)
   return response.data
 }
 

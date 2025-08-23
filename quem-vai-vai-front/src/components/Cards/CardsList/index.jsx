@@ -28,6 +28,7 @@ const CardsList = (props) => {
     const [addDialogOpen, setAddDialogOpen] = useState(false)
 
     const handleSubmit = (formValues) => {
+        setAddDialogOpen(false)
         onSubmit(formValues)
     }
 
