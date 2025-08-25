@@ -1,12 +1,13 @@
 import { Menu } from "@mui/icons-material"
-import { Box, IconButton, Tab, Tabs } from "@mui/material"
+import { Box, IconButton, Tab, Tabs, useTheme } from "@mui/material"
 import { motion } from "framer-motion"
 
 const NavBarTabs = (props) => {
 
     const { tabs, tabValue, handleChangeTab, setDrawerOpen, isMobile } = props
 
-    
+    const theme = useTheme()
+
     return (
         <motion.div
             initial={isMobile ? { opacity: 0, x: -60 } : { opacity: 0, y: -20 }}
@@ -26,6 +27,23 @@ const NavBarTabs = (props) => {
                         color: 'rgba(255,255,255,0.8)',
                         minHeight: 48,
                         minWidth: 45,
+                        position: 'relative',
+                        '&::after': {
+                            content: '""',
+                            position: 'absolute',
+                            //left: 0,
+                            bottom: 6,
+                            width: 0,
+                            height: '2px',
+                            bgcolor: theme => theme.palette.background.default,
+                            transition: 'width 0.3s ease'
+                        },
+                        '&:hover::after': {
+                            width: '100%'
+                        },
+                        '&.Mui-selected::after': {
+                            width: 0
+                        }
                     },
                     '& .Mui-selected': {
                         color: 'white !important',

@@ -59,7 +59,7 @@ const GroupsCards = (props) => {
                 <CardContent>
 
                     {/* Descrição */}
-                    <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                    <Typography variant="body2" color="text.secondary" height='20px' sx={{ mt: 1, textOverflow: 'ellipsis' }}>
                         {Description}
                     </Typography>
 

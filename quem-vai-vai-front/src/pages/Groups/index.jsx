@@ -39,6 +39,7 @@ const Groups = () => {
                     hideLoading()
                 }
             } finally {
+                hideLoading()
                 navigate('/groups')
             }
         }
@@ -57,7 +58,7 @@ const Groups = () => {
     const handleSubmit = async (group) => {
         const response = await GroupService.createGroup(group)
         if (response.StatusCode = 200) {
-            setGroups([...groups, {...response.Data, CanEdit: true}])
+            setGroups([...groups, {...response.Data, CanEdit: true, MemberCount: 1}])
         } else {
             showNotification(response.Error)
         }
