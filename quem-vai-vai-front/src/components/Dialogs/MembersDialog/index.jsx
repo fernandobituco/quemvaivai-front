@@ -34,35 +34,14 @@ const MembersDialog = (props) => {
             try {
                 showLoading()
                 const response = await UserService.getAllByGroupId(group.Id)
+                console.log(response.Data)
                 setMembers(response.Data)
             } finally {
                 hideLoading()
             }
         }
+        getMembers()
     }, [])
-
-    const membersMock = [
-        { Name: "Fernando Angelim", Role: 1 },
-        { Name: "Victoria Barbsoa", Role: 3 },
-        { Name: "Lucas de Lima", Role: 2 },
-        { Name: "Pedro Selfes", Role: 2 },
-        { Name: "Clara Albuquerque", Role: 3 },
-        { Name: "Fernando Angelim", Role: 1 },
-        { Name: "Victoria Barbsoa", Role: 3 },
-        { Name: "Lucas de Lima", Role: 3 },
-        { Name: "Pedro Selfes", Role: 3 },
-        { Name: "Clara Albuquerque", Role: 1 },
-        { Name: "Fernando Angelim", Role: 2 },
-        { Name: "Victoria Barbsoa", Role: 3 },
-        { Name: "Lucas de Lima", Role: 3 },
-        { Name: "Pedro Selfes", Role: 3 },
-        { Name: "Clara Albuquerque", Role: 3 },
-        { Name: "Fernando Angelim", Role: 3 },
-        { Name: "Victoria Barbsoa", Role: 3 },
-        { Name: "Lucas de Lima", Role: 3 },
-        { Name: "Pedro Selfes", Role: 3 },
-        { Name: "Clara Albuquerque", Role: 3 },
-    ]
 
     const handleGenerateInvite = () => {
         setInviteLink(`${window.location.href}/invite/${group.InviteCode || "12345"}`)
@@ -134,7 +113,8 @@ const MembersDialog = (props) => {
                             <Typography
                                 variant="body2"
                                 color="primary"
-                                sx={{ wordBreak: "break-all" }}
+                                textOverflow="ellipsis"
+                                sx={{ textOverflow: "ellipsis" }}
                             >
                                 {inviteLink}
                             </Typography>
