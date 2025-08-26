@@ -1,6 +1,6 @@
 import GroupsCards from "@/components/Cards/GroupsCards"
 import CardsList from "@/components/Cards/CardsList"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 import * as GroupService from "@/services/groups.service"
 import * as GroupUserService from "@/services/groupuser.service"
@@ -15,6 +15,7 @@ const Groups = () => {
     const { invitecode } = useParams()
     const { showLoading, hideLoading } = useLoading()
     const navigate = useNavigate()
+    const joinRef = useRef(false)
 
     const [groups, setGroups] = useState([])
 
@@ -31,6 +32,8 @@ const Groups = () => {
             }
         }
         const joinGroup = async () => {
+            if (joinRef.current) return
+            joinRef.current = true
             try {
                 showLoading()
                 const response = await GroupUserService.joinGroup(invitecode)
@@ -41,6 +44,7 @@ const Groups = () => {
             } finally {
                 hideLoading()
                 navigate('/groups')
+                getGroups()
             }
         }
         if (invitecode) {
@@ -58,7 +62,7 @@ const Groups = () => {
     const handleSubmit = async (group) => {
         const response = await GroupService.createGroup(group)
         if (response.StatusCode = 200) {
-            setGroups([...groups, {...response.Data, CanEdit: true, MemberCount: 1}])
+            setGroups([...groups, { ...response.Data, CanEdit: true, MemberCount: 1 }])
         } else {
             showNotification(response.Error)
         }

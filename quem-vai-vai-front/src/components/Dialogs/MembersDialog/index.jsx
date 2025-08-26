@@ -16,11 +16,12 @@ import { useTranslation } from "react-i18next"
 import { useEffect, useState } from "react"
 import { QRCodeSVG } from "qrcode.react"
 import * as UserService from "@/services/user.service"
+import * as GroupUserService from "@/services/groupuser.service"
 import { useLoading } from "@/contexts/LoadingContext"
 
 const MembersDialog = (props) => {
 
-    const { group, open, onClose } = props
+    const { group, open, onClose, canEdit } = props
 
     const { t } = useTranslation()
     const { showLoading, hideLoading } = useLoading()
@@ -34,14 +35,13 @@ const MembersDialog = (props) => {
             try {
                 showLoading()
                 const response = await UserService.getAllByGroupId(group.Id)
-                console.log(response.Data)
                 setMembers(response.Data)
             } finally {
                 hideLoading()
             }
         }
         getMembers()
-    }, [])
+    }, [open])
 
     const handleGenerateInvite = () => {
         setInviteLink(`${window.location.href}/invite/${group.InviteCode || "12345"}`)
@@ -51,6 +51,31 @@ const MembersDialog = (props) => {
     const handleClose = () => {
         setShowInvite(false)
         onClose()
+    }
+
+    const handleChangeRole = async (userId, currentRole) => {
+        const newRole = currentRole == 2 ? 3 : 2
+        try {
+            showLoading()
+            const response = await GroupUserService.changeRole(group.Id, userId, newRole)
+            if (response.StatusCode == 200) {
+                setMembers(members.map(m => m.Id != userId ? m : { ...m, Role: newRole }))
+            }
+        } finally {
+            hideLoading()
+        }
+    }
+
+    const removeFromGroup = async (userId) => {
+        try {
+            showLoading()
+            const response = await GroupUserService.removeFromGroup(group.Id, userId)
+            if (response.StatusCode == 200) {
+                setMembers(members.filter(m => m.Id != userId))
+            }
+        } finally {
+            hideLoading()
+        }
     }
 
     return (
@@ -71,14 +96,15 @@ const MembersDialog = (props) => {
                             <ListItem
                                 key={index}
                                 secondaryAction={
+                                    canEdit &&
                                     <Box sx={{ display: "flex", gap: 1 }}>
-                                        {member.Role != 1 && <Button onClick={() => console.log("outra ação")}>
+                                        {member.Role != 1 && <Button onClick={() => handleChangeRole(member.Id, member.Role)}>
                                             {member.Role == 2 && <RemoveModeratorOutlined color="primary" />}
                                             {member.Role == 3 && <AddModeratorOutlined color="primary" />}
                                         </Button>}
-                                        <Button onClick={() => console.log("delete")}>
+                                        {member.Role != 1 && <Button onClick={() => removeFromGroup(member.Id)}>
                                             <Delete color="primary" />
-                                        </Button>
+                                        </Button>}
                                     </Box>
                                 }
                             >
@@ -129,9 +155,9 @@ const MembersDialog = (props) => {
 
             <DialogActions sx={{ justifyContent: 'space-between', paddingInline: 3 }}>
                 <Button onClick={handleClose} color="error" sx={{ textTransform: 'none' }} variant="outlined" >
-                    {t("cancel")}
+                    {t("close")}
                 </Button>
-                {!showInvite ? (
+                {canEdit && (!showInvite ? (
                     <Button onClick={handleGenerateInvite} variant="outlined" sx={{ textTransform: 'none' }}>
                         {t("add.new")} {t("member")}
                     </Button>
@@ -144,7 +170,7 @@ const MembersDialog = (props) => {
                     >
                         {t('back.to.list')}
                     </Button>
-                )}
+                ))}
             </DialogActions>
         </Dialog>
     )

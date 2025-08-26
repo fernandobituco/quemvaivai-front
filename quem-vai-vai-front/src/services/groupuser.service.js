@@ -5,13 +5,13 @@ export const joinGroup = async (inviteCode) => {
     return response.data
 }
 
-export const changeRole = async (groupId, userId) => {
-    const response = await Api.put('groupusers', {groupid: groupId, userid: userId})
+export const changeRole = async (groupId, userId, role) => {
+    const response = await Api.put('groupusers', {groupid: groupId, userid: userId, role: role})
     return response.data
 }
 
 export const removeFromGroup = async (groupId, userId) => {
-    const response = await Api.post('groupusers', {groupid: groupId, userid: userId})
+    const response = await Api.delete(`groupusers/${groupId}/${userId}`)
     return response.data
 }
 
