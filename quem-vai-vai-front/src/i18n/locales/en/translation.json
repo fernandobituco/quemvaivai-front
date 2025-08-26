@@ -89,5 +89,6 @@
   "members": "Members",
   "cancel": "Cancel",
   "share.this.link": "Share this link to invite new members:",
-  "back.to.list": "Go back to the list"
+  "back.to.list": "Go back to the list",
+  "close": "Close"
 }

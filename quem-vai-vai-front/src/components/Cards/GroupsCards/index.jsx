@@ -24,18 +24,7 @@ const GroupsCards = (props) => {
     const diffMs = eventDate.getTime() - today.getTime()
     const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24))
 
-    const getMembers = async () => {
-        showLoading()
-        try {
-            const users = await UserService.getAllByGroupId(group.Id)
-            setMembers(users.Data)
-        } finally {
-            hideLoading()
-        }
-    }
-
     const handleMembersClick = async () => {
-        await getMembers()
         setMembersDialog(true)
     }
 
@@ -59,7 +48,7 @@ const GroupsCards = (props) => {
                 <CardContent>
 
                     {/* Descrição */}
-                    <Typography variant="body2" color="text.secondary" height='20px' sx={{ mt: 1, textOverflow: 'ellipsis' }}>
+                    <Typography variant="body2" color="text.secondary" display="box" height='20px' noWrap sx={{ mt: 1, textOverflow: 'ellipsis' }}>
                         {Description}
                     </Typography>
 
@@ -104,7 +93,7 @@ const GroupsCards = (props) => {
                     {/* Status */}
                 </CardContent>
             </Card>
-            <MembersDialog group={group} open={membersDialog} onClose={_ => setMembersDialog(false)} members={members}/>
+            <MembersDialog group={group} open={membersDialog} onClose={_ => setMembersDialog(false)} members={members} canEdit={CanEdit}/>
         </Grid>
     )
 }
