@@ -1,14 +1,14 @@
 import { useLoading } from "@/contexts/LoadingContext"
+import { Box, Button, Container, Grid, Paper, TextField, Typography, useMediaQuery, useTheme } from "@mui/material"
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
-import * as GroupService from "@/services/groups.service"
-import GroupMembersDialog from "@/components/Dialogs/GroupMembersDialog"
-import { Box, Button, Container, Grid, Paper, TextField, Typography, useMediaQuery, useTheme } from "@mui/material"
+import * as EventService from "@/services/event.service"
 import { People } from "@mui/icons-material"
+import EventMembersDialog from "@/components/Dialogs/EventMembersDialog"
 import ConfirmDeleteDialog from "@/components/Dialogs/ConfirmDeleteDialog"
 
-const GroupEdit = () => {
+const EventEdit = () => {
 
     const { t } = useTranslation()
     const { showLoading, hideLoading } = useLoading()
@@ -20,17 +20,17 @@ const GroupEdit = () => {
     const theme = useTheme()
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
-    const [group, setGroup] = useState(location.state?.group || null)
+    const [event, setEvent] = useState(location.state?.event || null)
 
-    const getGorup = async () => {
-        const response = await GroupService.getGroupById(id)
-        setGroup(response.Data)
+    const getEvent = async () => {
+        const response = await EventService.getEventById(id)
+        setEvent(response.Data)
     }
 
     useEffect(() => {
-        if (!group && id) {
+        if (!event && id) {
             showLoading()
-            getGorup(id)
+            getEvent(id)
             hideLoading()
         }
     }, [])
@@ -39,7 +39,7 @@ const GroupEdit = () => {
         e.preventDefault()
         showLoading()
         try {
-            await GroupService.updateGroup(group)
+            await EventService.updateEvent(event)
         } finally {
             hideLoading()
         }
@@ -49,10 +49,10 @@ const GroupEdit = () => {
         showLoading()
         setDeleteDialogOpen(false)
         try {
-            const response = await GroupService.deleteGroup(group.Id)
+            const response = await EventService.deleteEvent(event.Id)
             if (response.StatusCode == 200) {
                 hideLoading()
-                navigate('/groups')
+                navigate('/events')
             }
         } finally {
             hideLoading()
@@ -60,8 +60,8 @@ const GroupEdit = () => {
     }
 
     const handleChange = (name, value) => {
-        setGroup({
-            ...group,
+        setEvent({
+            ...event,
             [name]: value
         })
     }
@@ -104,7 +104,7 @@ const GroupEdit = () => {
                     gutterBottom
                     color="primary"
                 >
-                    {t("group.edit")}
+                    {t("event.edit")}
                 </Typography>
 
                 <Box
@@ -128,7 +128,20 @@ const GroupEdit = () => {
                                 <Button onClick={_ => setMembersDialog(true)} sx={{ textTransform: 'none' }}>
                                     <People fontSize="small" sx={{ mr: 0.5 }} />
                                     <Typography variant="body2" fontWeight="medium">
-                                        {group.MemberCount}
+                                        {event.Going}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary" sx={{ ml: 0.5 }}>
+                                        {t('members')}
+                                    </Typography>
+                                </Button>
+                            </Box>
+                        </Grid>
+                        <Grid item xs={12} lg={12}>
+                            <Box display="flex" alignItems="center">
+                                <Button onClick={_ => setMembersDialog(true)} sx={{ textTransform: 'none' }}>
+                                    <People fontSize="small" sx={{ mr: 0.5 }} />
+                                    <Typography variant="body2" fontWeight="medium">
+                                        {event.Interested}
                                     </Typography>
                                     <Typography variant="body2" color="text.secondary" sx={{ ml: 0.5 }}>
                                         {t('members')}
@@ -138,11 +151,11 @@ const GroupEdit = () => {
                         </Grid>
                         <Grid item xs={12} lg={12}>
                             <TextField
-                                label={t('name')}
+                                label={t('title')}
                                 type="text"
                                 variant="outlined"
-                                value={group.Name}
-                                onChange={(e) => handleChange('Name', e.target.value)}
+                                value={event.Title}
+                                onChange={(e) => handleChange('Title', e.target.value)}
                                 required={true}
                                 fullWidth
                             />
@@ -153,7 +166,7 @@ const GroupEdit = () => {
                                     label={t('description')}
                                     type="text"
                                     variant="outlined"
-                                    value={group.Description}
+                                    value={event.Description}
                                     onChange={(e) => handleChange('Description', e.target.value)}
                                     fullWidth
                                 />
@@ -206,10 +219,10 @@ const GroupEdit = () => {
                     </Box>
                 </Box>
             </Paper>
-            <GroupMembersDialog group={group} open={membersDialog} onClose={_ => setMembersDialog(false)} canEdit={true} />
-            <ConfirmDeleteDialog open={deleteDialogOpen} onClose={_ => setDeleteDialogOpen(false)} onConfirm={handleDelete} entity={"group"} />
+            <EventMembersDialog group={group} open={membersDialog} onClose={_ => setMembersDialog(false)} canEdit={true} />
+            <ConfirmDeleteDialog open={deleteDialogOpen} onClose={_ => setDeleteDialogOpen(false)} onConfirm={handleDelete} entity={"event"} />
         </Container>
     )
 }
 
-export default GroupEdit
+export default EventEdit

@@ -41,9 +41,10 @@
   "group.members": "Group members",
   "events": "Events",
   "event": "Event",
-  "event.name": "Event name",
+  "event.title": "Event title",
   "event.description": "Event description",
   "event.date": "Event date",
+  "event.location": "Event location",
   "event.time": "Event time",
   "event.create": "Create event",
   "event.create.success": "Event created successfully!",
@@ -90,5 +91,15 @@
   "cancel": "Cancel",
   "share.this.link": "Share this link to invite new members:",
   "back.to.list": "Go back to the list",
-  "close": "Close"
+  "close": "Close",
+  "moderator.make": "Make user moderator",
+  "moderator.revoke": "Revoke user moderation",
+  "remove.from.group": "Remove from group",
+  "role.altered.success": "User`s role altered",
+  "remove.user.success": "User removed",
+  "title": "Title",
+  "location": "Location",
+  "date": "Date",
+  "description": "Description",
+  "join": "Join"
 }

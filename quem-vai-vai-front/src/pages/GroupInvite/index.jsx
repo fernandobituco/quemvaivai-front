@@ -1,69 +1,49 @@
-import { useLoading } from "@/contexts/LoadingContext"
 import { useEffect, useState } from "react"
-import { useTranslation } from "react-i18next"
-import { useLocation, useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import * as GroupService from "@/services/groups.service"
+import * as GroupUserService from "@/services/groupuser.service"
+import { useLoading } from "@/contexts/LoadingContext"
+import { Box, Button, Container, Grid, Paper, Typography, useMediaQuery, useTheme } from "@mui/material"
+import { useTranslation } from "react-i18next"
 import GroupMembersDialog from "@/components/Dialogs/GroupMembersDialog"
-import { Box, Button, Container, Grid, Paper, TextField, Typography, useMediaQuery, useTheme } from "@mui/material"
 import { People } from "@mui/icons-material"
-import ConfirmDeleteDialog from "@/components/Dialogs/ConfirmDeleteDialog"
 
-const GroupEdit = () => {
+const GroupInvite = () => {
 
-    const { t } = useTranslation()
-    const { showLoading, hideLoading } = useLoading()
-    const location = useLocation()
-    const { id } = useParams()
-    const navigate = useNavigate()
+    const { invitecode } = useParams()
+    const [group, setGroup] = useState({})
     const [membersDialog, setMembersDialog] = useState(false)
-    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+    const { showLoading, hideLoading } = useLoading()
+    const navigate = useNavigate()
+    const { t } = useTranslation()
     const theme = useTheme()
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
-    const [group, setGroup] = useState(location.state?.group || null)
-
-    const getGorup = async () => {
-        const response = await GroupService.getGroupById(id)
-        setGroup(response.Data)
-    }
-
     useEffect(() => {
-        if (!group && id) {
-            showLoading()
-            getGorup(id)
-            hideLoading()
+        const getGroup = async () => {
+            try {
+                showLoading()
+                const response = await GroupService.getGroupByCode(invitecode)
+                setGroup(response.Data)
+            } finally {
+                hideLoading
+            }
         }
+        getGroup()
     }, [])
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        showLoading()
+    const handleJoin = async () => {
         try {
-            await GroupService.updateGroup(group)
+            showLoading()
+            await GroupUserService.joinGroup(invitecode)
         } finally {
+            navigate('/groups')
             hideLoading()
         }
     }
 
-    const handleDelete = async () => {
-        showLoading()
-        setDeleteDialogOpen(false)
-        try {
-            const response = await GroupService.deleteGroup(group.Id)
-            if (response.StatusCode == 200) {
-                hideLoading()
-                navigate('/groups')
-            }
-        } finally {
-            hideLoading()
-        }
-    }
-
-    const handleChange = (name, value) => {
-        setGroup({
-            ...group,
-            [name]: value
-        })
+    const handleMembersClick = async () => {
+        setMembersDialog(true)
     }
 
     return (
@@ -104,12 +84,10 @@ const GroupEdit = () => {
                     gutterBottom
                     color="primary"
                 >
-                    {t("group.edit")}
+                    Você foi convidado para este grupo
                 </Typography>
 
                 <Box
-                    component="form"
-                    onSubmit={handleSubmit}
                     display="flex"
                     flexDirection="column"
                     justifyContent="space-between"
@@ -122,10 +100,14 @@ const GroupEdit = () => {
                         maxWidth: isMobile ? "100%" : "800px",
                     }}
                 >
+
                     <Grid container spacing={2} direction="column">
                         <Grid item xs={12} lg={12}>
+                            <Typography variant="h2">{group.Name}</Typography>
+                        </Grid>
+                        <Grid item xs={12} lg={12}>
                             <Box display="flex" alignItems="center">
-                                <Button onClick={_ => setMembersDialog(true)} sx={{ textTransform: 'none' }}>
+                                <Button onClick={handleMembersClick} sx={{ textTransform: 'none' }}>
                                     <People fontSize="small" sx={{ mr: 0.5 }} />
                                     <Typography variant="body2" fontWeight="medium">
                                         {group.MemberCount}
@@ -136,29 +118,11 @@ const GroupEdit = () => {
                                 </Button>
                             </Box>
                         </Grid>
-                        <Grid item xs={12} lg={12}>
-                            <TextField
-                                label={t('name')}
-                                type="text"
-                                variant="outlined"
-                                value={group.Name}
-                                onChange={(e) => handleChange('Name', e.target.value)}
-                                required={true}
-                                fullWidth
-                            />
-                        </Grid>
-                        <Grid item xs={12} lg={12}>
-                            <Grid item xs={12} lg={12}>
-                                <TextField
-                                    label={t('description')}
-                                    type="text"
-                                    variant="outlined"
-                                    value={group.Description}
-                                    onChange={(e) => handleChange('Description', e.target.value)}
-                                    fullWidth
-                                />
+                        {
+                            group.Description && <Grid item xs={12} lg={12}>
+                                <Typography>{group.Description}</Typography>
                             </Grid>
-                        </Grid>
+                        }
                     </Grid>
 
                     <Box
@@ -174,7 +138,7 @@ const GroupEdit = () => {
                             variant="outlined"
                             size="large"
                             color="error"
-                            onClick={_ => setDeleteDialogOpen(true)}
+                            onClick={_ => navigate('/groups')}
                             sx={{
                                 mt: 1,
                                 borderRadius: 2,
@@ -185,11 +149,11 @@ const GroupEdit = () => {
                                 minWidth: "180px"
                             }}
                         >
-                            {t('delete')}
+                            {t('cancel')}
                         </Button>
                         <Button
-                            type="submit"
                             variant="contained"
+                            onClick={handleJoin}
                             size="large"
                             sx={{
                                 mt: 1,
@@ -201,15 +165,14 @@ const GroupEdit = () => {
                                 minWidth: "180px",
                             }}
                         >
-                            {t('save.edit')}
+                            {t('join')}
                         </Button>
                     </Box>
                 </Box>
             </Paper>
-            <GroupMembersDialog group={group} open={membersDialog} onClose={_ => setMembersDialog(false)} canEdit={true} />
-            <ConfirmDeleteDialog open={deleteDialogOpen} onClose={_ => setDeleteDialogOpen(false)} onConfirm={handleDelete} entity={"group"} />
+            <GroupMembersDialog group={group} open={membersDialog} onClose={_ => setMembersDialog(false)} canEdit={false} />
         </Container>
     )
 }
 
-export default GroupEdit
+export default GroupInvite

@@ -8,6 +8,8 @@ import InDevelopment from '@/pages/InDevelopment';
 import Profile from '@/pages/Profile';
 import Groups from '@/pages/Groups';
 import GroupEdit from '@/pages/GroupEdit';
+import Events from '@/pages/Events';
+import GroupInvite from '@/pages/GroupInvite';
 
 export default function AppRoutes() {
     return (
@@ -25,9 +27,9 @@ export default function AppRoutes() {
                 </ProtectedRoute>
             } >
                 <Route path="/groups" element={<Groups />} />
-                <Route path="/groups/invite/:invitecode" element={<Groups />} />
+                <Route path="/groups-invite/:invitecode" element={<GroupInvite />} />
                 <Route path="/groups-edit/:id" element={<GroupEdit />} />
-                <Route path="/events" element={<InDevelopment />} />
+                <Route path="/events" element={<Events />} />
                 <Route path="/tasks" element={<InDevelopment />} />
                 <Route path="/profile" element={<Profile />} />
             </Route>

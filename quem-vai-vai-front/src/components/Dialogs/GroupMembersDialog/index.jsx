@@ -11,40 +11,48 @@ import {
     Typography,
     Box,
     Fade,
+    Tooltip,
 } from "@mui/material"
 import { useTranslation } from "react-i18next"
 import { useEffect, useState } from "react"
 import { QRCodeSVG } from "qrcode.react"
-import * as UserService from "@/services/user.service"
 import * as GroupUserService from "@/services/groupuser.service"
 import { useLoading } from "@/contexts/LoadingContext"
+import { useNotification } from "@/contexts/NotificationContext"
 
-const MembersDialog = (props) => {
+const GroupMembersDialog = (props) => {
 
     const { group, open, onClose, canEdit } = props
 
     const { t } = useTranslation()
     const { showLoading, hideLoading } = useLoading()
+    const { showNotification } = useNotification()
 
     const [showInvite, setShowInvite] = useState(false)
     const [inviteLink, setInviteLink] = useState(null)
     const [members, setMembers] = useState([])
 
-    useEffect(() => {
-        const getMembers = async () => {
-            try {
-                showLoading()
-                const response = await UserService.getAllByGroupId(group.Id)
-                setMembers(response.Data)
-            } finally {
-                hideLoading()
-            }
+    const getMembers = async () => {
+        try {
+            showLoading()
+            const response = await GroupUserService.getAllByGroupId(group.Id)
+            setMembers(response.Data)
+        } finally {
+            hideLoading()
         }
-        getMembers()
+    }
+
+    useEffect(() => {
+        if (open) {
+            getMembers()
+        }
     }, [open])
 
     const handleGenerateInvite = () => {
-        setInviteLink(`${window.location.href}/invite/${group.InviteCode || "12345"}`)
+        const host = import.meta.env.VITE_DEV_HOST
+        const port = import.meta.env.VITE_DEV_PORT
+        const portstring = port ? `:${port}` : ''
+        setInviteLink(`https://${host}${portstring}/groups-invite/${group.InviteCode}`)
         setShowInvite(true)
     }
 
@@ -59,6 +67,7 @@ const MembersDialog = (props) => {
             showLoading()
             const response = await GroupUserService.changeRole(group.Id, userId, newRole)
             if (response.StatusCode == 200) {
+                showNotification(t('role.altered.success'), 'success')
                 setMembers(members.map(m => m.Id != userId ? m : { ...m, Role: newRole }))
             }
         } finally {
@@ -71,6 +80,7 @@ const MembersDialog = (props) => {
             showLoading()
             const response = await GroupUserService.removeFromGroup(group.Id, userId)
             if (response.StatusCode == 200) {
+                showNotification(t('remove.user.success'), 'success')
                 setMembers(members.filter(m => m.Id != userId))
             }
         } finally {
@@ -98,13 +108,23 @@ const MembersDialog = (props) => {
                                 secondaryAction={
                                     canEdit &&
                                     <Box sx={{ display: "flex", gap: 1 }}>
-                                        {member.Role != 1 && <Button onClick={() => handleChangeRole(member.Id, member.Role)}>
-                                            {member.Role == 2 && <RemoveModeratorOutlined color="primary" />}
-                                            {member.Role == 3 && <AddModeratorOutlined color="primary" />}
-                                        </Button>}
-                                        {member.Role != 1 && <Button onClick={() => removeFromGroup(member.Id)}>
-                                            <Delete color="primary" />
-                                        </Button>}
+                                        {
+                                            member.Role != 1 &&
+                                            <Tooltip title={member.Role == 2 ? t("moderator.revoke") : t("moderator.make")}>
+                                                <Button onClick={() => handleChangeRole(member.Id, member.Role)}>
+                                                    {member.Role == 2 && <RemoveModeratorOutlined color="primary" />}
+                                                    {member.Role == 3 && <AddModeratorOutlined color="primary" />}
+                                                </Button>
+                                            </Tooltip>
+                                        }
+                                        {
+                                            member.Role != 1 &&
+                                            <Tooltip title={t('remove.from.group')}>
+                                                <Button onClick={() => removeFromGroup(member.Id)}>
+                                                    <Delete color="primary" />
+                                                </Button>
+                                            </Tooltip>
+                                        }
                                     </Box>
                                 }
                             >
@@ -176,4 +196,4 @@ const MembersDialog = (props) => {
     )
 }
 
-export default MembersDialog
+export default GroupMembersDialog

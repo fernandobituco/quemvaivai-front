@@ -62,7 +62,7 @@ const CardsList = (props) => {
                 borderRadius={{ sm: 2, md: 12 }}
                 flex={1}
                 direction="row"
-                //spacing={2}
+                spacing={2}
                 width="100%"
                 paddingInline={{ sm: 0, md: 20 }}
                 alignItems="center"

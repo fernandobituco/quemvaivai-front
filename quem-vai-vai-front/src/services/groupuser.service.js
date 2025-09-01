@@ -19,3 +19,8 @@ export const leaveGroup = async (groupId) => {
     const response = await Api.post('groupusers', {groupid: groupId})
     return response.data
 }
+
+export const getAllByGroupId = async (groupid) => {
+  const response = await Api.get(`groupusers/group/${groupid}`)
+  return response.data
+}

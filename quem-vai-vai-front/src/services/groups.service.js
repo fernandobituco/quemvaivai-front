@@ -10,6 +10,11 @@ export const getGroupById = async (id) => {
     return response.data
 }
 
+export const getGroupByCode = async (inviteCode) => {
+    const response = await Api.get(`groups/invitecode/${inviteCode}`)
+    return response.data
+}
+
 export const createGroup = async (group) => {
     const response = await Api.post('groups', group)
     return response.data

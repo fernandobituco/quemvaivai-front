@@ -7,8 +7,6 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
-    useMediaQuery,
-    useTheme,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import RenderField from "../../RenderField";
@@ -23,13 +21,12 @@ const AddForm = (props) => {
         entity
     } = props
 
-    const theme = useTheme()
     const { t } = useTranslation()
 
     const [formValues, setFormValues] = useState(() => {
         const initial = {}
         fields.forEach((f) => {
-            initial[f.name] = initialValues[f.name] || ""
+            initial[f.name] = initialValues[f.name] || f.type == "text" ? "" : null
         })
         return initial
     })
@@ -55,21 +52,20 @@ const AddForm = (props) => {
                 <DialogTitle id="confirm-delete-title">{t('add.new')} {entity || ""}</DialogTitle>
 
                 <DialogContent>
-                    <DialogContentText sx={{ pt: 1 }}>
-                        <Box
-                            display="flex"
-                            width="100%"
-                            flexDirection="column"
-                            gap={2}
-                            alignItems="center"
-                        >
-                            {fields.map((field) => (
-                                <Box key={field.name} width="100%">
-                                    <RenderField field={field} formValues={formValues[field.name]} onChange={handleChange} />
-                                </Box>
-                            ))}
-                        </Box>
-                    </DialogContentText>
+                    <Box
+                        display="flex"
+                        width="100%"
+                        flexDirection="column"
+                        gap={2}
+                        alignItems="center"
+                        paddingTop={1}
+                    >
+                        {fields.map((field) => (
+                            <Box key={field.name} width="100%">
+                                <RenderField field={field} value={formValues[field.name]} onChange={handleChange} />
+                            </Box>
+                        ))}
+                    </Box>
                 </DialogContent>
 
                 <DialogActions sx={{ p: 2.5, pt: 1.5, justifyContent: 'space-between' }}>

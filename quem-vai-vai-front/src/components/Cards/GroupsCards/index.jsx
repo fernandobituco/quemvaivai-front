@@ -2,22 +2,18 @@ import { AccessTime, Event, People, Settings } from "@mui/icons-material"
 import { Box, Button, Card, CardContent, CardHeader, Chip, Grid, Stack, Typography, useTheme } from "@mui/material"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import * as UserService from "@/services/user.service"
-import { useLoading } from "@/contexts/LoadingContext"
 import { useTranslation } from "react-i18next"
-import MembersDialog from "@/components/Dialogs/MembersDialog"
+import GroupMembersDialog from "@/components/Dialogs/GroupMembersDialog"
 
 const GroupsCards = (props) => {
     const theme = useTheme()
     const navigate = useNavigate()
-    const { showLoading, hideLoading } = useLoading()
     const { t } = useTranslation()
 
     const { group } = props
     const { Id, Name, Description, NextEventDate, MemberCount, EventCount, CanEdit } = group
 
     const [membersDialog, setMembersDialog] = useState(false)
-    const [members, setMembers] = useState([])
 
     const eventDate = new Date(NextEventDate)
     const today = new Date()
@@ -35,11 +31,11 @@ const GroupsCards = (props) => {
                     title={Name}
                     action={
                         CanEdit && <Button
-                            //variant="ghost"
+                            onClick={_ => navigate(`/groups-edit/${Id}`, { state: { group } })}
                             size="xs"
                             sx={{ marginRight: 1 }}
                         >
-                            <Settings className="h-4 w-4" onClick={_ => navigate(`/groups-edit/${Id}`, { state: { group } })} />
+                            <Settings className="h-4 w-4" />
                         </Button>
                     }
                     sx={{ padding: 2 }}
@@ -93,7 +89,7 @@ const GroupsCards = (props) => {
                     {/* Status */}
                 </CardContent>
             </Card>
-            <MembersDialog group={group} open={membersDialog} onClose={_ => setMembersDialog(false)} members={members} canEdit={CanEdit}/>
+            <GroupMembersDialog group={group} open={membersDialog} onClose={_ => setMembersDialog(false)} canEdit={CanEdit} />
         </Grid>
     )
 }

@@ -9,6 +9,7 @@ import {
     Radio,
     Checkbox
 } from "@mui/material"
+import dayjs from "dayjs"
 
 const RenderField = (props) => {
     const { field, value, onChange } = props
@@ -19,9 +20,13 @@ const RenderField = (props) => {
                 <FormControl fullWidth required={field.required}>
                     {field.label && <InputLabel>{field.label}</InputLabel>}
                     <Select
+                        label={field.label}
                         value={value}
                         onChange={(e) => onChange(field.name, e.target.value)}
                     >
+                        <MenuItem value="">
+                            <p></p>
+                        </MenuItem>
                         {field.options?.map((opt) => (
                             <MenuItem key={opt.value} value={opt.value}>
                                 {opt.label}
@@ -70,9 +75,9 @@ const RenderField = (props) => {
             return (
                 <TextField
                     label={field.label}
-                    type="date"
-                    value={value}
-                    onChange={(e) => onChange(field.name, e.target.value)}
+                    type="datetime-local"
+                    value={value ? dayjs(value).format("YYYY-MM-DDTHH:mm") : ""}
+                    onChange={(e) => onChange(field.name, new Date(e.target.value).toISOString())}
                     InputLabelProps={{ shrink: true }}
                     fullWidth
                     required={field.required}

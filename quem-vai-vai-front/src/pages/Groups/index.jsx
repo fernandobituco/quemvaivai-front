@@ -3,7 +3,6 @@ import CardsList from "@/components/Cards/CardsList"
 import { useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 import * as GroupService from "@/services/groups.service"
-import * as GroupUserService from "@/services/groupuser.service"
 import { useNotification } from "@/contexts/NotificationContext"
 import { useNavigate, useParams } from "react-router-dom"
 import { useLoading } from "@/contexts/LoadingContext"
@@ -12,10 +11,7 @@ const Groups = () => {
 
     const { t } = useTranslation()
     const { showNotification } = useNotification()
-    const { invitecode } = useParams()
     const { showLoading, hideLoading } = useLoading()
-    const navigate = useNavigate()
-    const joinRef = useRef(false)
 
     const [groups, setGroups] = useState([])
 
@@ -31,27 +27,7 @@ const Groups = () => {
                 hideLoading()
             }
         }
-        const joinGroup = async () => {
-            if (joinRef.current) return
-            joinRef.current = true
-            try {
-                showLoading()
-                const response = await GroupUserService.joinGroup(invitecode)
-                if (response.StatusCode == 200) {
-                    showNotification(t('join.group.success'), 'success')
-                    hideLoading()
-                }
-            } finally {
-                hideLoading()
-                navigate('/groups')
-                getGroups()
-            }
-        }
-        if (invitecode) {
-            joinGroup()
-        } else {
-            getGroups()
-        }
+        getGroups()
     }, [])
 
     const addFields = [

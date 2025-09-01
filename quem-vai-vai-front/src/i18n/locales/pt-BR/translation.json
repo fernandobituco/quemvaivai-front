@@ -41,8 +41,9 @@
   "group.members": "Membros do grupo",
   "events": "Eventos",
   "event": "Evento",
-  "event.name": "Nome do evento",
+  "event.title": "Título do evento",
   "event.description": "Descrição do evento",
+  "event.location": "Local do evento",
   "event.date": "Data do evento",
   "event.time": "Hora do evento",
   "event.create": "Criar evento",
@@ -90,5 +91,15 @@
   "cancel": "Cancelar",
   "share.this.link": "Compartilhe este link para convidar novos membros:",
   "back.to.list": "Voltar à lista",
-  "close": "Fechar"
+  "close": "Fechar",
+  "moderator.make": "Tornar usuário moderador",
+  "moderator.revoke": "Revogar moderação do usuário",
+  "remove.from.group": "Remover usuário do grupo",
+  "role.altered.success": "Cargo do usuário alterado",
+  "remove.user.success": "Usuário removido",
+  "title": "Título",
+  "location": "Local",
+  "date": "Data",
+  "description": "Descrição",
+  "join": "Entrar"
 }
