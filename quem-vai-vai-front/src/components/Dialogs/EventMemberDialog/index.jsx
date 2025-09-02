@@ -156,8 +156,8 @@ const EventMembersDialog = (props) => {
                             >
                                 <ListItemText primary={
                                     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                                        <Typography variant="body1">{member.Name}</Typography>
-                                        <Typography variant="body2" color={getStatusColor(member.Status)} border={1} borderRadius={1} paddingX={1}>
+                                        <Typography variant="body1" maxWidth="35%">{member.Name}</Typography>
+                                        <Typography variant="body2" maxWidth="35%" color={getStatusColor(member.Status)} border={1} borderRadius={1} paddingX={1}>
                                             {getStatusLabel(member.Status)}
                                         </Typography>
                                     </Box>

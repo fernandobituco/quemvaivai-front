@@ -43,7 +43,7 @@ const AppInfo = (props) => {
                         sx={{
                             color: 'white',
                             fontWeight: 700,
-                            fontSize: '1.3rem',
+                            fontSize: isMobile ? '1.1rem' : '1.3rem',
                             letterSpacing: '-0.5px'
                         }}
                     >
@@ -53,7 +53,7 @@ const AppInfo = (props) => {
                         variant="caption"
                         sx={{
                             color: 'rgba(255,255,255,0.8)',
-                            fontSize: '0.75rem',
+                            fontSize: isMobile ? '0.75rem' : '0.75rem',
                             display: 'block',
                             lineHeight: 1
                         }}

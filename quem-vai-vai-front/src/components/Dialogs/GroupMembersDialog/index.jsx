@@ -128,7 +128,7 @@ const GroupMembersDialog = (props) => {
                                     </Box>
                                 }
                             >
-                                <ListItemText primary={member.Name} />
+                                <ListItemText primary={member.Name} sx={{ maxWidth: '70%' }} />
                             </ListItem>
                         ))}
                     </List>
