@@ -46,9 +46,18 @@ const NavigationBar = (props) => {
     const navigate = useNavigate()
 
     const handleChangeTab = (newValue) => {
+        console.log('newValue')
+        console.log(newValue)
         setTabValue(newValue)
         setDrawerOpen(false)
         navigate(navItems[newValue].value)
+    }
+
+    const handleClickListItem = (item) => {
+        const index = navItems.findIndex(navItem => navItem.value === item.value)
+        if (index !== -1) {
+            handleChangeTab(index)
+        }
     }
 
     useEffect(() => {
@@ -100,7 +109,7 @@ const NavigationBar = (props) => {
                     <List>
                         {navItems.map((item) => (
                             <ListItem sx={{ color: theme.palette.primary.main }} key={item.label} >
-                                <Button onClick={_ => setDrawerOpen(false)} fullWidth>
+                                <Button onClick={_ => handleClickListItem(item)} fullWidth>
                                     <ListItemIcon sx={{ color: theme.palette.primary.main }}>{item.icon}</ListItemIcon>
                                     <ListItemText primary={item.label} />
                                 </Button>
