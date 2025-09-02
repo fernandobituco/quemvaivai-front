@@ -1,11 +1,10 @@
-import { Box, Button, IconButton, InputAdornment, TextField, Typography } from "@mui/material";
-import SlidingPanel from "./sliding-panel";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import LoginForm from "./form";
-import { useTranslation } from "react-i18next";
+import { Box, Button, IconButton, InputAdornment, TextField, Typography } from "@mui/material"
+import SlidingPanel from "./sliding-panel"
+import { Visibility, VisibilityOff } from "@mui/icons-material"
+import { useTranslation } from "react-i18next"
+import { AnimatePresence, motion } from "framer-motion"
 
 const MobileLayout = (props) => {
-
     const {
         showPassword,
         setShowPassword,
@@ -13,16 +12,30 @@ const MobileLayout = (props) => {
         mode,
         isLogin,
         muiTheme,
-        handleUpdateCreateUserForm,
+        // login
         handleUpdateLoginForm,
         loginForm,
+        handleSubmitLoginForm,
+        // registro
+        handleUpdateCreateUserForm,
         createUserForm,
         handleSubmitCreateUserForm,
-        handleSubmitLoginForm,
-        passwordMatch
+        passwordMatch,
     } = props
 
     const { t } = useTranslation()
+
+    const handleToggleForm = () => {
+        setShowPassword(false)
+        toggleForm()
+    }
+
+    const formMotion = {
+        initial: { opacity: 0, y: 8 },
+        animate: { opacity: 1, y: 0 },
+        exit: { opacity: 0, y: -8 },
+        transition: { duration: 1 },
+    }
 
     return (
         <Box
@@ -42,166 +55,208 @@ const MobileLayout = (props) => {
         >
             <SlidingPanel
                 isLogin={isLogin}
-                handleChangeForm={_ => {
+                handleChangeForm={() => {
                     setShowPassword(false)
                     toggleForm()
                 }}
-                mode={mode} />
-            <Box sx={{ position: "absolute", bottom: 0, left: 0, width: "100%", height: "65vh", overflow: 'auto' }}>
-                <LoginForm
-                    title="Login"
-                    isMobile
-                    show={isLogin}
-                    handleSubmit={handleSubmitLoginForm}
-                    buttonName="Login"
-                    fields={
-                        <Box
-                            sx={{ width: "100%", maxWidth: "360", mt: 2 }}
-                            noValidate
-                            autoComplete="off"
-                        >
-                            <TextField
-                                fullWidth
-                                required
-                                label="Email"
-                                margin="normal"
-                                variant="outlined"
-                                name="email"
-                                type="email"
-                                value={loginForm.email}
-                                onChange={handleUpdateLoginForm}
-                            />
-                            <TextField
-                                fullWidth
-                                required
-                                label={t('password')}
-                                margin="normal"
-                                variant="outlined"
-                                type={showPassword ? "text" : "password"}
-                                name="password"
-                                value={loginForm.password}
-                                onChange={handleUpdateLoginForm}
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                            <IconButton onClick={() => setShowPassword((prev) => !prev)}>
-                                                {showPassword ? <VisibilityOff /> : <Visibility />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    ),
-                                }}
-                            />
-                            <Typography variant="caption" sx={{ display: "block", mt: 1 }}>
-                                {t('forgot.password')}
-                            </Typography>
+                mode={mode}
+            />
 
-                            <Box
-                                sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
-                            >
-                                <Typography mt={1}>
-                                    {t('not.registered')}
-                                </Typography>
-                                <Button
-                                    variant="outlined"
-                                    sx={{
-                                        mt: 2, color: muiTheme.palette.primary.main,
-                                        borderColor: muiTheme.palette.primary.main
-                                    }}
-                                    onClick={toggleForm}
-                                >
-                                    {t('register')}
-                                </Button>
-                            </Box>
-                        </Box>
-                    }
-                />
-                <LoginForm
-                    title="Registration"
-                    isMobile
-                    show={!isLogin}
-                    handleSubmit={handleSubmitCreateUserForm}
-                    buttonName={t('to.register')}
-                    fields={
-                        <Box
-                            sx={{ width: "100%", maxWidth: "360", mt: 2 }}
-                            noValidate
-                            autoComplete="off"
+            <Box sx={{ position: "absolute", bottom: 0, left: 0, width: "100%", height: "65vh", overflow: "auto" }}>
+                <AnimatePresence mode="wait" initial={false}>
+                    {isLogin ? (
+                        <motion.form
+                            key="login"
+                            onSubmit={handleSubmitLoginForm}
+                            {...formMotion}
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                zIndex: 1,
+                                backgroundColor: muiTheme.palette.background.paper,
+                                color: muiTheme.palette.text.primary,
+                                paddingInline: muiTheme.spacing(4),
+                                paddingBottom: muiTheme.spacing(4),
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                            }}
                         >
-                            <TextField
-                                fullWidth
-                                required
-                                label={t('name')}
-                                margin="normal"
-                                variant="outlined"
-                                name="name"
-                                value={createUserForm.name}
-                                onChange={handleUpdateCreateUserForm}
-                            />
-                            <TextField
-                                fullWidth
-                                required
-                                label="Email"
-                                margin="normal"
-                                variant="outlined"
-                                name="email"
-                                value={createUserForm.email}
-                                onChange={handleUpdateCreateUserForm}
-                            />
-                            <TextField
-                                fullWidth
-                                required
-                                label={t('password')}
-                                margin="normal"
-                                variant="outlined"
-                                type={showPassword ? "text" : "password"}
-                                name="password"
-                                value={createUserForm.password}
-                                onChange={handleUpdateCreateUserForm}
-                                error={!passwordMatch}
-                                helperText={!passwordMatch ? "As senhas precisam ser iguais" : null}
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                            <IconButton onClick={() => setShowPassword((prev) => !prev)}>
-                                                {showPassword ? <VisibilityOff /> : <Visibility />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    ),
-                                }}
-                            />
-                            <TextField
-                                fullWidth
-                                required
-                                label={t('password.confirm')}
-                                margin="normal"
-                                variant="outlined"
-                                type="password"
-                                name="passwordconfirmation"
-                                value={createUserForm.passwordconfirmation}
-                                error={!passwordMatch}
-                                helperText={!passwordMatch ? t('password.confirm.error') : null}
-                                onChange={handleUpdateCreateUserForm}
-                            />
-                            <Box
-                                sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
-                            >
-                                <Typography mt={1}>
-                                    {t('already.registered')}
+                            <Box sx={{ width: "100%", maxWidth: 360, mt: 2 }}>
+                                <Typography variant="h5" component="h1" fontWeight="bold" gutterBottom align="center">
+                                    {t("login")}
                                 </Typography>
-                                <Button
-                                    variant="outlined"
-                                    sx={{
-                                        mt: 2, color: muiTheme.palette.primary.main,
-                                        borderColor: muiTheme.palette.primary.main
-                                    }}
-                                    onClick={toggleForm}
-                                >
-                                    Login
-                                </Button>
+
+                                <Box sx={{ mt: 2, minHeight: "40vh" }}>
+                                    <TextField
+                                        fullWidth
+                                        required
+                                        label="Email"
+                                        margin="normal"
+                                        variant="outlined"
+                                        name="email"
+                                        type="email"
+                                        value={loginForm.email}
+                                        onChange={handleUpdateLoginForm}
+                                    />
+
+                                    <TextField
+                                        fullWidth
+                                        required
+                                        label={t("password")}
+                                        margin="normal"
+                                        variant="outlined"
+                                        type={showPassword ? "text" : "password"}
+                                        name="password"
+                                        value={loginForm.password}
+                                        onChange={handleUpdateLoginForm}
+                                        slotProps={{ htmlInput: { minLength: 8 } }}
+                                        InputProps={{
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    <IconButton onClick={() => setShowPassword((prev) => !prev)}>
+                                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            ),
+                                        }}
+                                    />
+
+                                    <Typography variant="caption" sx={{ display: "block", mt: 1 }}>
+                                        {t("forgot.password")}
+                                    </Typography>
+
+                                    <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                                        <Typography mt={1}>{t("not.registered")}</Typography>
+                                        <Button
+                                            variant="outlined"
+                                            sx={{ mt: 2, color: muiTheme.palette.primary.main, borderColor: muiTheme.palette.primary.main }}
+                                            onClick={handleToggleForm}
+                                        >
+                                            {t("register")}
+                                        </Button>
+                                    </Box>
+                                </Box>
                             </Box>
-                        </Box>
-                    }
-                />
+
+                            <Button fullWidth variant="contained" color="primary" type="submit" sx={{ mt: "auto", mb: 3, borderRadius: 3 }}>
+                                {t("login")}
+                            </Button>
+                        </motion.form>
+                    ) : (
+                        <motion.form
+                            key="register"
+                            onSubmit={handleSubmitCreateUserForm}
+                            {...formMotion}
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                zIndex: 1,
+                                backgroundColor: muiTheme.palette.background.paper,
+                                color: muiTheme.palette.text.primary,
+                                paddingInline: muiTheme.spacing(4),
+                                paddingBottom: muiTheme.spacing(4),
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                            }}
+                        >
+                            <Box sx={{ width: "100%", maxWidth: 360, mt: 2, mb: 2 }}>
+                                <Typography variant="h5" component="h1" fontWeight="bold" gutterBottom align="center">
+                                    {t("register")}
+                                </Typography>
+
+                                <Box sx={{ mt: 2, minHeight: "40vh" }}>
+                                    <TextField
+                                        fullWidth
+                                        required
+                                        label={t("name")}
+                                        margin="normal"
+                                        variant="outlined"
+                                        name="name"
+                                        value={createUserForm.name}
+                                        onChange={handleUpdateCreateUserForm}
+                                    />
+
+                                    <TextField
+                                        fullWidth
+                                        required
+                                        label="Email"
+                                        margin="normal"
+                                        variant="outlined"
+                                        name="email"
+                                        type="email"
+                                        value={createUserForm.email}
+                                        onChange={handleUpdateCreateUserForm}
+                                    />
+
+                                    <TextField
+                                        fullWidth
+                                        required
+                                        label={t("password")}
+                                        margin="normal"
+                                        variant="outlined"
+                                        type={showPassword ? "text" : "password"}
+                                        name="password"
+                                        value={createUserForm.password}
+                                        onChange={handleUpdateCreateUserForm}
+                                        slotProps={{ htmlInput: { minLength: 8 } }}
+                                        InputProps={{
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    <IconButton onClick={() => setShowPassword((prev) => !prev)}>
+                                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            ),
+                                        }}
+                                    />
+
+                                    <TextField
+                                        fullWidth
+                                        required
+                                        label={t("password.confirm")}
+                                        margin="normal"
+                                        variant="outlined"
+                                        type={showPassword ? "text" : "password"}
+                                        name="confirmPassword"
+                                        value={createUserForm.confirmPassword}
+                                        onChange={handleUpdateCreateUserForm}
+                                        error={passwordMatch === false}
+                                        helperText={passwordMatch === false ? t("password.confirm.error") : " "}
+                                        slotProps={{ htmlInput: { minLength: 8 } }}
+                                        InputProps={{
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    <IconButton onClick={() => setShowPassword((prev) => !prev)}>
+                                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            ),
+                                        }}
+                                    />
+
+                                    <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                                        <Typography mt={1}>{t("already.registered")}</Typography>
+                                        <Button
+                                            variant="outlined"
+                                            sx={{ mt: 2, color: muiTheme.palette.primary.main, borderColor: muiTheme.palette.primary.main }}
+                                            onClick={handleToggleForm}
+                                        >
+                                            {t("login")}
+                                        </Button>
+                                    </Box>
+                                </Box>
+                            </Box>
+
+                            <Button fullWidth variant="contained" color="primary" type="submit" sx={{ mt: "auto", mb: 3, borderRadius: 3 }}>
+                                {t("to.register")}
+                            </Button>
+                        </motion.form>
+                    )}
+                </AnimatePresence>
             </Box>
         </Box>
     )

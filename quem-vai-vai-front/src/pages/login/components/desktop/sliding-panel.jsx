@@ -72,7 +72,7 @@ const SlidingPanel = ({ isLogin, handleChangeForm }) => {
                 </Typography>
             </Box>
             <Typography variant="h4" fontWeight="bold">
-                {isLogin ? t('welcome') : t('welcom.back')}
+                {isLogin ? t('welcome.back') : t('welcome')}
             </Typography>
             <Typography mt={1}>
                 {isLogin ? t('not.registered') : t('already.registered')}

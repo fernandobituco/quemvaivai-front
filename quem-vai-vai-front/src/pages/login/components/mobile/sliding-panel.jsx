@@ -54,7 +54,7 @@ const SlidingPanel = (props) => {
                 </Typography>
             </Box>
             <Typography variant="h4" fontWeight="bold">
-                {isLogin ? t('welcome') : t('welcom.back')}
+                {isLogin ? t('welcome.back') : t('welcome')}
             </Typography>
         </Box>
     )

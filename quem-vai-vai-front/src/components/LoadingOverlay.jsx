@@ -4,7 +4,7 @@ export default function LoadingOverlay({ open }) {
     const theme = useTheme()
 
     return (
-        <Backdrop
+        open && <Backdrop
             open={open}
             sx={{
                 zIndex: theme.zIndex.modal + 100,

@@ -81,6 +81,7 @@ const Login = () => {
                     showNotification(t('will.receive.confimation.email'), "success")
                 }
             } catch (err) {
+                showNotification(err?.response?.data?.Error || t('error.occurred'), "error")
             }
         }
         hideLoading()
@@ -110,6 +111,9 @@ const Login = () => {
             } else {
                 showNotification(loginresponse.error, "error")
             }
+        } catch(e) {
+            console.log('e')
+            console.log(e)
         } finally {
             hideLoading()
         }

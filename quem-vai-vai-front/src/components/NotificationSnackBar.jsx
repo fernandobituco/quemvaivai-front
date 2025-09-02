@@ -23,6 +23,7 @@ export default function NotificationSnackbar({ message, open, onClose, duration 
                     open={internalOpen}
                     autoHideDuration={duration}
                     onClose={handleClose}
+                    sx={{ zIndex: 1000 }}
                     TransitionComponent={(props) => <Slide {...props} direction={open ? "down" : "up"} />}
                     anchorOrigin={{ vertical: "top", horizontal: "center" }}
                 >
