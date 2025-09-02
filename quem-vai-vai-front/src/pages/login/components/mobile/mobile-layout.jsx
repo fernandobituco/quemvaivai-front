@@ -221,8 +221,8 @@ const MobileLayout = (props) => {
                                         margin="normal"
                                         variant="outlined"
                                         type={showPassword ? "text" : "password"}
-                                        name="confirmPassword"
-                                        value={createUserForm.confirmPassword}
+                                        name="passwordconfirmation"
+                                        value={createUserForm.passwordconfirmation}
                                         onChange={handleUpdateCreateUserForm}
                                         error={passwordMatch === false}
                                         helperText={passwordMatch === false ? t("password.confirm.error") : " "}
