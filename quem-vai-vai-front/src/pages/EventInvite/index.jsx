@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import * as GroupService from "@/services/groups.service"
-import * as GroupUserService from "@/services/groupuser.service"
+import * as EventService from "@/services/event.service"
+import * as UserEventService from "@/services/userevent.service"
 import { useLoading } from "@/contexts/LoadingContext"
 import { Box, Button, Container, Grid, Paper, Typography, useMediaQuery, useTheme } from "@mui/material"
 import { useTranslation } from "react-i18next"
-import GroupMembersDialog from "@/components/Dialogs/GroupMembersDialog"
 import { People } from "@mui/icons-material"
+import EventMembersDialog from "@/components/Dialogs/EventMemberDialog"
 
-const GroupInvite = () => {
+const EventInvite = () => {
 
     const { invitecode } = useParams()
-    const [group, setGroup] = useState({})
+    const [event, setEvent] = useState({})
     const [membersDialog, setMembersDialog] = useState(false)
     const { showLoading, hideLoading } = useLoading()
     const navigate = useNavigate()
@@ -19,26 +19,26 @@ const GroupInvite = () => {
     const theme = useTheme()
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
-    const getGroup = async () => {
+    const getEvent = async () => {
         try {
             showLoading()
-            const response = await GroupService.getGroupByCode(invitecode)
-            setGroup(response.Data)
+            const response = await EventService.getEventByCode(invitecode)
+            setEvent(response.Data)
         } finally {
             hideLoading()
         }
     }
 
     useEffect(() => {
-        getGroup()
+        getEvent()
     }, [])
 
-    const handleJoin = async () => {
+    const handleJoin = async (status) => {
         try {
             showLoading()
-            await GroupUserService.joinGroup(invitecode)
+            await UserEventService.joinEvent(invitecode, status)
         } finally {
-            navigate('/groups')
+            navigate('/events')
             hideLoading()
         }
     }
@@ -85,7 +85,7 @@ const GroupInvite = () => {
                     gutterBottom
                     color="primary"
                 >
-                    Você foi convidado para este grupo
+                    Você foi convidado para este evento
                 </Typography>
 
                 <Box
@@ -104,14 +104,14 @@ const GroupInvite = () => {
 
                     <Grid container spacing={2} direction="column">
                         <Grid item xs={12} lg={12}>
-                            <Typography variant="h2">{group.Name}</Typography>
+                            <Typography variant="h2">{event.Title}</Typography>
                         </Grid>
                         <Grid item xs={12} lg={12}>
                             <Box display="flex" alignItems="center">
                                 <Button onClick={handleMembersClick} sx={{ textTransform: 'none' }}>
                                     <People fontSize="small" sx={{ mr: 0.5 }} />
                                     <Typography variant="body2" fontWeight="medium">
-                                        {group.MemberCount}
+                                        {event.MemberCount}
                                     </Typography>
                                     <Typography variant="body2" color="text.secondary" sx={{ ml: 0.5 }}>
                                         {t('members')}
@@ -120,8 +120,8 @@ const GroupInvite = () => {
                             </Box>
                         </Grid>
                         {
-                            group.Description && <Grid item xs={12} lg={12}>
-                                <Typography>{group.Description}</Typography>
+                            event.Description && <Grid item xs={12} lg={12}>
+                                <Typography>{event.Description}</Typography>
                             </Grid>
                         }
                     </Grid>
@@ -139,7 +139,7 @@ const GroupInvite = () => {
                             variant="outlined"
                             size="large"
                             color="error"
-                            onClick={_ => navigate('/groups')}
+                            onClick={_ => handleJoin(3)} // 3 = Recusar
                             sx={{
                                 mt: 1,
                                 borderRadius: 2,
@@ -154,7 +154,7 @@ const GroupInvite = () => {
                         </Button>
                         <Button
                             variant="contained"
-                            onClick={handleJoin}
+                            onClick={_ => handleJoin(2)} // 1 = Interessado
                             size="large"
                             sx={{
                                 mt: 1,
@@ -166,14 +166,30 @@ const GroupInvite = () => {
                                 minWidth: "180px",
                             }}
                         >
-                            {t('join')}
+                            {t('observe')}
+                        </Button>
+                        <Button
+                            variant="contained"
+                            onClick={_ => handleJoin(1)} // 1 = Confirmar
+                            size="large"
+                            sx={{
+                                mt: 1,
+                                borderRadius: 2,
+                                textTransform: "none",
+                                fontWeight: "bold",
+                                py: 1.2,
+                                maxWidth: "40%",
+                                minWidth: "180px",
+                            }}
+                        >
+                            {t('confirm')}
                         </Button>
                     </Box>
                 </Box>
             </Paper>
-            <GroupMembersDialog group={group} open={membersDialog} onClose={_ => setMembersDialog(false)} canEdit={false} />
+            <EventMembersDialog event={event} open={membersDialog} onClose={_ => setMembersDialog(false)} canEdit={false} />
         </Container>
     )
 }
 
-export default GroupInvite
+export default EventInvite

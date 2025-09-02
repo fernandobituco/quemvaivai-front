@@ -88,6 +88,32 @@ const EventMembersDialog = (props) => {
         }
     }
 
+    const getStatusLabel = (status) => {
+        switch (status) {
+            case 1:
+                return t('user.going')
+            case 2:
+                return t('user.interested')
+            case 3:
+                return t('user.not.going')
+            default:
+                break
+        }
+    }
+
+    const getStatusColor = (status) => {
+        switch (status) {
+            case 1:
+                return "success"
+            case 2:
+                return "info"
+            case 3:
+                return "error"
+            default:
+                break
+        }
+    }
+
     return (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="xs">
             <DialogTitle>{event.Title}</DialogTitle>
@@ -128,7 +154,14 @@ const EventMembersDialog = (props) => {
                                     </Box>
                                 }
                             >
-                                <ListItemText primary={member.Name} />
+                                <ListItemText primary={
+                                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                                        <Typography variant="body1">{member.Name}</Typography>
+                                        <Typography variant="body2" color={getStatusColor(member.Status)} border={1} borderRadius={1} paddingX={1}>
+                                            {getStatusLabel(member.Status)}
+                                        </Typography>
+                                    </Box>
+                                } />
                             </ListItem>
                         ))}
                     </List>

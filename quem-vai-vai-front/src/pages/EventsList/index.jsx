@@ -13,7 +13,6 @@ const Events = () => {
     const { t } = useTranslation()
     const { showLoading, hideLoading } = useLoading()
     const { showNotification } = useNotification()
-    const navigate = useNavigate()
     const { groupId } = useParams()
 
     const [groupOptions, setGroupOptions] = useState([])
@@ -67,7 +66,7 @@ const Events = () => {
 
     return (
         <CardsList
-            title="Eventos"
+            title={t('events')}
             description="lista de eventos"
             submitLabel="Salvar Alterações"
             cards={eventCards}

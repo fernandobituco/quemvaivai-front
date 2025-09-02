@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router-dom"
 import EventMembersDialog from "@/components/Dialogs/EventMemberDialog"
 import { useState } from "react"
+import EventMembersButton from "@/components/Buttons/EventMembersButton"
 
 const EventCard = (props) => {
 
@@ -57,41 +58,24 @@ const EventCard = (props) => {
                             <Box display="flex" alignItems="center">
                                 <Event fontSize="small" sx={{ mr: 0.5 }} />
                                 <Typography variant="body2" fontWeight="medium">
-                                    {formatEventDate(eventDate)}
+                                    {EventDate ? formatEventDate(eventDate) : t('no.date')}
                                 </Typography>
                             </Box>
 
                             <Box display="flex" alignItems="center">
                                 <Place fontSize="small" sx={{ mr: 0.5 }} />
                                 <Typography variant="body2" fontWeight="medium" noWrap>
-                                    {Location || "indefinido"}
+                                    {Location || t('no.location')}
                                 </Typography>
                             </Box>
                         </Stack>
 
                         {/* Participantes */}
-                        <Button onClick={_ => setMembersDialog(true)} sx={{ textTransform: 'none', mt: 2 }}>
-                            <Stack direction="row" spacing={1} alignItems="center" justifyContent="start" gap={5}>
-                                <Box display="flex" flexDirection="row" gap={1}>
-                                    <People fontSize="small" sx={{ mr: 0.5 }} />
-                                    <Typography variant="body2" fontWeight="medium">
-                                        {Interested}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        {t("interested")}
-                                    </Typography>
-                                </Box>
-                                <Box display="flex" flexDirection="row" gap={1}>
-                                    <People fontSize="small" sx={{ mr: 0.5 }} />
-                                    <Typography variant="body2" fontWeight="medium">
-                                        {Going}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        {t("going")}
-                                    </Typography>
-                                </Box>
-                            </Stack>
-                        </Button>
+                        <EventMembersButton 
+                            onClick={() => setMembersDialog(true)} 
+                            Interested={Interested} 
+                            Going={Going}
+                        />
 
                         {/* Indicadores extras */}
                         <Stack direction="row" spacing={1} sx={{ mt: 2, flexWrap: "wrap" }}>
@@ -113,8 +97,8 @@ const EventCard = (props) => {
                             )}
                             {EventDate && <Chip
                                 label={diffDays && eventDate > today
-                                    ? `Faltam ${diffDays} dias`
-                                    : "Já aconteceu"}
+                                    ? `${diffDays} ${diffDays > 1 ? t("days.to") : t("day.to")}`
+                                    : t("event.passed")}
                                 color={diffDays && eventDate > today ? "success" : "error"}
                                 size="small"
                             />}

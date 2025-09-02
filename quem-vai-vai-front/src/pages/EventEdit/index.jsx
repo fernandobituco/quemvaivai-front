@@ -1,12 +1,14 @@
 import { useLoading } from "@/contexts/LoadingContext"
-import { Box, Button, Container, Grid, Paper, TextField, Typography, useMediaQuery, useTheme } from "@mui/material"
+import { Box, Button, Container, FormControl, Grid, InputLabel, MenuItem, Paper, Select, TextField, Typography, useMediaQuery, useTheme } from "@mui/material"
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
 import * as EventService from "@/services/event.service"
-import { People } from "@mui/icons-material"
-import EventMembersDialog from "@/components/Dialogs/EventMembersDialog"
+import * as GroupService from "@/services/groups.service"
+import EventMembersDialog from "@/components/Dialogs/EventMemberDialog"
 import ConfirmDeleteDialog from "@/components/Dialogs/ConfirmDeleteDialog"
+import EventMembersButton from "@/components/Buttons/EventMembersButton"
+import dayjs from "dayjs"
 
 const EventEdit = () => {
 
@@ -21,10 +23,21 @@ const EventEdit = () => {
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
     const [event, setEvent] = useState(location.state?.event || null)
+    const [groupOptions, setGroupOptions] = useState([])
 
     const getEvent = async () => {
         const response = await EventService.getEventById(id)
         setEvent(response.Data)
+    }
+
+    const getGroups = async () => {
+        try {
+            showLoading()
+            const response = await GroupService.getGroupsByUser()
+            setGroupOptions(response.Data)
+        } finally {
+            hideLoading()
+        }
     }
 
     useEffect(() => {
@@ -33,6 +46,7 @@ const EventEdit = () => {
             getEvent(id)
             hideLoading()
         }
+        getGroups()
     }, [])
 
     const handleSubmit = async (e) => {
@@ -123,33 +137,56 @@ const EventEdit = () => {
                     }}
                 >
                     <Grid container spacing={2} direction="column">
-                        <Grid item xs={12} lg={12}>
-                            <Box display="flex" alignItems="center">
-                                <Button onClick={_ => setMembersDialog(true)} sx={{ textTransform: 'none' }}>
-                                    <People fontSize="small" sx={{ mr: 0.5 }} />
-                                    <Typography variant="body2" fontWeight="medium">
-                                        {event.Going}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary" sx={{ ml: 0.5 }}>
-                                        {t('members')}
-                                    </Typography>
-                                </Button>
-                            </Box>
+                        <Grid item size={{ xs: 12 }} container>
+                            <Grid item size={{ xs: 12, md: 6 }}>
+                                <EventMembersButton
+                                    onClick={() => setMembersDialog(true)}
+                                    Interested={event?.Interested || 0}
+                                    Going={event?.Going || 0}
+                                />
+                            </Grid>
+                            <Grid item size={{ xs: 12, md: 6 }}>
+                                <FormControl fullWidth >
+                                    <InputLabel>{t('group')}</InputLabel>
+                                    <Select
+                                        label={t('group')}
+                                        value={event?.GroupId || ""}
+                                        onChange={(e) => onChange("GroupId", e.target.value)}
+                                    >
+                                        <MenuItem value="">
+                                            <p></p>
+                                        </MenuItem>
+                                        {groupOptions?.map((group) => (
+                                            <MenuItem key={group.Id} value={group.Id}>
+                                                {group.Name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            </Grid>
                         </Grid>
-                        <Grid item xs={12} lg={12}>
-                            <Box display="flex" alignItems="center">
-                                <Button onClick={_ => setMembersDialog(true)} sx={{ textTransform: 'none' }}>
-                                    <People fontSize="small" sx={{ mr: 0.5 }} />
-                                    <Typography variant="body2" fontWeight="medium">
-                                        {event.Interested}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary" sx={{ ml: 0.5 }}>
-                                        {t('members')}
-                                    </Typography>
-                                </Button>
-                            </Box>
+                        <Grid item size={{ xs: 12 }} direction="row" container spacing={2}>
+                            <Grid item size={{ xs: 12, md: 4 }}>
+                                <TextField
+                                    label={t('event.date')}
+                                    type="datetime-local"
+                                    value={event.EventDate ? dayjs(event.EventDate).format("YYYY-MM-DDTHH:mm") : ""}
+                                    onChange={(e) => handleChange('EventDate', new Date(e.target.value).toISOString())}
+                                    InputLabelProps={{ shrink: true }}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item size={{ xs: 12, md: 8 }}>
+                                <TextField
+                                    label={t('location')}
+                                    type="text"
+                                    value={event.Location}
+                                    onChange={(e) => handleChange('Location', e.target.value)}
+                                    fullWidth
+                                />
+                            </Grid>
                         </Grid>
-                        <Grid item xs={12} lg={12}>
+                        <Grid item size={{ xs: 12 }}>
                             <TextField
                                 label={t('title')}
                                 type="text"
@@ -160,17 +197,17 @@ const EventEdit = () => {
                                 fullWidth
                             />
                         </Grid>
+                        <Grid item size={{ xs: 12 }}>
+                            <TextField
+                                label={t('description')}
+                                type="text"
+                                variant="outlined"
+                                value={event.Description}
+                                onChange={(e) => handleChange('Description', e.target.value)}
+                                fullWidth
+                            />
+                        </Grid>
                         <Grid item xs={12} lg={12}>
-                            <Grid item xs={12} lg={12}>
-                                <TextField
-                                    label={t('description')}
-                                    type="text"
-                                    variant="outlined"
-                                    value={event.Description}
-                                    onChange={(e) => handleChange('Description', e.target.value)}
-                                    fullWidth
-                                />
-                            </Grid>
                         </Grid>
                     </Grid>
 
@@ -219,7 +256,7 @@ const EventEdit = () => {
                     </Box>
                 </Box>
             </Paper>
-            <EventMembersDialog group={group} open={membersDialog} onClose={_ => setMembersDialog(false)} canEdit={true} />
+            <EventMembersDialog event={event} open={membersDialog} onClose={_ => setMembersDialog(false)} canEdit={true} />
             <ConfirmDeleteDialog open={deleteDialogOpen} onClose={_ => setDeleteDialogOpen(false)} onConfirm={handleDelete} entity={"event"} />
         </Container>
     )

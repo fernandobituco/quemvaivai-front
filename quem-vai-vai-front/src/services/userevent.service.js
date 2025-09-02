@@ -1,12 +1,17 @@
 import Api from "./api"
 
-export const joinEvent = async (inviteCode) => {
-    const response = await Api.post('userevents/invite', {invitecode: inviteCode})
+export const joinEvent = async (inviteCode, status) => {
+    const response = await Api.post('userevents/invite', {invitecode: inviteCode, status: status})
     return response.data
 }
 
 export const changeRole = async (eventId, userId, role) => {
-    const response = await Api.put('userevents', {eventid: eventId, userid: userId, role: role})
+    const response = await Api.put('userevents/change-role', {eventid: eventId, userid: userId, role: role})
+    return response.data
+}
+
+export const changeStatus = async (eventId, status) => {
+    const response = await Api.put('userevents/change-status', {eventid: eventId, status: status})
     return response.data
 }
 
