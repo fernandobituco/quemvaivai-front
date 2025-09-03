@@ -54,6 +54,9 @@ const EventEdit = () => {
         showLoading()
         try {
             await EventService.updateEvent(event)
+            if (response.StatusCode == 200) {
+                showNotification(t('event.altered.success'), 'success')
+            }
         } finally {
             hideLoading()
         }
@@ -179,6 +182,7 @@ const EventEdit = () => {
                             <Grid item size={{ xs: 12, md: 8 }}>
                                 <TextField
                                     label={t('location')}
+                                    multiline
                                     type="text"
                                     value={event.Location}
                                     onChange={(e) => handleChange('Location', e.target.value)}
@@ -200,6 +204,7 @@ const EventEdit = () => {
                         <Grid item size={{ xs: 12 }}>
                             <TextField
                                 label={t('description')}
+                                multiline
                                 type="text"
                                 variant="outlined"
                                 value={event.Description}

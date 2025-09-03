@@ -97,7 +97,7 @@ const UserEventStatusDialog = (props) => {
                     </Button>
                 </Box>
             </DialogContent>
-            <DialogActions>
+            <DialogActions sx={{ justifyContent: 'flex-start' }}>
                 <Button onClick={handleClose} color="error" sx={{ textTransform: 'none' }} variant="outlined" >
                     {t("close")}
                 </Button>

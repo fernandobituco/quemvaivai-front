@@ -22,6 +22,9 @@ export const getTheme = (mode) =>
                                 transform: 'translateY(-2px) scale(1.03)',
                             },
                         },
+                        '@media (hover: none)': {
+                            boxShadow: '0 2px 5px rgba(0, 0, 0, 0.6)',
+                        },
                     },
                 },
             },

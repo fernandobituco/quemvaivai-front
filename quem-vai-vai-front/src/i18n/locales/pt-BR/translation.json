@@ -97,6 +97,8 @@
     "remove.from.group": "Remover usuário do grupo",
     "role.altered.success": "Cargo do usuário alterado",
     "status.altered.success": "Status alterado",
+    "group.altered.success": "Grupo alterado",
+    "event.altered.success": "Evento alterado",
     "remove.user.success": "Usuário removido",
     "title": "Título",
     "location": "Local",

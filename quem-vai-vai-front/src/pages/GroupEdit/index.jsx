@@ -7,11 +7,13 @@ import GroupMembersDialog from "@/components/Dialogs/GroupMembersDialog"
 import { Box, Button, Container, Grid, Paper, TextField, Typography, useMediaQuery, useTheme } from "@mui/material"
 import { People } from "@mui/icons-material"
 import ConfirmDeleteDialog from "@/components/Dialogs/ConfirmDeleteDialog"
+import { useNotification } from "@/contexts/NotificationContext"
 
 const GroupEdit = () => {
 
     const { t } = useTranslation()
     const { showLoading, hideLoading } = useLoading()
+    const { showNotification, hideNotification } = useNotification()
     const location = useLocation()
     const { id } = useParams()
     const navigate = useNavigate()
@@ -39,7 +41,10 @@ const GroupEdit = () => {
         e.preventDefault()
         showLoading()
         try {
-            await GroupService.updateGroup(group)
+            const response = await GroupService.updateGroup(group)
+            if (response.StatusCode == 200) {
+                showNotification(t('group.altered.success'), 'success')
+            }
         } finally {
             hideLoading()
         }
@@ -139,6 +144,7 @@ const GroupEdit = () => {
                         <Grid item xs={12} lg={12}>
                             <TextField
                                 label={t('name')}
+                                multiline
                                 type="text"
                                 variant="outlined"
                                 value={group.Name}
@@ -151,6 +157,7 @@ const GroupEdit = () => {
                             <Grid item xs={12} lg={12}>
                                 <TextField
                                     label={t('description')}
+                                    multiline
                                     type="text"
                                     variant="outlined"
                                     value={group.Description}

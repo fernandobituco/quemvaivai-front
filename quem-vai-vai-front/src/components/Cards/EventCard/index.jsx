@@ -49,7 +49,7 @@ const EventCard = (props) => {
 
     return (
         <Grid item size={{ xs: 12, md: 6, lg: 4 }} key={Id}>
-            <Card sx={{ borderTop: `1px ridge ${getStatusColor()}`, borderRadius: 3, height: '245px' }}>
+            <Card sx={{ borderTop: `1px ridge ${getStatusColor()}`, borderRadius: 3, height: '235px' }}>
                 <CardHeader
                     title={Title}
                     subheader={`${t("group")}: ${GroupName}`}
@@ -86,17 +86,6 @@ const EventCard = (props) => {
                         </Box>
                     </Stack>
 
-                    {/* Participantes */}
-                    <Box display="flex" alignItems="center" justifyContent="space-between">
-                        <EventMembersButton
-                            onClick={() => setMembersDialog(true)}
-                            Interested={Interested}
-                            Going={Going}
-                        />
-
-                        <UserEventButton onClick={_ => setStatusDialog(true)} status={Status} />
-                    </Box>
-
                     {/* Indicadores extras */}
                     <Stack direction="row" spacing={1} sx={{ mt: 2, flexWrap: "wrap" }}>
                         {ActiveVote && (
@@ -123,6 +112,17 @@ const EventCard = (props) => {
                             size="small"
                         />}
                     </Stack>
+
+                    {/* Participantes */}
+                    <Box display="flex" alignItems="center" justifyContent="space-between" gap={1}>
+                        <EventMembersButton
+                            onClick={() => setMembersDialog(true)}
+                            Interested={Interested}
+                            Going={Going}
+                        />
+
+                        <UserEventButton onClick={_ => setStatusDialog(true)} status={Status} />
+                    </Box>
                 </CardContent>
             </Card>
             <EventMembersDialog event={event} open={membersDialog} onClose={_ => setMembersDialog(false)} canEdit={CanEdit} />

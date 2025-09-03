@@ -39,7 +39,7 @@ const UserEventButton = (props) => {
             variant="contained"
             onClick={onClick}
             color={getStatusColor()}
-            sx={{ textTransform: 'none', mt: 2 }}
+            sx={{ textTransform: 'none', mt: 2, width: '135px' }}
         >
             {getStatusLabel()}
         </Button>
