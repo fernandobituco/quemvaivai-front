@@ -5,7 +5,7 @@ import * as UserEventService from "@/services/userevent.service"
 import { useLoading } from "@/contexts/LoadingContext"
 import { Box, Button, Container, Grid, Paper, Typography, useMediaQuery, useTheme } from "@mui/material"
 import { useTranslation } from "react-i18next"
-import { People } from "@mui/icons-material"
+import { Check, Close, People, Visibility } from "@mui/icons-material"
 import EventMembersDialog from "@/components/Dialogs/EventMemberDialog"
 
 const EventInvite = () => {
@@ -130,7 +130,7 @@ const EventInvite = () => {
                         display="flex"
                         justifyContent="space-between"
                         width="100%"
-                        flexDirection="row"
+                        flexDirection={isMobile ? "column" : "row"}
                         gap={2}
                         alignItems="center"
                         marginTop={2}
@@ -150,12 +150,13 @@ const EventInvite = () => {
                                 minWidth: "180px"
                             }}
                         >
-                            {t('cancel')}
+                            {t('i.not.going')}
                         </Button>
                         <Button
-                            variant="contained"
+                            variant="outlined"
                             onClick={_ => handleJoin(2)} // 1 = Interessado
                             size="large"
+                            color="info"
                             sx={{
                                 mt: 1,
                                 borderRadius: 2,
@@ -166,12 +167,13 @@ const EventInvite = () => {
                                 minWidth: "180px",
                             }}
                         >
-                            {t('observe')}
+                            {t('i.interested')}
                         </Button>
                         <Button
-                            variant="contained"
+                            variant="outlined"
                             onClick={_ => handleJoin(1)} // 1 = Confirmar
                             size="large"
+                            color="success"
                             sx={{
                                 mt: 1,
                                 borderRadius: 2,
@@ -182,7 +184,7 @@ const EventInvite = () => {
                                 minWidth: "180px",
                             }}
                         >
-                            {t('confirm')}
+                            {t('i.going')}
                         </Button>
                     </Box>
                 </Box>

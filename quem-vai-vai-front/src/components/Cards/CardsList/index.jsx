@@ -7,7 +7,6 @@ import {
     useMediaQuery,
     useTheme,
 } from "@mui/material";
-import { useTranslation } from "react-i18next";
 import { Add } from "@mui/icons-material";
 import AddForm from "@/components/Dialogs/AddDialog";
 
@@ -22,7 +21,6 @@ const CardsList = (props) => {
     } = props
 
     const theme = useTheme()
-    const { t } = useTranslation()
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
     const [addDialogOpen, setAddDialogOpen] = useState(false)

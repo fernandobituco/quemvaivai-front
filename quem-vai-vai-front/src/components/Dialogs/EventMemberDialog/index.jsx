@@ -1,4 +1,4 @@
-import { AddModeratorOutlined, ContentCopy, Delete, RemoveModeratorOutlined } from "@mui/icons-material"
+import { AddModeratorOutlined, Check, Close, ContentCopy, Delete, RemoveModeratorOutlined, RemoveRedEye } from "@mui/icons-material"
 import {
     Button,
     Dialog,
@@ -12,6 +12,8 @@ import {
     Box,
     Fade,
     Tooltip,
+    useTheme,
+    useMediaQuery,
 } from "@mui/material"
 import { useTranslation } from "react-i18next"
 import { useEffect, useState } from "react"
@@ -31,6 +33,8 @@ const EventMembersDialog = (props) => {
     const [showInvite, setShowInvite] = useState(false)
     const [inviteLink, setInviteLink] = useState(null)
     const [members, setMembers] = useState([])
+    const theme = useTheme()
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
     const getMembers = async () => {
         try {
@@ -89,15 +93,28 @@ const EventMembersDialog = (props) => {
     }
 
     const getStatusLabel = (status) => {
-        switch (status) {
-            case 1:
-                return t('user.going')
-            case 2:
-                return t('user.interested')
-            case 3:
-                return t('user.not.going')
-            default:
-                break
+        if (isMobile) {
+            switch (status) {
+                case 1:
+                    return <Check/>
+                case 2:
+                    return <RemoveRedEye />
+                case 3:
+                    return <Close />
+                default:
+                    break
+            }
+        } else {
+            switch (status) {
+                case 1:
+                    return t('user.going')
+                case 2:
+                    return t('user.interested')
+                case 3:
+                    return t('user.not.going')
+                default:
+                    break
+            }
         }
     }
 
@@ -115,7 +132,7 @@ const EventMembersDialog = (props) => {
     }
 
     return (
-        <Dialog open={open} onClose={onClose} fullWidth maxWidth="xs">
+        <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
             <DialogTitle>{event.Title}</DialogTitle>
 
             <DialogContent
@@ -137,7 +154,7 @@ const EventMembersDialog = (props) => {
                                         {
                                             member.Role != 1 &&
                                             <Tooltip title={member.Role == 2 ? t("moderator.revoke") : t("moderator.make")}>
-                                                <Button onClick={() => handleChangeRole(member.Id, member.Role)}>
+                                                <Button onClick={() => handleChangeRole(member.Id, member.Role)} sx={{ minWidth: { xs: 0 } }}>
                                                     {member.Role == 2 && <RemoveModeratorOutlined color="primary" />}
                                                     {member.Role == 3 && <AddModeratorOutlined color="primary" />}
                                                 </Button>
@@ -155,7 +172,7 @@ const EventMembersDialog = (props) => {
                                 }
                             >
                                 <ListItemText primary={
-                                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                                    <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "70%", gap: 1 }}>
                                         <Typography variant="body1" maxWidth="35%">{member.Name}</Typography>
                                         <Typography variant="body2" maxWidth="35%" color={getStatusColor(member.Status)} border={1} borderRadius={1} paddingX={1}>
                                             {getStatusLabel(member.Status)}

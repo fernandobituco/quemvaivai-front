@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom"
 import EventMembersDialog from "@/components/Dialogs/EventMemberDialog"
 import { useState } from "react"
 import EventMembersButton from "@/components/Buttons/EventMembersButton"
+import UserEventButton from "@/components/Buttons/UserEventButton"
+import UserEventStatusDialog from "@/components/Dialogs/UserEventStatusDialog"
 
 const EventCard = (props) => {
 
@@ -12,10 +14,11 @@ const EventCard = (props) => {
     const navigate = useNavigate()
     const { t } = useTranslation()
 
-    const { event } = props
-    const { Id, Title, Description, EventDate, Location, GroupId, GroupName, Interested, Going, CanEdit, ActiveVote, UserHasTaskItem } = event
+    const { event, onUpdateStatus } = props
+    const { Id, Title, Description, EventDate, Location, GroupId, GroupName, Interested, Going, CanEdit, ActiveVote, UserHasTaskItem, Status } = event
 
     const [membersDialog, setMembersDialog] = useState(false)
+    const [statusDialog, setStatusDialog] = useState(false)
 
     const eventDate = new Date(EventDate)
     const today = new Date()
@@ -31,9 +34,22 @@ const EventCard = (props) => {
         return `${day} ${time}`
     }
 
+    const getStatusColor = () => {
+        switch (Status) {
+            case 1:
+                return theme.palette.success.main
+            case 2:
+                return theme.palette.info.main
+            case 3:
+                return theme.palette.error.main
+            default:
+                return theme.palette.primary.main
+        }
+    }
+
     return (
         <Grid item size={{ xs: 12, md: 6, lg: 4 }} key={Id}>
-            <Card sx={{ borderTop: `1px ridge ${theme.palette.primary.main}`, borderRadius: 3, height: '245px' }}>
+            <Card sx={{ borderTop: `1px ridge ${getStatusColor()}`, borderRadius: 3, height: '245px' }}>
                 <CardHeader
                     title={Title}
                     subheader={`${t("group")}: ${GroupName}`}
@@ -48,64 +64,69 @@ const EventCard = (props) => {
                     sx={{ paddingBottom: 0 }}
                 />
                 <CardContent sx={{ paddingTop: 0 }}>
-                            {/* Descrição */}
-                            <Typography variant="body2" color="text.secondary" noWrap sx={{ mt: 1 }} >
-                                {Description}
+                    {/* Descrição */}
+                    <Typography variant="body2" color="text.secondary" noWrap sx={{ mt: 1 }} >
+                        {Description}
+                    </Typography>
+                    {/* Informações principais */}
+                    <Stack direction="row" spacing={2} alignItems="center" sx={{ mt: 2 }} justifyContent="space-between">
+
+                        <Box display="flex" alignItems="center">
+                            <Event fontSize="small" sx={{ mr: 0.5 }} />
+                            <Typography variant="body2" fontWeight="medium">
+                                {EventDate ? formatEventDate(eventDate) : t('no.date')}
                             </Typography>
-                        {/* Informações principais */}
-                        <Stack direction="row" spacing={2} alignItems="center" sx={{ mt: 2 }} justifyContent="space-between">
+                        </Box>
 
-                            <Box display="flex" alignItems="center">
-                                <Event fontSize="small" sx={{ mr: 0.5 }} />
-                                <Typography variant="body2" fontWeight="medium">
-                                    {EventDate ? formatEventDate(eventDate) : t('no.date')}
-                                </Typography>
-                            </Box>
+                        <Box display="flex" alignItems="center">
+                            <Place fontSize="small" sx={{ mr: 0.5 }} />
+                            <Typography variant="body2" fontWeight="medium" noWrap>
+                                {Location || t('no.location')}
+                            </Typography>
+                        </Box>
+                    </Stack>
 
-                            <Box display="flex" alignItems="center">
-                                <Place fontSize="small" sx={{ mr: 0.5 }} />
-                                <Typography variant="body2" fontWeight="medium" noWrap>
-                                    {Location || t('no.location')}
-                                </Typography>
-                            </Box>
-                        </Stack>
-
-                        {/* Participantes */}
-                        <EventMembersButton 
-                            onClick={() => setMembersDialog(true)} 
-                            Interested={Interested} 
+                    {/* Participantes */}
+                    <Box display="flex" alignItems="center" justifyContent="space-between">
+                        <EventMembersButton
+                            onClick={() => setMembersDialog(true)}
+                            Interested={Interested}
                             Going={Going}
                         />
 
-                        {/* Indicadores extras */}
-                        <Stack direction="row" spacing={1} sx={{ mt: 2, flexWrap: "wrap" }}>
-                            {ActiveVote && (
-                                <Chip
-                                    icon={<HowToVote />}
-                                    label={t("activeVote")}
-                                    color="info"
-                                    size="small"
-                                />
-                            )}
-                            {UserHasTaskItem && (
-                                <Chip
-                                    icon={<Assignment />}
-                                    label={t("yourTask")}
-                                    color="warning"
-                                    size="small"
-                                />
-                            )}
-                            {EventDate && <Chip
-                                label={diffDays && eventDate > today
-                                    ? `${diffDays} ${diffDays > 1 ? t("days.to") : t("day.to")}`
-                                    : t("event.passed")}
-                                color={diffDays && eventDate > today ? "success" : "error"}
+                        <UserEventButton onClick={_ => setStatusDialog(true)} status={Status} />
+                    </Box>
+
+                    {/* Indicadores extras */}
+                    <Stack direction="row" spacing={1} sx={{ mt: 2, flexWrap: "wrap" }}>
+                        {ActiveVote && (
+                            <Chip
+                                icon={<HowToVote />}
+                                label={t("activeVote")}
+                                color="info"
                                 size="small"
-                            />}
-                        </Stack>
+                            />
+                        )}
+                        {UserHasTaskItem && (
+                            <Chip
+                                icon={<Assignment />}
+                                label={t("yourTask")}
+                                color="warning"
+                                size="small"
+                            />
+                        )}
+                        {EventDate && <Chip
+                            label={diffDays && eventDate > today
+                                ? `${diffDays} ${diffDays > 1 ? t("days.to") : t("day.to")}`
+                                : t("event.passed")}
+                            color={diffDays && eventDate > today ? "success" : "error"}
+                            size="small"
+                        />}
+                    </Stack>
                 </CardContent>
             </Card>
             <EventMembersDialog event={event} open={membersDialog} onClose={_ => setMembersDialog(false)} canEdit={CanEdit} />
+            <UserEventStatusDialog open={statusDialog} onClose={_ => setStatusDialog(false)} eventId={Id} currentStatus={Status} onUpdateStatus={onUpdateStatus} />
         </Grid >
     )
 }

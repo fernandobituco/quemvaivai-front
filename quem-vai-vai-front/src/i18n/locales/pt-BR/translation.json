@@ -96,6 +96,7 @@
     "moderator.revoke": "Revogar moderação do usuário",
     "remove.from.group": "Remover usuário do grupo",
     "role.altered.success": "Cargo do usuário alterado",
+    "status.altered.success": "Status alterado",
     "remove.user.success": "Usuário removido",
     "title": "Título",
     "location": "Local",
@@ -115,5 +116,7 @@
     "no.location": "Não informado",
     "days.to": "dias para o evento",
     "day.to": "dia para o evento",
-    "event.passed": "Evento já aconteceu"
+    "event.passed": "Evento já aconteceu",
+    "confirm.attendance": "Confirme sua presença",
+    "attendance.confirmed": "Presença confirmada"
 }
