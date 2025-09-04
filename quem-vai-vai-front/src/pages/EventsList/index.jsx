@@ -61,7 +61,6 @@ const Events = () => {
     }
 
     const updateStatusOnEvent = (eventId, newStatus) => {
-        console.log("Updating status on event", eventId, newStatus)
         setEvents(events.map(e => e.Id != eventId ? e : { ...e, Status: newStatus }))
     }
 

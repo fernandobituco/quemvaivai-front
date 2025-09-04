@@ -17,13 +17,13 @@ const UserEventStatusDialog = (props) => {
         onClose()
     }
 
-    const handleChangeStatus = async (newRole) => {
+    const handleChangeStatus = async (newStatus) => {
         try {
             showLoading()
-            const response = await UserEventService.changeStatus(eventId, newRole)
+            const response = await UserEventService.changeStatus(eventId, newStatus)
             if (response.StatusCode == 200) {
                 showNotification(t('status.altered.success'), 'success')
-                onUpdateStatus(eventId, newRole)
+                onUpdateStatus(eventId, newStatus)
                 onClose()
             }
         } finally {

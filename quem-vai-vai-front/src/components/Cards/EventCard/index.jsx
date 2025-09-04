@@ -1,4 +1,4 @@
-import { Assignment, Event, HowToVote, People, Place, Settings } from "@mui/icons-material"
+import { Assignment, Event, HowToVote, People, Place, RemoveRedEye, Settings } from "@mui/icons-material"
 import { Box, Button, Card, CardContent, CardHeader, Chip, Grid, Stack, Typography, useTheme } from "@mui/material"
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router-dom"
@@ -7,6 +7,7 @@ import { useState } from "react"
 import EventMembersButton from "@/components/Buttons/EventMembersButton"
 import UserEventButton from "@/components/Buttons/UserEventButton"
 import UserEventStatusDialog from "@/components/Dialogs/UserEventStatusDialog"
+import LocationDialog from "@/components/Dialogs/LocationDialog"
 
 const EventCard = (props) => {
 
@@ -19,6 +20,7 @@ const EventCard = (props) => {
 
     const [membersDialog, setMembersDialog] = useState(false)
     const [statusDialog, setStatusDialog] = useState(false)
+    const [locationDialog, setLocationDialog] = useState(false)
 
     const eventDate = new Date(EventDate)
     const today = new Date()
@@ -49,25 +51,25 @@ const EventCard = (props) => {
 
     return (
         <Grid item size={{ xs: 12, md: 6, lg: 4 }} key={Id}>
-            <Card sx={{ borderTop: `1px ridge ${getStatusColor()}`, borderRadius: 3, height: '235px' }}>
+            <Card sx={{ borderTop: `1px ridge ${getStatusColor()}`, borderRadius: 3, height: '260px' }}>
                 <CardHeader
                     title={Title}
-                    subheader={`${t("group")}: ${GroupName}`}
+                    subheader={GroupName && `${t("group")}: ${GroupName}`}
                     action={
-                        CanEdit && (
+                        CanEdit ?
                             <Button size="xs" sx={{ marginRight: 1 }}
                                 onClick={() => navigate(`/events-edit/${Id}`, { state: { event } })}>
                                 <Settings className="h-4 w-4" />
                             </Button>
-                        )
+                            :
+                            <Button size="xs" sx={{ marginRight: 1 }}
+                                onClick={() => navigate(`/events-view/${Id}`, { state: { event } })}>
+                                <RemoveRedEye className="h-4 w-4" />
+                            </Button>
                     }
-                    sx={{ paddingBottom: 0 }}
+                    sx={{ paddingBottom: 0, mt: 1, px: 2, height: '72px' }}
                 />
                 <CardContent sx={{ paddingTop: 0 }}>
-                    {/* Descrição */}
-                    <Typography variant="body2" color="text.secondary" noWrap sx={{ mt: 1 }} >
-                        {Description}
-                    </Typography>
                     {/* Informações principais */}
                     <Stack direction="row" spacing={2} alignItems="center" sx={{ mt: 2 }} justifyContent="space-between">
 
@@ -78,12 +80,17 @@ const EventCard = (props) => {
                             </Typography>
                         </Box>
 
-                        <Box display="flex" alignItems="center">
+                        <Button
+                            display="flex"
+                            alignItems="center"
+                            onClick={_ => setLocationDialog(true)}
+                            sx={{ textTransform: 'none', minWidth: 0, maxWidth: '55%' }}
+                        >
                             <Place fontSize="small" sx={{ mr: 0.5 }} />
                             <Typography variant="body2" fontWeight="medium" noWrap>
                                 {Location || t('no.location')}
                             </Typography>
-                        </Box>
+                        </Button>
                     </Stack>
 
                     {/* Indicadores extras */}
@@ -108,7 +115,7 @@ const EventCard = (props) => {
                             label={diffDays && eventDate > today
                                 ? `${diffDays} ${diffDays > 1 ? t("days.to") : t("day.to")}`
                                 : t("event.passed")}
-                            color={diffDays && eventDate > today ? "success" : "error"}
+                            color={diffDays && eventDate > today ? diffDays > 7 ? "info" : "success" : "error"}
                             size="small"
                         />}
                     </Stack>
@@ -127,6 +134,7 @@ const EventCard = (props) => {
             </Card>
             <EventMembersDialog event={event} open={membersDialog} onClose={_ => setMembersDialog(false)} canEdit={CanEdit} />
             <UserEventStatusDialog open={statusDialog} onClose={_ => setStatusDialog(false)} eventId={Id} currentStatus={Status} onUpdateStatus={onUpdateStatus} />
+            <LocationDialog eventTitle={Title} location={Location} open={locationDialog} onClose={_ => setLocationDialog(false)} />
         </Grid >
     )
 }

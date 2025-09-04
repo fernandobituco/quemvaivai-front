@@ -12,6 +12,8 @@ import Events from '@/pages/EventsList';
 import GroupInvite from '@/pages/GroupInvite';
 import EventInvite from '@/pages/EventInvite';
 import EventEdit from '@/pages/EventEdit';
+import GroupView from '@/pages/GroupView';
+import EventView from '@/pages/EventView';
 
 export default function AppRoutes() {
     return (
@@ -31,8 +33,10 @@ export default function AppRoutes() {
                 <Route path="/groups" element={<Groups />} />
                 <Route path="/groups-invite/:invitecode" element={<GroupInvite />} />
                 <Route path="/groups-edit/:id" element={<GroupEdit />} />
+                <Route path="/groups-view/:id" element={<GroupView />} />
                 <Route path="/events" element={<Events />} />
                 <Route path="/events-edit/:id" element={<EventEdit />} />
+                <Route path="/events-view/:id" element={<EventView />} />
                 <Route path="/events-invite/:invitecode" element={<EventInvite />} />
                 <Route path="/tasks" element={<InDevelopment />} />
                 <Route path="/profile" element={<Profile />} />

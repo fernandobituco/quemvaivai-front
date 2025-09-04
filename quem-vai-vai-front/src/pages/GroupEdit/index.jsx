@@ -8,6 +8,7 @@ import { Box, Button, Container, Grid, Paper, TextField, Typography, useMediaQue
 import { People } from "@mui/icons-material"
 import ConfirmDeleteDialog from "@/components/Dialogs/ConfirmDeleteDialog"
 import { useNotification } from "@/contexts/NotificationContext"
+import GroupMembersButton from "@/components/Buttons/GroupMembersButton"
 
 const GroupEdit = () => {
 
@@ -130,15 +131,10 @@ const GroupEdit = () => {
                     <Grid container spacing={2} direction="column">
                         <Grid item xs={12} lg={12}>
                             <Box display="flex" alignItems="center">
-                                <Button onClick={_ => setMembersDialog(true)} sx={{ textTransform: 'none' }}>
-                                    <People fontSize="small" sx={{ mr: 0.5 }} />
-                                    <Typography variant="body2" fontWeight="medium">
-                                        {group.MemberCount}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary" sx={{ ml: 0.5 }}>
-                                        {t('members')}
-                                    </Typography>
-                                </Button>
+                                <GroupMembersButton
+                                    onClick={() => setMembersDialog(true)}
+                                    memberCount={group.MemberCount}
+                                />
                             </Box>
                         </Grid>
                         <Grid item xs={12} lg={12}>

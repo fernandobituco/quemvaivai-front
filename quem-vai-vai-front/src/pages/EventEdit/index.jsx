@@ -9,11 +9,13 @@ import EventMembersDialog from "@/components/Dialogs/EventMemberDialog"
 import ConfirmDeleteDialog from "@/components/Dialogs/ConfirmDeleteDialog"
 import EventMembersButton from "@/components/Buttons/EventMembersButton"
 import dayjs from "dayjs"
+import { useNotification } from "@/contexts/NotificationContext"
 
 const EventEdit = () => {
 
     const { t } = useTranslation()
     const { showLoading, hideLoading } = useLoading()
+    const { showNotification } = useNotification()
     const location = useLocation()
     const { id } = useParams()
     const navigate = useNavigate()
@@ -53,7 +55,8 @@ const EventEdit = () => {
         e.preventDefault()
         showLoading()
         try {
-            await EventService.updateEvent(event)
+            const response = await EventService.updateEvent(event)
+            console.log(response)
             if (response.StatusCode == 200) {
                 showNotification(t('event.altered.success'), 'success')
             }

@@ -1,4 +1,4 @@
-import { AccessTime, Event, People, Settings } from "@mui/icons-material"
+import { AccessTime, Event, People, RemoveRedEye, Settings } from "@mui/icons-material"
 import { Box, Button, Card, CardContent, CardHeader, Chip, Grid, Stack, Typography, useTheme } from "@mui/material"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
@@ -30,13 +30,22 @@ const GroupsCards = (props) => {
                 <CardHeader
                     title={Name}
                     action={
-                        CanEdit && <Button
-                            onClick={_ => navigate(`/groups-edit/${Id}`, { state: { group } })}
-                            size="xs"
-                            sx={{ marginRight: 1 }}
-                        >
-                            <Settings className="h-4 w-4" />
-                        </Button>
+                        CanEdit ?
+                            <Button
+                                onClick={_ => navigate(`/groups-edit/${Id}`, { state: { group } })}
+                                size="xs"
+                                sx={{ marginRight: 1 }}
+                            >
+                                <Settings className="h-4 w-4" />
+                            </Button>
+                            :
+                            <Button
+                                onClick={_ => navigate(`/groups-view/${Id}`, { state: { group } })}
+                                size="xs"
+                                sx={{ marginRight: 1 }}
+                            >
+                                <RemoveRedEye className="h-4 w-4" />
+                            </Button>
                     }
                     sx={{ padding: 2 }}
 
