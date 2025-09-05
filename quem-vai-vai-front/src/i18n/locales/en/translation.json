@@ -120,5 +120,13 @@
     "day.to": "day to the event",
     "event.passed": "Event passed",
     "confirm.attendance": "Confirm attendance",
-    "attendance.confirmed": "Attendance confirmed"
+    "attendance.confirmed": "Attendance confirmed",
+    "status": "Status",
+    "all.status": "All status",
+    "all.groups": "All groups",
+    "situation": "Situation",
+    "all.situations": "All situations",
+    "upcoming" : "Upcoming",
+    "past" : "Past",
+    "filters": "Filters"
 }

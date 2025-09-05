@@ -25,7 +25,7 @@ const GroupsCards = (props) => {
     }
 
     return (
-        <Grid item size={{ sm: 12, md: 6, lg: 4 }} sx={{ margin: "auto" }}>
+        <Grid item size={{ sm: 12, md: 6, lg: 4 }} width='100%' sx={{ margin: "auto" }}>
             <Card sx={{ borderTop: `1px ridge ${theme.palette.primary.main}`, borderRadius: 3 }}>
                 <CardHeader
                     title={Name}
@@ -82,18 +82,18 @@ const GroupsCards = (props) => {
                                 </Typography>
                             </Button>
                         </Box>
-                        <Box sx={{ mt: 2 }} justifySelf="end" >
-                            <Button onClick={_ => console.log('next.event')} sx={{ textTransform: 'none' }} >
-                                <Chip
-                                    icon={<AccessTime />}
-                                    label={diffDays && eventDate > today ? `Próximo evento em ${diffDays} dias` : "Sem evento marcado"}
-                                    color={diffDays && eventDate > today ? diffDays > 7 ? "info" : "success" : "error"}
-                                    size="small"
-                                    sx={{ fontWeight: 'medium' }}
-                                />
-                            </Button>
-                        </Box>
                     </Stack>
+                    <Box sx={{ mt: 2 }}  >
+                        <Button onClick={_ => console.log('next.event')} sx={{ textTransform: 'none' }} >
+                            <Chip
+                                icon={<AccessTime />}
+                                label={diffDays && eventDate > today ? `Próximo evento em ${diffDays} dias` : "Sem evento marcado"}
+                                color={diffDays && eventDate > today ? diffDays > 7 ? "info" : "success" : "error"}
+                                size="small"
+                                sx={{ fontWeight: 'medium' }}
+                            />
+                        </Button>
+                    </Box>
 
                     {/* Status */}
                 </CardContent>

@@ -1,7 +1,16 @@
 import Api from "./api";
 
-export const getEventsByUser = async () => {
-    const response = await Api.get('events/user')
+export const getEventsByUser = async (filters) => {
+    const { groupId, status, situation } = filters || {}
+
+    const response = await Api.get("events/user", {
+        params: {
+            groupId: groupId || undefined,
+            status: status || undefined,
+            situation: situation || undefined,
+        },
+    })
+
     return response.data
 }
 

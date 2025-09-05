@@ -120,5 +120,13 @@
     "day.to": "dia para o evento",
     "event.passed": "Evento já aconteceu",
     "confirm.attendance": "Confirme sua presença",
-    "attendance.confirmed": "Presença confirmada"
+    "attendance.confirmed": "Presença confirmada",
+    "status": "Status",
+    "all.status": "Todos os status",
+    "all.groups": "Todos os grupos",
+    "situation": "Situação",
+    "all.situations": "Todas as situações",
+    "upcoming" : "Próximos",
+    "past" : "Passados",
+    "filters": "Filtros"
 }
