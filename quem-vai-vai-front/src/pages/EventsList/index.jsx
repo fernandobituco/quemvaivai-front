@@ -122,7 +122,7 @@ const Events = () => {
                 width="100%"
                 paddingInline={{ sm: 0, md: 20 }}
                 alignItems="center"
-                justifyContent="center"
+                justifyContent={isMobile ? "flex-start" : "center"}
                 sx={{
                     overFlowX: "hidden",
                     overflowY: 'auto',
