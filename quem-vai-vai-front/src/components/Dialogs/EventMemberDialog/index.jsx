@@ -79,7 +79,7 @@ const EventMembersDialog = (props) => {
         }
     }
 
-    const removeFromGroup = async (userId) => {
+    const removeFromEvent = async (userId) => {
         try {
             showLoading()
             const response = await UserEventService.removeFromEvent(event.Id, userId)
@@ -163,7 +163,7 @@ const EventMembersDialog = (props) => {
                                         {
                                             member.Role != 1 &&
                                             <Tooltip title={t('remove.from.event')}>
-                                                <Button onClick={() => removeFromGroup(member.Id)}>
+                                                <Button onClick={() => removeFromEvent(member.Id)} sx={{ minWidth: 0 }}>
                                                     <Delete color="primary" />
                                                 </Button>
                                             </Tooltip>

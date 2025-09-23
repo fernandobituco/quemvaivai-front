@@ -142,8 +142,6 @@ const EventView = () => {
                                 {event.Description}
                             </Typography>
                         </Grid>
-                        <Grid item xs={12} lg={12}>
-                        </Grid>
                     </Grid>
                 </Box>
             </Paper>

@@ -17,7 +17,7 @@ const UserEventButton = (props) => {
             case 3:
                 return "error"
             default:
-                return theme.palette.primary.main
+                return "primary"
         }
     }
 
@@ -30,7 +30,7 @@ const UserEventButton = (props) => {
             case 3:
                 return t('i.not.going')
             default:
-                break
+                return t('confirm.attendance')
         }
     }
 
