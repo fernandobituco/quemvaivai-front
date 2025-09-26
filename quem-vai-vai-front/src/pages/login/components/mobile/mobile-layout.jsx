@@ -8,15 +8,15 @@ const MobileLayout = (props) => {
     const {
         showPassword,
         setShowPassword,
+        showPasswordConfirmation,
+        setShowPasswordConfirmation,
         toggleForm,
         mode,
         isLogin,
         muiTheme,
-        // login
         handleUpdateLoginForm,
         loginForm,
         handleSubmitLoginForm,
-        // registro
         handleUpdateCreateUserForm,
         createUserForm,
         handleSubmitCreateUserForm,
@@ -57,6 +57,7 @@ const MobileLayout = (props) => {
                 isLogin={isLogin}
                 handleChangeForm={() => {
                     setShowPassword(false)
+                    setShowPasswordConfirmation(false)
                     toggleForm()
                 }}
                 mode={mode}
@@ -220,7 +221,7 @@ const MobileLayout = (props) => {
                                         label={t("password.confirm")}
                                         margin="normal"
                                         variant="outlined"
-                                        type={showPassword ? "text" : "password"}
+                                        type={showPasswordConfirmation ? "text" : "password"}
                                         name="passwordconfirmation"
                                         value={createUserForm.passwordconfirmation}
                                         onChange={handleUpdateCreateUserForm}
@@ -230,8 +231,8 @@ const MobileLayout = (props) => {
                                         InputProps={{
                                             endAdornment: (
                                                 <InputAdornment position="end">
-                                                    <IconButton onClick={() => setShowPassword((prev) => !prev)}>
-                                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                    <IconButton onClick={() => setShowPasswordConfirmation((prev) => !prev)}>
+                                                        {showPasswordConfirmation ? <VisibilityOff /> : <Visibility />}
                                                     </IconButton>
                                                 </InputAdornment>
                                             ),

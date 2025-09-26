@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
     const [isLogin, setIsLogin] = useState(true)
     const [showPassword, setShowPassword] = useState(false)
+    const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false)
     const muiTheme = useTheme()
     const isMobile = useMediaQuery(muiTheme.breakpoints.down("sm"))
     const { login } = useAuth()
@@ -142,6 +143,8 @@ const Login = () => {
                     muiTheme={muiTheme}
                     showPassword={showPassword}
                     setShowPassword={value => setShowPassword(value)}
+                    showPasswordConfirmation={showPasswordConfirmation}
+                    setShowPasswordConfirmation={value => setShowPasswordConfirmation(value)}
                     handleSubmitCreateUserForm={handleSubmitCreateUserForm}
                     handleSubmitLoginForm={handleSubmitLoginForm}
                     passwordMatch={passwordMatch}
@@ -158,6 +161,8 @@ const Login = () => {
                     muiTheme={muiTheme}
                     showPassword={showPassword}
                     setShowPassword={value => setShowPassword(value)}
+                    showPasswordConfirmation={showPasswordConfirmation}
+                    setShowPasswordConfirmation={value => setShowPasswordConfirmation(value)}
                     handleSubmitCreateUserForm={handleSubmitCreateUserForm}
                     handleSubmitLoginForm={handleSubmitLoginForm}
                     passwordMatch={passwordMatch}

@@ -9,6 +9,8 @@ const DesktopLayout = (props) => {
     const {
         showPassword,
         setShowPassword,
+        showPasswordConfirmation,
+        setShowPasswordConfirmation,
         toggleForm,
         mode,
         isLogin,
@@ -48,6 +50,7 @@ const DesktopLayout = (props) => {
                 isLogin={isLogin}
                 handleChangeForm={_ => {
                     setShowPassword(false)
+                    setShowPasswordConfirmation(false)
                     toggleForm()
                 }}
                 mode={mode}
@@ -148,7 +151,7 @@ const DesktopLayout = (props) => {
                                             label={t('password.confirm')}
                                             margin="normal"
                                             variant="outlined"
-                                            type="password"
+                                            type={showPasswordConfirmation ? "text" : "password"}
                                             name="passwordconfirmation"
                                             error={!passwordMatch}
                                             helperText={!passwordMatch ? t('password.confirm.error') : null}
@@ -158,8 +161,8 @@ const DesktopLayout = (props) => {
                                             InputProps={{
                                                 endAdornment: (
                                                     <InputAdornment position="end">
-                                                        <IconButton onClick={() => setShowPassword((prev) => !prev)}>
-                                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                        <IconButton onClick={() => setShowPasswordConfirmation((prev) => !prev)}>
+                                                            {showPasswordConfirmation ? <VisibilityOff /> : <Visibility />}
                                                         </IconButton>
                                                     </InputAdornment>
                                                 ),
