@@ -14,12 +14,14 @@ import {
 } from '@mui/material'
 import { useAuth } from '@/contexts/AuthContext'
 import { useEffect, useState } from 'react'
-import { Event, People, Task } from '@mui/icons-material'
+import { Event, Lan, People, Task } from '@mui/icons-material'
 import { useTranslation } from 'react-i18next'
 import AppInfo from './AppInfo'
 import NavBarTabs from './NavBarTabs'
 import UserOptions from './UserOptions'
 import { useLocation, useNavigate } from 'react-router-dom'
+import DarkModeSwitcher from '../Switches/DarkModeSwitcher'
+import LanguageSwitcher from '../Switches/LanguageSwitcher'
 
 
 const NavigationBar = (props) => {
@@ -117,6 +119,9 @@ const NavigationBar = (props) => {
                         ))}
                     </List>
                     <Divider />
+                    <List>
+                        <DarkModeSwitcher navBar />
+                    </List>
                 </Box>
             </Drawer>
         </AppBar>

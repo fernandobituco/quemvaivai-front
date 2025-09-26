@@ -80,7 +80,7 @@ const Events = () => {
     }
 
     const eventCards = events.map(event =>
-        <EventCard event={event} onUpdateStatus={updateStatusOnEvent} />
+        <EventCard event={event} onUpdateStatus={updateStatusOnEvent} isMobile={isMobile}/>
     )
 
     return (

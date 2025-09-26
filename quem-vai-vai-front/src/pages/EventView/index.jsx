@@ -8,6 +8,7 @@ import { Box, Container, Grid, Paper, Typography, useMediaQuery, useTheme } from
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useLocation, useParams } from "react-router-dom"
+import * as EventService from "@/services/event.service"
 
 const EventView = () => {
 
@@ -19,7 +20,7 @@ const EventView = () => {
     const theme = useTheme()
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
-    const [event, setEvent] = useState(location.state?.event || null)
+    const [event, setEvent] = useState(location.state?.event || {})
     const [statusDialog, setStatusDialog] = useState(false)
 
     const getEvent = async () => {
@@ -32,7 +33,7 @@ const EventView = () => {
     }
 
     useEffect(() => {
-        if (!event && id) {
+        if (!event.Id && id) {
             showLoading()
             getEvent(id)
             hideLoading()

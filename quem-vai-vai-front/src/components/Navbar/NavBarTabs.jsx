@@ -1,12 +1,10 @@
 import { Menu } from "@mui/icons-material"
-import { Box, IconButton, Tab, Tabs, useTheme } from "@mui/material"
+import { IconButton, Tab, Tabs } from "@mui/material"
 import { motion } from "framer-motion"
 
 const NavBarTabs = (props) => {
 
     const { tabs, tabValue, handleChangeTab, setDrawerOpen, isMobile } = props
-
-    const theme = useTheme()
 
     return (
         <motion.div

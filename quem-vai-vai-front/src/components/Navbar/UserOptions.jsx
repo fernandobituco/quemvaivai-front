@@ -21,7 +21,7 @@ const UserOptions = (props) => {
 
                     {/* <NotificationBadge notificationCount={notificationCount} onNotificationClick={onNotificationClick} /> */}
 
-                    <DarkModeSwitcher sx={{
+                    {!isMobile && <DarkModeSwitcher sx={{
                         color: 'rgba(255,255,255,0.9)',
                         bgcolor: 'rgba(255,255,255,0.1)',
                         '&:hover': {
@@ -29,7 +29,7 @@ const UserOptions = (props) => {
                             transform: 'scale(1.05)'
                         },
                         transition: 'all 0.2s ease'
-                    }} />
+                    }} />}
 
                     <LanguageSwitcher sx={{
                         color: 'rgba(255,255,255,0.9)',

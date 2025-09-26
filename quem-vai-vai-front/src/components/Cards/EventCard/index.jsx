@@ -8,6 +8,7 @@ import EventMembersButton from "@/components/Buttons/EventMembersButton"
 import UserEventButton from "@/components/Buttons/UserEventButton"
 import UserEventStatusDialog from "@/components/Dialogs/UserEventStatusDialog"
 import LocationDialog from "@/components/Dialogs/LocationDialog"
+import TaskListDialog from "@/components/Dialogs/TaskListDialog"
 
 const EventCard = (props) => {
 
@@ -15,12 +16,13 @@ const EventCard = (props) => {
     const navigate = useNavigate()
     const { t } = useTranslation()
 
-    const { event, onUpdateStatus } = props
-    const { Id, Title, Description, EventDate, Location, GroupId, GroupName, Interested, Going, CanEdit, ActiveVote, UserHasTaskItem, Status } = event
+    const { event, onUpdateStatus, isMobile } = props
+    const { Id, Title, EventDate, Location, GroupName, Interested, Going, CanEdit, ActiveVote, ActiveTaskList, Status } = event
 
     const [membersDialog, setMembersDialog] = useState(false)
     const [statusDialog, setStatusDialog] = useState(false)
     const [locationDialog, setLocationDialog] = useState(false)
+    //const [taskListDialog, setTaskListDialog] = useState(false)
 
     const eventDate = new Date(EventDate)
     const today = new Date()
@@ -35,7 +37,7 @@ const EventCard = (props) => {
 
         return `${day} ${time}`
     }
-
+    
     const getStatusColor = () => {
         switch (Status) {
             case 1:
@@ -51,7 +53,7 @@ const EventCard = (props) => {
 
     return (
         <Grid item size={{ xs: 12, md: 6, lg: 4 }} key={Id}>
-            <Card sx={{ borderTop: `1px ridge ${getStatusColor()}`, borderRadius: 3, height: '260px' }}>
+            <Card sx={{ borderTop: `1px ridge ${getStatusColor()}`, borderRadius: 3, height: isMobile ? '300px' : '260px' }}>
                 <CardHeader
                     title={Title}
                     subheader={GroupName && `${t("group")}: ${GroupName}`}
@@ -94,23 +96,22 @@ const EventCard = (props) => {
                     </Stack>
 
                     {/* Indicadores extras */}
-                    <Stack direction="row" spacing={1} sx={{ mt: 2, flexWrap: "wrap" }}>
-                        {ActiveVote && (
+                    <Stack direction="row" spacing={1} sx={{ mt: 2, flexWrap: "wrap", alignItems: "center" }} justifyContent="space-between">
+                        {/* <Stack direction={(isMobile && EventDate) ? "column" : "row"} spacing={1} sx={{ mt: 2, flexWrap: "wrap" }}>
                             <Chip
                                 icon={<HowToVote />}
-                                label={t("activeVote")}
-                                color="info"
+                                label={t("active.vote")}
+                                color={ActiveVote ? "info" : "default"}
                                 size="small"
                             />
-                        )}
-                        {UserHasTaskItem && (
                             <Chip
                                 icon={<Assignment />}
-                                label={t("yourTask")}
-                                color="warning"
+                                onClick={() => setTaskListDialog(true)}
+                                label={t("active.task.list")}
+                                color={ActiveTaskList ? "info" : "default"}
                                 size="small"
                             />
-                        )}
+                        </Stack> */}
                         {EventDate && <Chip
                             label={diffDays && eventDate > today
                                 ? `${diffDays} ${diffDays > 1 ? t("days.to") : t("day.to")}`
@@ -126,6 +127,7 @@ const EventCard = (props) => {
                             onClick={() => setMembersDialog(true)}
                             Interested={Interested}
                             Going={Going}
+                            isCard
                         />
 
                         <UserEventButton onClick={_ => setStatusDialog(true)} status={Status} />
@@ -135,6 +137,7 @@ const EventCard = (props) => {
             <EventMembersDialog event={event} open={membersDialog} onClose={_ => setMembersDialog(false)} canEdit={CanEdit} />
             <UserEventStatusDialog open={statusDialog} onClose={_ => setStatusDialog(false)} eventId={Id} currentStatus={Status} onUpdateStatus={onUpdateStatus} />
             <LocationDialog eventTitle={Title} location={Location} open={locationDialog} onClose={_ => setLocationDialog(false)} />
+            {/* <TaskListDialog event={event} open={taskListDialog} onClose={_ => setTaskListDialog(false)} canEdit={CanEdit} /> */}
         </Grid >
     )
 }

@@ -4,14 +4,14 @@ import { useTranslation } from "react-i18next"
 
 const EventMembersButton = (props) => {
     const { t } = useTranslation()
-    const { onClick, Interested, Going } = props
+    const { onClick, Interested, Going, isCard } = props
 
     const theme = useTheme()
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
     return (
         <Button onClick={onClick} sx={{ textTransform: 'none', mt: 2 }}>
-            <Stack direction={isMobile ? "column" : "row"} alignItems="center" justifyContent="start" gap={isMobile ? 1 : 5}>
+            <Stack direction={(isMobile && isCard) ? "column" : "row"} alignItems="center" justifyContent="start" gap={isMobile ? 1 : 5}>
                 <Box display="flex" flexDirection="row" gap={1}>
                     <People fontSize="small" sx={{ mr: 0.5 }} />
                     <Typography variant="body2" fontWeight="medium">
