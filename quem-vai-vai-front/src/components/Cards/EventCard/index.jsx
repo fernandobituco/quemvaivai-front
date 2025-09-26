@@ -8,7 +8,7 @@ import EventMembersButton from "@/components/Buttons/EventMembersButton"
 import UserEventButton from "@/components/Buttons/UserEventButton"
 import UserEventStatusDialog from "@/components/Dialogs/UserEventStatusDialog"
 import LocationDialog from "@/components/Dialogs/LocationDialog"
-import TaskListDialog from "@/components/Dialogs/TaskListDialog"
+//import TaskListDialog from "@/components/Dialogs/TaskListDialog"
 
 const EventCard = (props) => {
 
