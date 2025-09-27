@@ -4,7 +4,7 @@ import { useLoading } from "@/contexts/LoadingContext"
 import { useNotification } from "@/contexts/NotificationContext"
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
-import { useNavigate, useParams } from "react-router-dom"
+import { useLocation, useParams } from "react-router-dom"
 import * as GroupService from "@/services/groups.service"
 import * as EventService from "@/services/event.service"
 import { Box, Button, Container, Grid, Typography, useMediaQuery, useTheme } from "@mui/material"
@@ -24,12 +24,17 @@ const Events = () => {
     const [groupOptions, setGroupOptions] = useState([])
     const [events, setEvents] = useState([])
 
+    const location = useLocation()
+    const selectedGroup = location.state?.groupId
 
     const [addDialogOpen, setAddDialogOpen] = useState(false)
 
     const getEvents = async (filters) => {
         try {
             showLoading()
+            if (selectedGroup && !filters) {
+                filters = { ...filters, groupId: selectedGroup }
+            }
             const response = await EventService.getEventsByUser(filters)
             setEvents(response.Data)
         } finally {
@@ -41,7 +46,8 @@ const Events = () => {
         try {
             showLoading()
             const response = await GroupService.getGroupsByUser()
-            setGroupOptions(response.Data.map(g => ({ value: g.Id, label: g.Name })))
+            const mappedResponse = response.Data.map(g => ({ value: g.Id, label: g.Name }))
+            setGroupOptions([{value: "", label: t('no.group')}, ...mappedResponse])
         } finally {
             hideLoading()
         }

@@ -24,9 +24,6 @@ const RenderField = (props) => {
                         value={value}
                         onChange={(e) => onChange(field.name, e.target.value)}
                     >
-                        <MenuItem value="">
-                            <p></p>
-                        </MenuItem>
                         {field.options?.map((opt) => (
                             <MenuItem key={opt.value} value={opt.value}>
                                 {opt.label}

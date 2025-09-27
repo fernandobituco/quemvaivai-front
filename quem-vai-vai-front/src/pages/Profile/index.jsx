@@ -81,7 +81,7 @@ const Profile = () => {
                     gutterBottom
                     color="primary"
                 >
-                    {t("user.edit")}
+                    {t("profile")}
                 </Typography>
 
                 <Box

@@ -128,5 +128,6 @@
     "all.situations": "All situations",
     "upcoming" : "Upcoming",
     "past" : "Past",
-    "filters": "Filters"
+    "filters": "Filters",
+    "no.group": "No group"
 }

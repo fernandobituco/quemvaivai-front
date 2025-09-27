@@ -34,9 +34,16 @@ const AddForm = (props) => {
         setFormValues((prev) => ({ ...prev, [name]: value }))
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        onSubmit(formValues)
+        await onSubmit(formValues)
+        setFormValues(() => {
+            const initial = {}
+            fields.forEach((f) => {
+                initial[f.name] = initialValues[f.name] || f.type == "text" ? "" : null
+            })
+            return initial
+        })
     }
 
     return (

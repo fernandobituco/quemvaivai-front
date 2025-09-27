@@ -2,19 +2,16 @@ import GroupMembersButton from "@/components/Buttons/GroupMembersButton"
 import GroupMembersDialog from "@/components/Dialogs/GroupMembersDialog"
 import { useLoading } from "@/contexts/LoadingContext"
 import { useTheme } from "@emotion/react"
-import { Box, Button, Container, Grid, Paper, Typography, useMediaQuery } from "@mui/material"
+import { Box, Container, Grid, Paper, Typography, useMediaQuery } from "@mui/material"
 import { useEffect, useState } from "react"
-import { useTranslation } from "react-i18next"
-import { useLocation, useNavigate, useParams } from "react-router-dom"
+import { useLocation, useParams } from "react-router-dom"
 import * as GroupService from "@/services/groups.service"
 
 const GroupView = () => {
 
-    const { t } = useTranslation()
     const { showLoading, hideLoading } = useLoading()
     const location = useLocation()
     const { id } = useParams()
-    const navigate = useNavigate()
     const [membersDialog, setMembersDialog] = useState(false)
     const theme = useTheme()
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"))

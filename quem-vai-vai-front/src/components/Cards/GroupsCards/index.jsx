@@ -1,5 +1,5 @@
 import { AccessTime, Event, People, RemoveRedEye, Settings } from "@mui/icons-material"
-import { Box, Button, Card, CardContent, CardHeader, Chip, Grid, Stack, Typography, useTheme } from "@mui/material"
+import { Box, Button, Card, CardContent, CardHeader, Chip, Grid, Stack, Tooltip, Typography, useTheme } from "@mui/material"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
@@ -24,11 +24,31 @@ const GroupsCards = (props) => {
         setMembersDialog(true)
     }
 
+    const handleEventsClick = async () => {
+        navigate(`/events`, { state: { groupId: group.Id } })
+    }
+
     return (
         <Grid item size={{ sm: 12, md: 6, lg: 4 }} width='100%' sx={{ margin: "auto" }}>
             <Card sx={{ borderTop: `1px ridge ${theme.palette.primary.main}`, borderRadius: 3 }}>
                 <CardHeader
-                    title={Name}
+                    title={
+                        <Tooltip title={Name}>
+                            <Typography
+                                noWrap
+                                variant="h5"
+                                sx={{
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap',
+                                    display: 'block',
+                                    minWidth: 0, // -> permite encolher dentro do flex
+                                }}
+                            >
+                                {Name}
+                            </Typography>
+                        </Tooltip>
+                    }
                     action={
                         CanEdit ?
                             <Button
@@ -47,8 +67,16 @@ const GroupsCards = (props) => {
                                 <RemoveRedEye className="h-4 w-4" />
                             </Button>
                     }
-                    sx={{ padding: 2 }}
-
+                    sx={{
+                        padding: 2,
+                        '& .MuiCardHeader-content': {
+                            minWidth: 0,
+                            flex: '1 1 auto',
+                        },
+                        '& .MuiCardHeader-action': {
+                            flex: '0 0 auto',
+                        }
+                    }}
                 />
                 <CardContent>
 
@@ -72,7 +100,7 @@ const GroupsCards = (props) => {
                         </Box>
 
                         <Box display="flex" alignItems="center" marginLeft={0}>
-                            <Button onClick={_ => console.log('events')} sx={{ textTransform: 'none' }} >
+                            <Button onClick={handleEventsClick} sx={{ textTransform: 'none' }} >
                                 <Event fontSize="small" sx={{ mr: 0.5 }} />
                                 <Typography variant="body2" fontWeight="medium">
                                     {EventCount}

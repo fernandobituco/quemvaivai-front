@@ -157,7 +157,7 @@ const EventEdit = () => {
                                     <Select
                                         label={t('group')}
                                         value={event?.GroupId || ""}
-                                        onChange={(e) => onChange("GroupId", e.target.value)}
+                                        onChange={(e) => handleChange("GroupId", e.target.value)}
                                     >
                                         <MenuItem value="">
                                             <p></p>
