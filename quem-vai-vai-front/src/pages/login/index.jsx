@@ -120,6 +120,10 @@ const Login = () => {
         }
     }
 
+    const handleForgotPassword = () => {
+        navigate('/forgot-password')
+    }
+
     return (
         <Container sx={{
             minHeight: "100vh",
@@ -148,6 +152,7 @@ const Login = () => {
                     handleSubmitCreateUserForm={handleSubmitCreateUserForm}
                     handleSubmitLoginForm={handleSubmitLoginForm}
                     passwordMatch={passwordMatch}
+                    handleForgotPassword={handleForgotPassword}
                 />
             ) : (
                 <DesktopLayout
@@ -166,6 +171,7 @@ const Login = () => {
                     handleSubmitCreateUserForm={handleSubmitCreateUserForm}
                     handleSubmitLoginForm={handleSubmitLoginForm}
                     passwordMatch={passwordMatch}
+                    handleForgotPassword={handleForgotPassword}
                 />
             )}
         </Container>

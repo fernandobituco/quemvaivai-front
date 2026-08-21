@@ -1,0 +1,19 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": [
+          "SEU_TEAM_ID.com.quemvaivai.app"
+        ],
+        "components": [
+          {
+            "/": "/groups-invite/*"
+          },
+          {
+            "/": "/event-invite/*"
+          }
+        ]
+      }
+    ]
+  }
+}

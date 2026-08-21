@@ -14,6 +14,8 @@ import EventInvite from '@/pages/EventInvite';
 import EventEdit from '@/pages/EventEdit';
 import GroupView from '@/pages/GroupView';
 import EventView from '@/pages/EventView';
+import ForgotPassword from '@/pages/ForgotPassword';
+import PasswordRecovery from '@/pages/PasswordRecovery';
 
 export default function AppRoutes() {
     return (
@@ -21,7 +23,8 @@ export default function AppRoutes() {
             {/* Rotas públicas */}
             <Route path="/" element={<Login />} />
             <Route path="/account-confirmation" element={<AccountConfirmation />} />
-            {/* <Route path="/main" element={<MainPage />} /> */}
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/password-recovery" element={<PasswordRecovery />} />
             {/* Rota coringa: 404 */}
             <Route path="*" element={<NotFound />} />
             {/* Rotas protegidas */}

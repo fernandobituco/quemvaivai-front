@@ -124,9 +124,9 @@ const MobileLayout = (props) => {
                                         }}
                                     />
 
-                                    <Typography variant="caption" sx={{ display: "block", mt: 1 }}>
-                                        {t("forgot.password")}
-                                    </Typography>
+                                    <Button onClick={handleForgotPassword}>
+                                        {t('forgot.password')}
+                                    </Button>
 
                                     <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                                         <Typography mt={1}>{t("not.registered")}</Typography>

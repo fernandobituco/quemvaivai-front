@@ -21,7 +21,8 @@ const DesktopLayout = (props) => {
         createUserForm,
         handleSubmitCreateUserForm,
         handleSubmitLoginForm,
-        passwordMatch
+        passwordMatch,
+        handleForgotPassword
     } = props
 
     const { t } = useTranslation()
@@ -263,9 +264,9 @@ const DesktopLayout = (props) => {
                                                 ),
                                             }}
                                         />
-                                        <Typography variant="caption" sx={{ display: "block", mt: 1 }} align="center">
+                                        <Button onClick={handleForgotPassword}>
                                             {t('forgot.password')}
-                                        </Typography>
+                                        </Button>
                                     </Box >
                                 </Box>
                                 <Button
