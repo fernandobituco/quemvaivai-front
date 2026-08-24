@@ -29,15 +29,13 @@ export default function AccountDeletion() {
 
         setLoading(true);
 
-        try {
-            // TODO: chamar endpoint de exclusão da conta
-            //
-            // await Api.delete("/users/account", {
-            //   data: {
-            //     email,
-            //     password,
-            //   },
-            // });
+        try {            
+            await Api.post("users/delete", {
+              data: {
+                email,
+                password,
+              },
+            });
 
             setSuccess(true);
         } catch (err) {
@@ -82,7 +80,7 @@ export default function AccountDeletion() {
                     <DeleteForever
                         sx={{
                             fontSize: 80,
-                            color: theme.palette.error.main,
+                            color: theme.palette.primary.main,
                         }}
                     />
 
@@ -147,7 +145,7 @@ export default function AccountDeletion() {
 
                             <Button
                                 variant="contained"
-                                color="error"
+                                color="primary"
                                 size="large"
                                 onClick={handleDelete}
                                 disabled={loading}
