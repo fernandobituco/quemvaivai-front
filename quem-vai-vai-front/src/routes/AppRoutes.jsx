@@ -16,6 +16,8 @@ import GroupView from '@/pages/GroupView';
 import EventView from '@/pages/EventView';
 import ForgotPassword from '@/pages/ForgotPassword';
 import PasswordRecovery from '@/pages/PasswordRecovery';
+import PrivacyPolicy from '@/pages/PrivacyPolicy';
+import AccountDeletion from '@/pages/AccountDeletion';
 
 export default function AppRoutes() {
     return (
@@ -25,6 +27,8 @@ export default function AppRoutes() {
             <Route path="/account-confirmation" element={<AccountConfirmation />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/password-recovery" element={<PasswordRecovery />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/account-deletion" element={<AccountDeletion />} />
             {/* Rota coringa: 404 */}
             <Route path="*" element={<NotFound />} />
             {/* Rotas protegidas */}
